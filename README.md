@@ -1,6 +1,6 @@
 # Seravo Wordpress
 
-Wordpress directory layout inspired from Bedrock and used in [Wordpress-Palvelu](http://wordpress-palvelu.fi/)
+Wordpress directory layout inspired from Bedrock and used in [WP-Palvelu](http://wp-palvelu.fi/)
 
 ## Documentation
 
