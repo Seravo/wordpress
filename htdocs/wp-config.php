@@ -104,8 +104,6 @@ define('SCRIPT_DEBUG', false);
  * Log error data but don't show it in the frontend.
  */
 ini_set('log_errors', 'On');
-ini_set('error_log', '/data/log/php-error.log');
-
 
 /* That's all, stop editing! Happy blogging. */
 
