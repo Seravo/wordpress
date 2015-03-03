@@ -1,0 +1,37 @@
+# WordPress
+htdocs/wordpress
+htdocs/.htaccess
+
+# WP-CLI
+db-sync
+sql-dump-*.sql
+
+# Dotenv
+.env
+.env.*
+!.env.example
+
+# Wordpress content
+htdocs/wp-content/plugins/*
+!htdocs/wp-content/plugins/.gitkeep
+htdocs/wp-content/languages/*
+!htdocs/wp-content/languages/.gitkeep
+htdocs/wp-content/mu-plugins/*
+!htdocs/wp-content/mu-plugins/.gitkeep
+htdocs/wp-content/upgrade
+htdocs/wp-content/uploads/*
+!htdocs/wp-content/uploads/.gitkeep
+!htdocs/wp-content/mu-plugins/register-theme-directory.php
+htdocs/wp-content/themes/twenty*
+!htdocs/wp-content/themes/.gitkeep
+
+# Vendor (e.g. Composer)
+vendor/*
+!vendor/.gitkeep
+
+# Node Package Manager
+node_modules
+
+# Vagrant
+bin
+.vagrant

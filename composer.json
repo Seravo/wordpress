@@ -1,0 +1,91 @@
+{
+  "name": "seravo/wp-palvelu",
+  "type": "project",
+  "license": "MIT",
+  "description": "WordPress-palvelu Barebone.",
+  "homepage": "http://seravo.fi",
+  "authors": [
+    {
+      "name": "Onni Hakala",
+      "email": "onni@seravo.fi",
+      "homepage": "https://github.com/onnimonni"
+    }
+  ],
+  "keywords": [
+    "wordpress", "composer", "wp", "wp-palvelu", "vagrant"
+  ],
+  "config": {
+    "preferred-install": "dist"
+  },
+  "autoload": {
+    "psr-0": {"Wordpress\\Installer": "scripts"}
+  },
+  "scripts": {
+    "post-install-cmd": [
+    "Wordpress\\Installer::symlinkWPContent"
+    ],
+    "post-update-cmd": [
+    "Wordpress\\Installer::symlinkWPContent"
+    ]
+  },
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "http://wpackagist.org"
+    },
+    {
+      "type": "composer",
+      "url": "http://languages.koodimonni.fi"
+    }
+  ],
+  "require": {
+    "php": ">=5.3.2",
+    "johnpbloch/wordpress": "*",
+    "composer/installers": "v1.0.12",
+    "koodimonni/composer-dropin-installer": ">=0.2.4",
+    "vlucas/phpdotenv": "1.0.9",
+    
+    "koodimonni-language/fi": "*",
+    "koodimonni-language/sv_SE": "*",
+    "koodimonni-language/ru_RU": "*",
+
+    "wpackagist-plugin/akismet": "*",
+    "wpackagist-plugin/all-in-one-wp-migration": "*",
+    "wpackagist-plugin/auto-post-thumbnail": "*",
+    "wpackagist-plugin/bootstrap-3-shortcodes": "*",
+    "wpackagist-plugin/dashboard-log-monitor": "*",
+    "wpackagist-plugin/display-widgets": "*",
+    "wpackagist-plugin/error-log-monitor": "*",
+    "wpackagist-plugin/google-analytics-dashboard-for-wp": "*",
+    "wpackagist-plugin/https-domain-alias": "*",
+    "wpackagist-plugin/image-widget": "*",
+    "wpackagist-plugin/wysija-newsletters": "*",
+    "wpackagist-plugin/maintenance": "*",
+    "wpackagist-plugin/ninja-forms": "*",
+    "wpackagist-plugin/simple-header-footer-html": "*",
+    "wpackagist-plugin/white-label-cms": "*",
+    "wpackagist-plugin/wordpress-importer": "*",
+    "wpackagist-plugin/wordpress-seo": "*",
+    "wpackagist-plugin/wp-native-dashboard": "*",
+    "wpackagist-plugin/wp-pdf-templates": "*",
+
+    "wpackagist-theme/twentyfifteen": "*",
+    "wpackagist-theme/twentyfourteen": "*",
+    "wpackagist-theme/twentythirteen": "*",
+
+    "humanmade/mercator": "dev-master"
+  },
+  "extra": {
+    "installer-paths": {
+      "htdocs/wp-content/plugins/{$name}/": ["type:wordpress-plugin"],
+      "htdocs/wp-content/mu-plugins/{$name}/": ["type:wordpress-muplugin"],
+      "htdocs/wp-content/themes/{$name}": ["type:wordpress-theme"]
+    },
+    "dropin-paths": {
+      "htdocs/wp-content/languages/": ["vendor:koodimonni-language"],
+      "htdocs/wp-content/languages/plugins/": ["vendor:koodimonni-plugin-language"],
+      "htdocs/wp-content/languages/themes/": ["vendor:koodimonni-theme-language"]
+    },
+    "wordpress-install-dir": "htdocs/wordpress"
+  }
+}
