@@ -2,9 +2,12 @@
 
 Wordpress directory layout inspired from Bedrock and used in [WP-Palvelu](http://wp-palvelu.fi/)
 
+This includes our [wordpress vagrant image](https://vagrantcloud.com/seravo/boxes/wordpress) for developing in local environment.
+
 ## Documentation
 
-TODO
+##TODO
+- Better Documentation :)
 
 ### Folder Structure
 
