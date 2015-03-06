@@ -9,10 +9,15 @@
       "name": "Onni Hakala",
       "email": "onni@seravo.fi",
       "homepage": "https://github.com/onnimonni"
+    },
+    {
+      "name": "Antti Kuosmanen",
+      "email": "antti@seravo.fi",
+      "homepage": "https://github.com/anttiviljami"
     }
   ],
   "keywords": [
-    "wordpress", "composer", "wp", "wp-palvelu", "vagrant"
+    "wordpress", "composer", "wp", "wp-palvelu"
   ],
   "config": {
     "preferred-install": "dist"
@@ -63,6 +68,7 @@
     "wpackagist-plugin/maintenance": "*",
     "wpackagist-plugin/ninja-forms": "*",
     "wpackagist-plugin/simple-header-footer-html": "*",
+    "wpackagist-plugin/slideshare": "*",
     "wpackagist-plugin/white-label-cms": "*",
     "wpackagist-plugin/wordpress-importer": "*",
     "wpackagist-plugin/wordpress-seo": "*",
