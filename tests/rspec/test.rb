@@ -30,7 +30,7 @@ RSpec.configure do |config|
 end
 
 # Load default RSPEC MATCHERS
-load '/docker/lib/rspec.rb'
+require_relative 'lib/matchers.rb'
 
 Capybara.configure do |config|
   config.javascript_driver = :poltergeist
@@ -55,11 +55,33 @@ Capybara.register_driver :poltergeist do |app|
 end
 
 path = File.dirname(__FILE__)
-conf = YAML.load_file("#{path}/../../config.yml")
 
-container = conf['rspectmp']['container']
-siteurl = conf['rspectmp']['siteurl']
-name = conf['client']['username']
+##
+# Config file tells us about the environment
+##
+
+# We never test a production site directly in WP-Palvelu
+# Instead we make a clone of the site and redirect queries into the clone.
+# This is done with the cookie found from ENV
+container = ENV['CONTAINER_ID']
+
+#Try to query siteurl with wp-cli
+if `wp core is-installed`
+  target_url = `wp option get siteurl`
+  name = target_url
+  puts "core is installed: #{target_url}"
+elsif File.exists?("#{path}/../../config.yml") # If it failed fallback to values in config.yml
+  conf = YAML.load_file("#{path}/../../config.yml")
+  case ENV['WP_ENVIRONMENT']
+  when 'development'
+    target_url = "http://#{conf['development']['domain']}"
+  else
+    target_url = "http://#{conf['production']['domain']}"
+  end
+  name = conf['name']
+end
+
+puts "target_url is #{target_url}"
 
 ### Begin tests ###
 describe "wordpress: #{name} - ", :type => :request, :js => true do 
@@ -67,14 +89,14 @@ describe "wordpress: #{name} - ", :type => :request, :js => true do
   subject { page }
 
   before(:each) do
-    page.driver.add_header("User-Agent", "swd-testbot")
-    page.driver.add_header("cookie", "shadow=#{container};")
+    page.driver.add_header("User-Agent", "wp-palvelu-testbot")
+    page.driver.add_header("cookie", "wppalvelu_shadow=#{container};") unless container.nil?
   end
 
   describe "frontpage" do
 
     before do
-      visit "#{siteurl}"
+      visit 'http://localhost/'
     end
 
     it "Healthy status code 200, 301, 302, 503" do
@@ -92,7 +114,7 @@ describe "wordpress: #{name} - ", :type => :request, :js => true do
   describe "admin-panel" do
 
     before do
-      visit "#{siteurl}/wp-login.php"
+      visit "http://localhost/wp-login.php"
     end
 
     it "There's a login form" do
@@ -111,5 +133,5 @@ describe "wordpress: #{name} - ", :type => :request, :js => true do
     #end
 
   end
-  
+ 
 end
