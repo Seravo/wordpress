@@ -1,13 +1,13 @@
 ###
 # Defines variables for WP-Palvelu instance
 ###
-name: bus
+name: wordpress
 production:
   #This is the siteurl of production wordpress
-  domain: bus.fi
+  domain: wp-palvelu.fi
   ssh_port: 10008
 development:
   #Domains to be mapped in local /etc/hosts
   domains:
-    - bus.dev
-    - testing.bus.dev
+    - wordpress.dev
+    - subdomain.wordpress.dev
