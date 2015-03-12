@@ -50,13 +50,19 @@ Vagrant.configure('2') do |config|
   #For Self-signed ssl-certificate
   ssl_cert_path = File.join(DIR,'.vagrant','ssl')
 
+  # Add SSH Public Key into vagrant
+  if File.exists? File.join(Dir.home, ".ssh", "id_rsa.pub")
+    id_rsa_ssh_key_pub = File.read(File.join(Dir.home, ".ssh", "id_rsa.pub"))
+    config.vm.provision :shell, :inline => "echo '#{id_rsa_ssh_key_pub }' >> /home/vagrant/.ssh/authorized_keys && chmod 600 /home/vagrant/.ssh/authorized_keys"
+  end
+
   # Some useful triggers with better workflow
   if Vagrant.has_plugin? 'vagrant-triggers'
     # TODO: Create/Sync database with vagrant up
     config.trigger.after :up do
 
       #Generate ssl-certificate
-      run "wp-generate-ssl" unless File.exists?(File.join(ssl_cert_path,'development.crt'))
+      generate_self_signed_ssl(site_config) unless File.exists?(File.join(ssl_cert_path,'development.crt'))
 
       #Add https-domain-alias into configs so that can be tested too
       add_env("HTTPS_DOMAIN_ALIAS","#{site_config['name']}.seravo.dev")
@@ -67,7 +73,7 @@ Vagrant.configure('2') do |config|
         run "wp-pull-production-db" if confirm "Pull database from production? (Y/N)"
       elsif File.exists?(File.join(DIR,'.vagrant','vagrant-dump.sql'))
         #Return the state where we last left
-        run "wp-vagrant-import-db"
+        run "wp db import /data/wordpress/.vagrant/vagrant-dump.sql"
       end
 
       case RbConfig::CONFIG['host_os']
@@ -100,7 +106,7 @@ Vagrant.configure('2') do |config|
         if File.exists?("#{ssl_cert_path}/trust.lock")
           notice "removing the autotrust from certificate..."
           system "sudo security remove-trusted-cert -d #{ssl_cert_path}/development.crt"
-          system "sudo security delete-certificate #{config['name']}.dev"
+          system "sudo security delete-certificate *.#{config['name']}.dev"
           File.delete("#{ssl_cert_path}/trust.lock")
         end
       when /linux/
@@ -157,7 +163,54 @@ end
 
 def dump_wordpress_database
   notice "dumping the database into: .vagrant/vagrant-dump.sql"
-  run "wp-vagrant-dump-db"
+  run "wp core is-installed && wp db export /data/wordpress/.vagrant/vagrant-dump.sql"
+end
+
+def generate_self_signed_ssl(config)
+  vagrant_ssl_path = "/data/wordpress/.vagrant/ssl"
+  local_ssl_path = File.join(File.dirname(__FILE__),".vagrant","ssl")
+
+  #Stop now if this is generated already
+  return if File.exists?(File.join(local_ssl_path,"development.crt"))
+  notice "generating new self signed certificate..."
+
+  #Create directory for ssl
+  FileUtils.mkdir_p local_ssl_path
+
+  #bit hacky but nice way to embed file here
+  open_ssl_file_content = <<EOF
+[req]
+distinguished_name = req_distinguished_name
+x509_extensions = v3_req
+prompt = no
+
+[req_distinguished_name]
+C = FI
+ST = Pirkanmaa
+L = Tampere
+O = Seravo Oy
+CN = #{config['name']}.dev
+emailAddress = wordress@seravo.fi 
+[v3_req]
+subjectKeyIdentifier = hash
+authorityKeyIdentifier = keyid,issuer
+basicConstraints = CA:TRUE
+subjectAltName = @alt_names
+
+[alt_names]
+EOF
+
+  #Append domains into string
+  domains = get_domains(config)
+  domains.each_with_index {|domain, index|
+    open_ssl_file_content += "DNS.#{index+1} = #{domain}\n"
+  }
+  #Write to file
+  File.open(File.join(local_ssl_path,"openssl.cnf"), 'w') { |file| file.write(open_ssl_file_content) }
+  sleep(1.0/2)
+
+  run "openssl req -x509 -nodes -days 3650 -newkey rsa:2048 -keyout #{local_ssl_path}/development.key -out #{local_ssl_path}/development.crt -config #{local_ssl_path}/openssl.cnf"
+  run "sudo service nginx restart && rm /data/log/nginx-error.log"
 end
 
 def touch_file(path) 
