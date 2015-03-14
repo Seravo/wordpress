@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "7c712be9c4b41e753422c1d0638ba4e7",
+    "hash": "7bfc9a92f1e054ef84bdd8a44bfade77",
     "packages": [
         {
             "name": "composer/installers",
@@ -96,12 +96,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/humanmade/Mercator.git",
-                "reference": "306176a3b795220722a48920aadee550e73a1ccb"
+                "reference": "80004af9260241958da9024a4cbd63f31fd38ad4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/humanmade/Mercator/zipball/306176a3b795220722a48920aadee550e73a1ccb",
-                "reference": "306176a3b795220722a48920aadee550e73a1ccb",
+                "url": "https://api.github.com/repos/humanmade/Mercator/zipball/80004af9260241958da9024a4cbd63f31fd38ad4",
+                "reference": "80004af9260241958da9024a4cbd63f31fd38ad4",
                 "shasum": ""
             },
             "require": {
@@ -124,7 +124,7 @@
             "keywords": [
                 "wordpress"
             ],
-            "time": "2015-02-18 04:47:00"
+            "time": "2015-03-06 23:28:34"
         },
         {
             "name": "johnpbloch/wordpress",
@@ -894,15 +894,15 @@
         },
         {
             "name": "wpackagist-plugin/akismet",
-            "version": "3.0.4",
+            "version": "3.1",
             "source": {
                 "type": "svn",
                 "url": "http://plugins.svn.wordpress.org/akismet/",
-                "reference": "tags/3.0.4"
+                "reference": "tags/3.1"
             },
             "dist": {
                 "type": "zip",
-                "url": "http://downloads.wordpress.org/plugin/akismet.3.0.4.zip",
+                "url": "https://downloads.wordpress.org/plugin/akismet.3.1.zip",
                 "reference": null,
                 "shasum": null
             },
@@ -1114,15 +1114,15 @@
         },
         {
             "name": "wpackagist-plugin/ninja-forms",
-            "version": "2.8.13",
+            "version": "2.9.6",
             "source": {
                 "type": "svn",
                 "url": "http://plugins.svn.wordpress.org/ninja-forms/",
-                "reference": "tags/2.8.13"
+                "reference": "tags/2.9.6"
             },
             "dist": {
                 "type": "zip",
-                "url": "http://downloads.wordpress.org/plugin/ninja-forms.2.8.13.zip",
+                "url": "https://downloads.wordpress.org/plugin/ninja-forms.2.9.6.zip",
                 "reference": null,
                 "shasum": null
             },
@@ -1214,15 +1214,15 @@
         },
         {
             "name": "wpackagist-plugin/wordpress-seo",
-            "version": "1.7.3.3",
+            "version": "1.7.4",
             "source": {
                 "type": "svn",
                 "url": "http://plugins.svn.wordpress.org/wordpress-seo/",
-                "reference": "tags/1.7.3.3"
+                "reference": "tags/1.7.4"
             },
             "dist": {
                 "type": "zip",
-                "url": "http://downloads.wordpress.org/plugin/wordpress-seo.1.7.3.3.zip",
+                "url": "https://downloads.wordpress.org/plugin/wordpress-seo.1.7.4.zip",
                 "reference": null,
                 "shasum": null
             },
@@ -1360,7 +1360,6 @@
         "humanmade/mercator": 20
     },
     "prefer-stable": false,
-    "prefer-lowest": false,
     "platform": {
         "php": ">=5.3.2"
     },
