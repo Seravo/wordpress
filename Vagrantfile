@@ -162,8 +162,12 @@ def add_env(env,value)
 end
 
 def dump_wordpress_database
-  notice "dumping the database into: .vagrant/vagrant-dump.sql"
-  run "wp core is-installed && wp db export /data/wordpress/.vagrant/vagrant-dump.sql"
+  notice "Dumping databases into: .vagrant/vagrant-dump.sql"
+  begin 
+    run "wp db dump /data/wordpress/.vagrant/vagrant-dump.sql"
+  rescue
+    notice "Warning: WordPress doesn't seem to be installed"
+  end 
 end
 
 def generate_self_signed_ssl(config)
