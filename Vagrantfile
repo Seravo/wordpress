@@ -119,6 +119,7 @@ Vagrant.configure('2') do |config|
       # File system might not have been ready when nginx started.
       run_remote("sudo service nginx restart")
 
+      notice "Visit your site: http://#{config['name']}.dev"
     end
 
     config.trigger.before :halt do
