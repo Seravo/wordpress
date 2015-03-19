@@ -61,7 +61,7 @@ Vagrant.configure('2') do |config|
     config.vm.provision :shell, :inline => "echo '#{id_rsa_ssh_key_pub }' >> /home/vagrant/.ssh/authorized_keys && chmod 600 /home/vagrant/.ssh/authorized_keys"
   end
 
-  # WP-Palvelu uses Https Domain alias plugin heavily and for debugging add HTTPS_DOMAIN_ALIAS to envs
+  # WP-Palvelu uses Https-domain-alias plugin heavily. For debugging add HTTPS_DOMAIN_ALIAS to envs
   unless site_config['name'].nil?
     config.vm.provision :shell, :inline => "echo 'export HTTPS_DOMAIN_ALIAS=#{site_config['name']}.seravo.dev' >> /etc/container_environment.sh"
     config.vm.provision :shell, :inline => "echo 'fastcgi_param  HTTPS_DOMAIN_ALIAS   #{site_config['name']}.seravo.dev;' >> /etc/nginx/fastcgi_params"
@@ -89,9 +89,13 @@ Vagrant.configure('2') do |config|
       end
 
       if confirm "Activate git hooks in scripts/hooks? (Y/N)"
+        #symlink git on remote
         run_remote "wp-activate-git-hooks"
+
+        #symlink git on host
         Dir.chdir File.join(DIR,".git","hooks")
         system "ln -sf ../../scripts/hooks/* ."
+        system "chmod +x ../../scripts/hooks/*"
       end
 
       case RbConfig::CONFIG['host_os']

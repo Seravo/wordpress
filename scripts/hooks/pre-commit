@@ -89,3 +89,11 @@ fi
 ##
 echo "running: $GIT_DIR/scripts/run-tests"
 eval "$GIT_DIR/scripts/run-tests"
+
+#Block commiting into master if tests fail
+if [ $? -ne 0 ]; then
+  if [ "$(git rev-parse --abbrev-ref HEAD)" == "master" ]; then
+    echo "===> Tests failed, can't commit into master"
+    echo "===> You can commit to other branch or with: git commit -n"
+  fi
+fi
