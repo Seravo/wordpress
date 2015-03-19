@@ -6,14 +6,13 @@ require 'yaml'
 DIR = File.dirname(__FILE__)
 
 config_file = File.join(DIR, 'config.yml')
-
+sample_file = File.join(DIR,'config-sample.yml')
 if File.exists?(config_file)
   site_config = YAML.load_file(config_file)
-else
-  site_config = {
-    "name" => "wordpress"
-  } 
-  puts '==> default: Config.yml was not found. Using default configs..'
+elsif 
+  #Use sample instead
+  File.copy sample_file config_file
+  puts '==> default: config.yml was not found. Copying from sample configs..'
 end
 
 Vagrant.require_version '>= 1.5.1'
@@ -70,12 +69,12 @@ Vagrant.configure('2') do |config|
     # TODO: Create/Sync database with vagrant up
     config.trigger.after :up do
 
-      if confirm "Install composer packages? (Y/N)"
+      if confirm "Install composer packages?"
         run_remote "composer install --working-dir=/data/wordpress"
       end
 
       #Database imports
-      if site_config['production'] != nil && site_config['production']['ssh_port'] != nil and confirm "Pull database from production? (Y/N)"
+      if site_config['production'] != nil && site_config['production']['ssh_port'] != nil and confirm("Pull database from production?",false)
         ##
         # Wordpress palvelu customers can pull the production database here
         ##
@@ -90,21 +89,25 @@ Vagrant.configure('2') do |config|
         notice "Installed default wordpress with user:vagrant password:vagrant"
       end
 
-      if confirm "Activate git hooks in scripts/hooks? (Y/N)"
-        #symlink git on remote
-        run_remote "wp-activate-git-hooks"
+      unless Vagrant::Util::Platform.windows?
+        if  confirm "Activate git hooks in scripts/hooks?"
+          #symlink git on remote
+          run_remote "wp-activate-git-hooks"
 
-        #symlink git on host
-        Dir.chdir File.join(DIR,".git","hooks")
-        system "ln -sf ../../scripts/hooks/* ."
-        system "chmod +x ../../scripts/hooks/*"
+          #create hook folder (if not exists) and symlink git on host
+          git_hooks_dir = File.join(DIR,".git","hooks")
+          Dir.mkdir(git_hooks_dir) unless File.exists?(git_hooks_dir)
+          Dir.chdir git_hooks_dir
+          system "ln -sf ../../scripts/hooks/* ."
+          system "chmod +x ../../scripts/hooks/*"
+        end
       end
 
       case RbConfig::CONFIG['host_os']
       when /darwin/
         # Do OS X specific things
         unless File.exists?(File.join(ssl_cert_path,'trust.lock'))
-          if File.exists?(File.join(ssl_cert_path,'development.crt')) and confirm "Trust the generated ssl-certificate in OS-X keychain? (Y/N)"
+          if File.exists?(File.join(ssl_cert_path,'development.crt')) and confirm "Trust the generated ssl-certificate in OS-X keychain?"
             system "sudo security add-trusted-cert -d -r trustRoot -k '/Library/Keychains/System.keychain' #{ssl_cert_path}/development.crt"
             #Write lock file so we can remove it too
             touch_file File.join(ssl_cert_path,'trust.lock')
@@ -191,12 +194,25 @@ def get_domains(config)
   domains.uniq #remove duplicates
 end
 
-def confirm(question)
-  confirm = nil
-  until ["Y", "y", "N", "n"].include?(confirm)
-    confirm = ask "#{question} "
+def confirm(question,default=true)
+  if default
+    default = "yes"
+  else
+    default = "no"
   end
-  if confirm.upcase == "Y"
+
+  confirm = nil
+  until ["Y","N","YES","NO",""].include?(confirm)
+    ask "#{question} (default: #{default}): "
+    
+    if (confirm.nil? or confirm.empty?)
+      confirm = default
+    end
+    
+    confirm.strip!
+    confirm.upcase!
+  end
+  if confirm.empty? or confirm == "Y" or confirm == "YES"
     return true
   end
   return false

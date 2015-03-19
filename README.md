@@ -19,12 +19,16 @@ A WordPress project layout for use with Vagrant, Git, Composer and Nginx.
 2. Install
 
 ```
-vagrant up
+$ vagrant plugin install vagrant-hostsupdater
+$ vagrant plugin install vagrant-triggers
+$ vagrant up
+# Answer (y/n) for interactive installation script
 ```
 
 3. Navigate to http://wordpress.dev or run `vagrant ssh` to get started.
 
 ## Configuration
+
 You can edit the siteurl and domains by creating config.yml file in the root of the repo.
 See ```config-sample.yml```.
 

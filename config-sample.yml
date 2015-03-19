@@ -2,11 +2,11 @@
 # Configuration for Vagrant
 ###
 name: wordpress
-production:
+#production:
   # This is used to automatically fetch data from a staging/production environment
   # This is for WP-Palvelu customers. Leave blank if you don't want to use this feature.
-  domain: wordpress.seravo.fi
-  ssh_port: 10000
+  #domain: wordpress.seravo.fi
+  #ssh_port: 10000
 development:
   # Domains are automatically mapped to Vagrant with /etc/hosts modifications
   domains:
