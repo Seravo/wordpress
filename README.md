@@ -60,23 +60,23 @@ development:
 ├── tests
 │   ├── rspec
 │   │   ├── test.rb
-│   │   └── 
+│   │   └──
 │   ├──
 │   └──
 ├── nginx
 │   ├── rspec
 │   │   ├── test.rb
-│   │   └── 
+│   │   └──
 │   ├──
 │   └──
 ├── scripts
 │   ├── hooks
 │   │   ├── pre-commit #Git hooks for your project
-│   │   └── 
+│   │   └──
 │   ├── Wordpress
 │   │   └── Installer.php #Additional composer scripts
 │   │
-│   └── run-tests #MAIN Bash script which determines the testing of your wordpress 
+│   └── run-tests #MAIN Bash script which determines the testing of your WordPress
 ├── vendor
 └── htdocs
     ├── wp-content
@@ -87,6 +87,10 @@ development:
     ├── index.php
     └── wordpress
 ```
+
+## WordPress plugins
+
+The composer.json contains some plugins and themes that are likely to be useful for pretty much every installation. For particular use cases see our list of recommended plugins at http://wp-palvelu.fi/lisaosat/
 
 ## Todo:
 Add HHVM into vagrant and possibility to easily change between php5-fpm and hhvm

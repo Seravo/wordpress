@@ -14,7 +14,13 @@
       "name": "Antti Kuosmanen",
       "email": "antti@seravo.fi",
       "homepage": "https://github.com/anttiviljami"
-    }
+    },
+    {
+      "name": "Otto Kekäläinen",
+      "email": "otto@seravo.fi",
+      "homepage": "https://github.com/ottok"
+    },
+
   ],
   "keywords": [
     "wordpress", "composer", "wp", "wp-palvelu"
@@ -49,22 +55,17 @@
     "composer/installers": "v1.0.12",
     "koodimonni/composer-dropin-installer": ">=0.2.4",
     "vlucas/phpdotenv": "1.0.9",
-    
+
     "koodimonni-language/fi": "*",
     "koodimonni-language/sv_SE": "*",
 
-    "wpackagist-plugin/akismet": "*",
     "wpackagist-plugin/auto-post-thumbnail": "*",
     "wpackagist-plugin/google-analytics-dashboard-for-wp": "*",
-    "wpackagist-plugin/image-widget": "*",
-    "wpackagist-plugin/maintenance": "*",
-    "wpackagist-plugin/wordpress-importer": "*",
     "wpackagist-plugin/wordpress-seo": "*",
     "wpackagist-plugin/wp-native-dashboard": "*",
 
     "wpackagist-theme/twentyfifteen": "*",
     "wpackagist-theme/twentyfourteen": "*",
-    "wpackagist-theme/twentythirteen": "*",
 
     "humanmade/mercator": "dev-master"
   },
