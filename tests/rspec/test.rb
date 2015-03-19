@@ -2,18 +2,7 @@
 
 ###
 # This file hands over integration tests for rspec.
-# Tests are generated from config.yml which
-###
-
-###
-# If you want to persist cookies like a real user between tests runs you need to define a txt-file
-# where phantom can save acquired cookies
-# http://stackoverflow.com/questions/9504765/does-phantomjs-support-cookies
-###
-
-###
-# To capture rspec results as json:
-# http://jing.io/t/programmatically-execute-rspec-and-capture-result.html
+# Tests are generated from config.yml
 ###
 
 require 'capybara/poltergeist'
@@ -65,11 +54,15 @@ path = File.dirname(__FILE__)
 # This is done with the cookie found from ENV
 container = ENV['CONTAINER_ID']
 
+##
+# Todo: in production we shouldn't use localhost as target
+# But there's something odd with ruby interpolation with: visit 'http://#{target_url}'
+##
+
 #Try to query siteurl with wp-cli
 if `wp core is-installed`
   target_url = `wp option get siteurl`
   name = target_url
-  puts "core is installed: #{target_url}"
 elsif File.exists?("#{path}/../../config.yml") # If it failed fallback to values in config.yml
   conf = YAML.load_file("#{path}/../../config.yml")
   case ENV['WP_ENVIRONMENT']
@@ -80,8 +73,6 @@ elsif File.exists?("#{path}/../../config.yml") # If it failed fallback to values
   end
   name = conf['name']
 end
-
-puts "target_url is #{target_url}"
 
 ### Begin tests ###
 describe "wordpress: #{name} - ", :type => :request, :js => true do 
@@ -128,7 +119,7 @@ describe "wordpress: #{name} - ", :type => :request, :js => true do
     #  end
     #  click_button 'wp-submit'
     #  # Should obtain cookies and be able to visit /wp-admin
-    #  visit "#{siteurl}/wp-admin/"
+    #  visit "http://localhost/wp-admin/"
     #  expect(page).to have_id "wpadminbar"
     #end
 

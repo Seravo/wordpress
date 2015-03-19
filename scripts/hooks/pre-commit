@@ -1,0 +1,91 @@
+#!/bin/bash
+##
+# Hook into git commit event
+# Run tests when commiting
+##
+
+##
+# This script can be called from anywhere so it's good to be in the correct location
+##
+cd "$( dirname "${BASH_SOURCE[0]}" )"
+
+# git diff --name only gives project root relative paths
+# we use this for making creating absolute paths
+GIT_DIR=$(git rev-parse --show-toplevel)
+
+# Save all errors in array
+errors=()
+
+# Return non-zero if can't be run in vagrant
+function vagrant_available {
+  if [ "$(whoami)" != 'vagrant' ]; then
+    if command_available vagrant ; then
+      if vagrant status >/dev/null 2>&1; then
+        echo "===> Running tests in Vagrant..."
+        return 0
+      fi
+    else
+      return 1
+    fi
+  fi
+  return 2
+}
+
+#Check if binary exists
+function command_available {
+  type $1 &> /dev/null
+  return $?
+}
+
+if vagrant_available; then
+  vagrant ssh -c "sudo bash /data/wordpress/scripts/hooks/pre-commit"
+  exit $?
+fi
+
+# Loop all changed files
+for FILE in $(git diff --name-only); do
+  resource="$GIT_DIR/$FILE"
+
+  ##
+  # Test PHP syntax for all changed *.php and *.module files
+  ##
+  if [[ "$FILE" =~ ^.+(php|module)$ ]]; then
+    if [[ -f $resource ]]; then
+      php -l "$resource" 1> /dev/null
+      if [ $? -ne 0 ]; then
+        errors+=("PHP syntax Error: $FILE")
+      fi
+    fi
+  fi
+
+  ##
+  # Check that nginx configs (*.conf) work with (nginx -t) before commiting
+  ##
+  if [[ "$FILE" =~ ^nginx.+(conf)$ ]]; then
+    if [[ -f $resource ]]; then
+      ! command_available nginx || nginx -t 1> /dev/null 2>&1
+      if [ $? -ne 0 ]; then
+        errors+=("nginx config error: $FILE")
+      fi
+    fi
+  fi
+done
+
+##
+# Display all errors
+##
+if [ ${#errors[@]} -eq 0 ]; then
+    echo "Success: No errors, hooray!"
+else
+    for i in "${errors[@]}"
+    do
+        echo "===> $i"
+    done
+    exit 1
+fi
+
+##
+# Run defined defined tests
+##
+echo "running: $GIT_DIR/scripts/run-tests"
+eval "$GIT_DIR/scripts/run-tests"

@@ -1,8 +1,15 @@
 #!/bin/bash
 ##
-# Run any script as a test
+# Run any bash script as a test
 ##
 
-#Run rspec tests
-rspec /tests/rspec/test.rb
+##
+# This script can be called from anywhere so it's good to be relative to project
+##
+DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 
+##
+# Run rspec tests
+##
+echo "running rspec tests test.rb"
+rspec "$DIR/../tests/rspec/test.rb"
