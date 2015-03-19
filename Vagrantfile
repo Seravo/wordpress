@@ -10,8 +10,10 @@ config_file = File.join(DIR, 'config.yml')
 if File.exists?(config_file)
   site_config = YAML.load_file(config_file)
 else
-  puts 'ERROR: config.yml was not found. Please provide the needed information for your box.'
-  exit 0
+  site_config = {
+    "name" => "wordpress"
+  } 
+  puts '==> default: Config.yml was not found. Using default configs..'
 end
 
 Vagrant.require_version '>= 1.5.1'
@@ -53,13 +55,13 @@ Vagrant.configure('2') do |config|
     config.vm.provision :shell, :inline => "wp-generate-ssl"
   end
 
-  # Add SSH Public Key into vagrant
+  # Add SSH Public Key from developer home folder into vagrant
   if File.exists? File.join(Dir.home, ".ssh", "id_rsa.pub")
     id_rsa_ssh_key_pub = File.read(File.join(Dir.home, ".ssh", "id_rsa.pub"))
     config.vm.provision :shell, :inline => "echo '#{id_rsa_ssh_key_pub }' >> /home/vagrant/.ssh/authorized_keys && chmod 600 /home/vagrant/.ssh/authorized_keys"
   end
 
-  #Add HTTPS_DOMAIN_ALIAS to envs
+  # WP-Palvelu uses Https Domain alias plugin heavily and for debugging add HTTPS_DOMAIN_ALIAS to envs
   unless site_config['name'].nil?
     config.vm.provision :shell, :inline => "echo 'export HTTPS_DOMAIN_ALIAS=#{site_config['name']}.seravo.dev' >> /etc/container_environment.sh"
     config.vm.provision :shell, :inline => "echo 'fastcgi_param  HTTPS_DOMAIN_ALIAS   #{site_config['name']}.seravo.dev;' >> /etc/nginx/fastcgi_params"
@@ -71,14 +73,12 @@ Vagrant.configure('2') do |config|
     config.trigger.after :up do
 
       #Database imports
-      if site_config['production'] != nil && site_config['production']['ssh_port'] != nil
+      if site_config['production'] != nil && site_config['production']['ssh_port'] != nil and confirm "Pull database from production? (Y/N)"
         ##
-        # Wordpress palvelu customers configs here
+        # Wordpress palvelu customers can pull the production database here
         ##
-
-        #Pull production
-        run_remote("wp-pull-production-db") if confirm "Pull database from production? (Y/N)"
-      elsif File.exists?(File.join(DIR,'.vagrant','vagrant-dump.sql'))
+        run_remote("wp-pull-production-db")
+      elsif File.exists?(File.join(DIR,'.vagrant','shutdown-dump.sql'))
         #Return the state where we last left
         run_remote("wp-vagrant-import-db")
       else
@@ -88,17 +88,28 @@ Vagrant.configure('2') do |config|
         notice "Installed default wordpress with user:vagrant password:vagrant"
       end
 
+      if confirm "Activate git hooks in scripts/hooks? (Y/N)"
+        run_remote "wp-activate-git-hooks"
+        Dir.chdir File.join(DIR,".git","hooks")
+        system "ln -sf ../../scripts/hooks/* ."
+      end
+
       case RbConfig::CONFIG['host_os']
       when /darwin/
         # Do OS X specific things
-        if File.exists?(File.join(ssl_cert_path,'development.crt')) and confirm "Do you want to trust the generated ssl-certificate? (Y/N)"
-          system "sudo security add-trusted-cert -d -r trustRoot -k '/Library/Keychains/System.keychain' #{ssl_cert_path}/development.crt"
-          #Write lock file so we can remove it too
-          touch_file "#{ssl_cert_path}/trust.lock"
+        unless File.exists?(File.join(ssl_cert_path,'trust.lock'))
+          if File.exists?(File.join(ssl_cert_path,'development.crt')) and confirm "Trust the generated ssl-certificate in OS-X keychain? (Y/N)"
+            system "sudo security add-trusted-cert -d -r trustRoot -k '/Library/Keychains/System.keychain' #{ssl_cert_path}/development.crt"
+            #Write lock file so we can remove it too
+            touch_file File.join(ssl_cert_path,'trust.lock')
+          end
         end
       when /linux/
         # Do linux specific things
       end
+
+      # File system might not have been ready when nginx started.
+      run_remote("sudo service nginx restart")
 
     end
 
@@ -147,7 +158,7 @@ def notice(text)
 end
 
 def dump_wordpress_database
-  notice "dumping the database into: .vagrant/vagrant-dump.sql"
+  notice "dumping the database into: .vagrant/shutdown-dump.sql"
   run_remote "wp-vagrant-dump-db"
 end
 
@@ -156,13 +167,20 @@ def touch_file(path)
 end
 
 def get_domains(config)
-  domains = config['development']['domains'] || []
-  domains << config['development']['domain'] unless config['development']['domain'].nil?
+  unless config['development'].nil?
+    domains = config['development']['domains'] || []
+    domains << config['development']['domain'] unless config['development']['domain'].nil?
+  else
+    domains = []
+  end
 
   domains << "www."+config['name']+".dev"
   domains << config['name']+".seravo.dev" #test https-domain-alias locally
   domains << "webgrind."+config['name']+".dev" #For xdebug
   domains << "adminer."+config['name']+".dev" #For adminer
+  domains << "mailcatcher."+config['name']+".dev" #For mailcatcher
+  domains << "terminal."+config['name']+".dev" #For ad-hoc terminal commands (and links into terminal)
+  domains << "info."+config['name']+".dev" #For info page
   domains.uniq #remove duplicates
 end
 
