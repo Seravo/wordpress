@@ -72,6 +72,10 @@ Vagrant.configure('2') do |config|
     # TODO: Create/Sync database with vagrant up
     config.trigger.after :up do
 
+      if confirm "Install composer packages? (Y/N)"
+        run_remote "composer install --working-dir=/data/wordpress"
+      end
+
       #Database imports
       if site_config['production'] != nil && site_config['production']['ssh_port'] != nil and confirm "Pull database from production? (Y/N)"
         ##
