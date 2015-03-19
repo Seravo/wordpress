@@ -1,13 +1,14 @@
 #!/bin/bash
 ##
-# Hook into git commit event
+# Hook into git pre-commit event
 # Run tests when commiting
 ##
 
 ##
 # This script can be called from anywhere so it's good to be in the correct location
+# This can also be called in .git/hooks dir and we need to get away from there
 ##
-cd "$( dirname "${BASH_SOURCE[0]}" )"
+cd "$( dirname "${BASH_SOURCE[0]}" )"/../..
 
 # git diff --name only gives project root relative paths
 # we use this for making creating absolute paths
@@ -43,6 +44,7 @@ if vagrant_available; then
 fi
 
 # Loop all changed files
+echo "===> Checking syntax errors..."
 for FILE in $(git diff --name-only); do
   resource="$GIT_DIR/$FILE"
 
@@ -60,6 +62,7 @@ for FILE in $(git diff --name-only); do
 
   ##
   # Check that nginx configs (*.conf) work with (nginx -t) before commiting
+  # Maybe nginx should be updated here to really know impact to later tests
   ##
   if [[ "$FILE" =~ ^nginx.+(conf)$ ]]; then
     if [[ -f $resource ]]; then
@@ -74,12 +77,11 @@ done
 ##
 # Display all errors
 ##
-if [ ${#errors[@]} -eq 0 ]; then
-    echo "Success: No errors, hooray!"
-else
+if [ ${#errors[@]} -ne 0 ]; then
     for i in "${errors[@]}"
     do
         echo "===> $i"
+        echo "===> To skip these tests run: 'git commit -n'"
     done
     exit 1
 fi
@@ -87,13 +89,13 @@ fi
 ##
 # Run defined defined tests
 ##
-echo "running: $GIT_DIR/scripts/run-tests"
 eval "$GIT_DIR/scripts/run-tests"
 
-#Block commiting into master if tests fail
+#Block commiting if tests fail
 if [ $? -ne 0 ]; then
-  if [ "$(git rev-parse --abbrev-ref HEAD)" == "master" ]; then
-    echo "===> Tests failed, can't commit into master"
-    echo "===> You can commit to other branch or with: git commit -n"
-  fi
+  echo "===> You can skip tests when commiting with $: git commit -n"
+  echo "===> Tests failed!"
+  exit 1
+else
+  echo "===> Tests passed!"
 fi
