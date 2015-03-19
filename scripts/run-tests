@@ -11,5 +11,5 @@ DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 ##
 # Run rspec tests
 ##
-echo "running rspec tests test.rb"
+echo "===> Running rspec tests"
 rspec "$DIR/../tests/rspec/test.rb"
