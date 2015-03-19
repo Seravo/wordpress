@@ -6,16 +6,13 @@
 
 ##
 # This script can be called from anywhere so it's good to be in the correct location
-# This can also be called in .git/hooks dir and we need to get away from there
+# This can also be called in .git/hooks dir and we need to get into project root
 ##
 cd "$( dirname "${BASH_SOURCE[0]}" )"/../..
 
 # git diff --name only gives project root relative paths
 # we use this for making creating absolute paths
 GIT_DIR=$(git rev-parse --show-toplevel)
-
-# Save all errors in array
-errors=()
 
 # Return non-zero if can't be run in vagrant
 function vagrant_available {
@@ -43,8 +40,11 @@ if vagrant_available; then
   exit $?
 fi
 
+# Save all errors in array
+errors=()
+
 # Loop all changed files
-echo "===> Checking syntax errors..."
+echo "==> Checking syntax errors..."
 for FILE in $(git diff --name-only); do
   resource="$GIT_DIR/$FILE"
 
@@ -80,22 +80,22 @@ done
 if [ ${#errors[@]} -ne 0 ]; then
     for i in "${errors[@]}"
     do
-        echo "===> $i"
-        echo "===> To skip these tests run: 'git commit -n'"
+        echo "==> $i"
+        echo "==> To skip these tests run: 'git commit -n'"
     done
     exit 1
 fi
 
 ##
-# Run defined defined tests
+# Run pre defined integration tests
 ##
 eval "$GIT_DIR/scripts/run-tests"
 
 #Block commiting if tests fail
 if [ $? -ne 0 ]; then
-  echo "===> You can skip tests when commiting with $: git commit -n"
-  echo "===> Tests failed!"
+  echo "==> You can skip tests when commiting with $: git commit -n"
+  echo "==> Tests failed!"
   exit 1
 else
-  echo "===> Tests passed!"
+  echo "==> Tests passed!"
 fi
