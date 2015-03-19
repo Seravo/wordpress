@@ -13,7 +13,7 @@ else
   site_config = {
     "name" => "wordpress"
   } 
-  puts '==> default: Config.yml was not found. Using default configs..'
+  puts '===> default: Config.yml was not found. Using default configs..'
 end
 
 Vagrant.require_version '>= 1.5.1'
