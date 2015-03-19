@@ -9,6 +9,7 @@ A WordPress project layout for use with Vagrant, Git, Composer and Nginx.
 * [Webgrind](https://code.google.com/p/webgrind/)
 * [Adminer](http://www.adminer.org/)
 * Git hooks to test your code when running commits
+* Test https:// locally with self-signed certs (and trust them automatically in OS X)
 * Advanced wordpress integration tests with rspec
 * Nginx, xDebug, PHP5-FPM, Redis, Git, PHP Codesniffer...
 

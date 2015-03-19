@@ -31,8 +31,6 @@ Vagrant.configure('2') do |config|
 
   config.vm.hostname = site_config['name']+"-wp-dev"
 
-  #TODO: add profiler to some easy hostname
-
   if Vagrant.has_plugin? 'vagrant-hostsupdater'
     domains = get_domains(site_config)
 
