@@ -12,7 +12,8 @@ cd "$( dirname "${BASH_SOURCE[0]}" )"/../..
 
 # git diff --name only gives project root relative paths
 # we use this for making creating absolute paths
-GIT_DIR=$(git rev-parse --show-toplevel)
+REPO_DIR=$(git rev-parse --show-toplevel)
+# Don't use GIT_DIR, as the git binary expects it to point to the .git directory
 
 # Return non-zero if can't be run in vagrant
 function vagrant_available {
@@ -43,10 +44,10 @@ fi
 # Save all errors in array
 errors=()
 
-# Loop all changed files
+# Loop all files that are about to be committed (diff of git head and staged)
 echo "==> Checking syntax errors..."
-for FILE in $(git diff --name-only); do
-  resource="$GIT_DIR/$FILE"
+for FILE in $(git diff --cached --name-only); do
+  resource="$REPO_DIR/$FILE"
 
   ##
   # Test PHP syntax for all changed *.php and *.module files
@@ -86,14 +87,28 @@ if [ ${#errors[@]} -ne 0 ]; then
     exit 1
 fi
 
+
+##
+# Warn if there are unstaged changes in tracked files or untracked files present.
+# Such extra files might influence the integration tests to show a false result
+# compared to what the to-be-committed git head would have in a clean working
+# directory
+##
+NONSTAGED=$(git status --porcelain | grep -E '^( M|MM|\?\?)')
+if [[ $NONSTAGED != '' ]]; then
+  echo "==> Extra files present at commit time - integration test results might be false!"
+  echo -e "\e[1;33m$NONSTAGED\e[0m"
+fi
+
 ##
 # Run pre defined integration tests
+# Wrap in quotation marks in case path name has spaces
 ##
-eval "$GIT_DIR/scripts/run-tests"
+eval '"$REPO_DIR/scripts/run-tests"'
 
 #Block commiting if tests fail
 if [ $? -ne 0 ]; then
-  echo "==> You can skip tests when commiting with $: git commit -n"
+  echo "==> You can skip tests when commiting with 'git commit -n'"
   echo "==> Tests failed! Git commit denied..."
   exit 1
 else

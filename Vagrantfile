@@ -7,12 +7,13 @@ require 'mkmf'
 DIR = File.dirname(__FILE__)
 
 config_file = File.join(DIR, 'config.yml')
-sample_file = File.join(DIR,'config-sample.yml')
+sample_file = File.join(DIR, 'config-sample.yml')
+
 if File.exists?(config_file)
   site_config = YAML.load_file(config_file)
 elsif 
-  #Use sample instead
-  File.copy sample_file config_file
+  # Use sample instead
+  File.copy sample_file, config_file
   puts '==> default: config.yml was not found. Copying from sample configs..'
 end
 
@@ -23,7 +24,7 @@ Vagrant.configure('2') do |config|
   # Use host-machine ssh-key so we can log into production
   config.ssh.forward_agent = true
 
-  #Use precompiled box
+  # Use precompiled box
   config.vm.box = 'seravo/wordpress'
 
   # Required for NFS to work, pick any local IP
@@ -41,13 +42,13 @@ Vagrant.configure('2') do |config|
     exit 1
   end
 
-  #We only need to sync this project folder with /data/wordpress/
+  # We only need to sync this project folder with /data/wordpress/
   config.vm.synced_folder DIR, '/data/wordpress/', owner: 'vagrant', group: 'vagrant', mount_options: ['dmode=776', 'fmode=775']
 
-  #Disable default vagrant share
+  # Disable default vagrant share
   config.vm.synced_folder ".", "/vagrant", disabled: true
 
-  #For Self-signed ssl-certificate
+  # For Self-signed ssl-certificate
   ssl_cert_path = File.join(DIR,'.vagrant','ssl')
   unless File.exists? File.join(ssl_cert_path,'development.crt')
     config.vm.provision :shell, :inline => "wp-generate-ssl"
@@ -82,7 +83,7 @@ Vagrant.configure('2') do |config|
         end
       end
 
-      #Database imports
+      # Database imports
       if site_config['production'] != nil && site_config['production']['ssh_port'] != nil and confirm("Pull database from production?",false)
         ##
         # Wordpress palvelu customers can pull the production database here
@@ -92,7 +93,7 @@ Vagrant.configure('2') do |config|
         #Return the state where we last left
         run_remote("wp-vagrant-import-db")
       else
-        #If nothing else was specified just install basic wordpress
+        # If nothing else was specified just install basic wordpress
         run_remote("wp core install --url=http://#{site_config['name']}.dev --title=#{site_config['name'].capitalize}\
          --admin_email=vagrant@#{site_config['name']}.dev --admin_user=vagrant --admin_password=vagrant")
         notice "Installed default wordpress with user:vagrant password:vagrant"
@@ -100,10 +101,10 @@ Vagrant.configure('2') do |config|
 
       unless Vagrant::Util::Platform.windows?
         if  confirm "Activate git hooks in scripts/hooks?"
-          #symlink git on remote
+          # symlink git on remote
           run_remote "wp-activate-git-hooks"
 
-          #create hook folder (if not exists) and symlink git on host
+          # create hook folder (if not exists) and symlink git on host
           git_hooks_dir = File.join(DIR,".git","hooks")
           Dir.mkdir(git_hooks_dir) unless File.exists?(git_hooks_dir)
           Dir.chdir git_hooks_dir
@@ -118,7 +119,7 @@ Vagrant.configure('2') do |config|
         unless File.exists?(File.join(ssl_cert_path,'trust.lock'))
           if File.exists?(File.join(ssl_cert_path,'development.crt')) and confirm "Trust the generated ssl-certificate in OS-X keychain?"
             system "sudo security add-trusted-cert -d -r trustRoot -k '/Library/Keychains/System.keychain' #{ssl_cert_path}/development.crt"
-            #Write lock file so we can remove it too
+            # Write lock file so we can remove it too
             touch_file File.join(ssl_cert_path,'trust.lock')
           end
         end
@@ -133,12 +134,12 @@ Vagrant.configure('2') do |config|
     end
 
     config.trigger.before :halt do
-      #dump database when closing vagrant
+      # dump database when closing vagrant
       dump_wordpress_database
     end
 
     config.trigger.before :destroy do
-      #dump database when destroying vagrant
+      # dump database when destroying vagrant
       dump_wordpress_database
     end
 
@@ -226,3 +227,4 @@ def confirm(question,default=true)
   end
   return false
 end
+
