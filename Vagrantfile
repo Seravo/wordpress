@@ -2,6 +2,7 @@
 # vi: set ft=ruby :
 
 require 'yaml'
+require 'mkmf'
 
 DIR = File.dirname(__FILE__)
 
@@ -69,8 +70,16 @@ Vagrant.configure('2') do |config|
     # TODO: Create/Sync database with vagrant up
     config.trigger.after :up do
 
+      #Run all system commands inside project root
+      Dir.chdir(DIR)
+
       if confirm "Install composer packages?"
-        run_remote "composer install --working-dir=/data/wordpress"
+        #Run locally if possible
+        if find_executable 'composer' and system "composer validate > /dev/null"
+          system "composer install"
+        else
+          run_remote "composer install --working-dir=/data/wordpress"
+        end
       end
 
       #Database imports
