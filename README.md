@@ -1,31 +1,31 @@
 # Seravo WordPress
 
-Brought to you by [wp-palvelu.fi](http://wp-palvelu.fi).
+Brought to you by Seravo and [wp-palvelu.fi](http://wp-palvelu.fi).
 
-A WordPress project layout for use with Vagrant, Git, Composer and Nginx.
+A WordPress project layout for use with Vagrant, Git, Composer and Nginx. If you develop using this Vagrant environment as a base, your development environment will be as compatible with the Seravo WP-Palvelu environment as possible.
 
-## Included
-* [Mailcatcher](http://mailcatcher.me/)
-* [Webgrind](https://code.google.com/p/webgrind/)
-* [Adminer](http://www.adminer.org/)
+### Features
+* Includes Nginx, Redis, Git, PHP5-FPM, Xdebug, PHP Codesniffer...
 * Git hooks to test your code when running commits
 * Test https:// locally with self-signed certs (and trust them automatically in OS X)
 * Advanced wordpress integration tests with rspec
-* Nginx, xDebug, PHP5-FPM, Redis, Git, PHP Codesniffer...
+* [Mailcatcher](http://mailcatcher.me/)
+* [Webgrind](https://code.google.com/p/webgrind/)
+* [Adminer](http://www.adminer.org/)
 
-## Installation for Vagrant
+## Installation
 
 1. Clone this repo.
-2. Install
+2. Install Vagrant
+3. Install
 
 ```
-$ vagrant plugin install vagrant-hostsupdater
-$ vagrant plugin install vagrant-triggers
+$ vagrant plugin install vagrant-hostsupdater vagrant-triggers
 $ vagrant up
 # Answer (y/n) for interactive installation script
 ```
 
-3. Navigate to http://wordpress.dev or run `vagrant ssh` to get started.
+4. Navigate to http://wordpress.dev or run `vagrant ssh` to get started.
 
 ## Configuration
 
@@ -92,10 +92,11 @@ development:
 
 The composer.json contains some plugins and themes that are likely to be useful for pretty much every installation. For particular use cases see our list of recommended plugins at http://wp-palvelu.fi/lisaosat/
 
-## Todo:
-Add HHVM into vagrant and possibility to easily change between php5-fpm and hhvm
+## TODO
 
-## Credits:
+* Add HHVM to Vagrant and the possibility to easily change between PHP5-FPM and HHVM
+
+## Credits
 
 Layout Heavily inspired by [roots/bedrock](https://github.com/roots/bedrock)
 Development stack inspired by [VVV](https://github.com/Varying-Vagrant-Vagrants/VVV)

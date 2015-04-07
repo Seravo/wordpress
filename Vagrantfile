@@ -10,13 +10,13 @@ DIR = File.dirname(__FILE__)
 config_file = File.join(DIR, 'config.yml')
 sample_file = File.join(DIR, 'config-sample.yml')
 
-if File.exists?(config_file)
-  site_config = YAML.load_file(config_file)
-elsif 
+unless File.exists?(config_file)
   # Use sample instead
   FileUtils.copy sample_file, config_file
   puts '==> default: config.yml was not found. Copying from sample configs..'
 end
+
+site_config = YAML.load_file(config_file)
 
 Vagrant.require_version '>= 1.5.1'
 
@@ -183,7 +183,7 @@ def dump_wordpress_database
   run_remote "wp-vagrant-dump-db"
 end
 
-def touch_file(path) 
+def touch_file(path)
   File.open(path, "w") {}
 end
 
@@ -215,11 +215,11 @@ def confirm(question,default=true)
   confirm = nil
   until ["Y","N","YES","NO",""].include?(confirm)
     ask "#{question} (default: #{default}): "
-    
+
     if (confirm.nil? or confirm.empty?)
       confirm = default
     end
-    
+
     confirm.strip!
     confirm.upcase!
   end
