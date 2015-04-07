@@ -15,8 +15,10 @@ A WordPress project layout for use with Vagrant, Git, Composer and Nginx.
 
 ## Installation for Vagrant
 
-1. Clone this repo.
-2. Install
+1. [Install vagrant](http://docs.vagrantup.com/v2/installation/) (**1.7.2 or later**)
+2. [Install virtualbox](https://www.virtualbox.org/wiki/Downloads)
+3. Clone this repo.
+4. Do the installation in terminal:
 
 ```
 $ vagrant plugin install vagrant-hostsupdater
