@@ -3,6 +3,7 @@
 
 require 'yaml'
 require 'mkmf'
+require 'fileutils'
 
 DIR = File.dirname(__FILE__)
 
@@ -13,7 +14,7 @@ if File.exists?(config_file)
   site_config = YAML.load_file(config_file)
 elsif 
   # Use sample instead
-  File.copy sample_file, config_file
+  FileUtils.copy sample_file, config_file
   puts '==> default: config.yml was not found. Copying from sample configs..'
 end
 
