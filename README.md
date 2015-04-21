@@ -53,6 +53,8 @@ development:
 
 ### Folder Structure
 
+The root of this repository equals the contents of the directory ```/data/wordpress``` in the WP-palvelu.fi service.
+
 ```
 ├── composer.json # Use composer for package handling
 ├── composer.lock
