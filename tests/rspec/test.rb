@@ -52,7 +52,7 @@ path = File.dirname(__FILE__)
 # We never test a production site directly in WP-Palvelu
 # Instead we make a clone of the site and redirect queries into the clone.
 # This is done with the cookie found from ENV
-container = ENV['CONTAINER_ID']
+shadow_hash = ENV['CONTAINER'].partition('_').last unless ENV['CONTAINER'].nil?
 
 ##
 # Todo: in production we shouldn't use localhost as target
@@ -81,7 +81,7 @@ describe "wordpress: #{name} - ", :type => :request, :js => true do
 
   before(:each) do
     page.driver.add_header("User-Agent", "wp-palvelu-testbot")
-    page.driver.add_header("cookie", "wppalvelu_shadow=#{container};") unless container.nil?
+    page.driver.add_header("cookie", "shadow=#{shadow_hash};") unless shadow_hash.nil?
   end
 
   describe "frontpage" do
