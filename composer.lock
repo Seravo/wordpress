@@ -631,16 +631,16 @@
         },
         {
             "name": "seravo/wp-palvelu-plugin",
-            "version": "1.0.1",
+            "version": "1.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Seravo/wp-palvelu-plugin.git",
-                "reference": "22d6dc88cd8941d45c06b6c054c33d8fcfbce759"
+                "reference": "a46f9a921dd2fab18ae5a5d91b370abab0d16b3d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Seravo/wp-palvelu-plugin/zipball/22d6dc88cd8941d45c06b6c054c33d8fcfbce759",
-                "reference": "22d6dc88cd8941d45c06b6c054c33d8fcfbce759",
+                "url": "https://api.github.com/repos/Seravo/wp-palvelu-plugin/zipball/a46f9a921dd2fab18ae5a5d91b370abab0d16b3d",
+                "reference": "a46f9a921dd2fab18ae5a5d91b370abab0d16b3d",
                 "shasum": ""
             },
             "type": "wordpress-muplugin",
@@ -667,7 +667,7 @@
                 "wp",
                 "wp-palvelu"
             ],
-            "time": "2015-04-20 17:54:38"
+            "time": "2015-05-06 15:39:30"
         },
         {
             "name": "vlucas/phpdotenv",
