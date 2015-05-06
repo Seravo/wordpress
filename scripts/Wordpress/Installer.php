@@ -19,7 +19,7 @@ class Installer {
         Installer::rrmdir($wp_core_content_folder);
       }
       symlink("../wp-content", $wp_core_content_folder);
-      $io->write("Removed wp-content from core and symlinked it to {$wp_content_folder}");
+      $io->write("Removed wp-content from core and symlinked it to ../wp-content");
     }
   }
 
