@@ -2,20 +2,17 @@
 
 ###
 # This file hands over integration tests for rspec.
-# Tests are generated from config.yml
+# It needs wp-cli for integrating with wordpress
 ###
 
 require 'capybara/poltergeist'
 require 'rspec'
 require 'rspec/retry'
 require 'capybara/rspec'
-require 'capybara/dsl'
-require 'yaml' #load variables from config file if wp-cli is not present
-require 'uri' #parse the url from wp-cli
+require 'uri' # parse the url from wp-cli
+require 'fileutils' # dump users before tests and delete them after
 
-path = File.dirname(__FILE__)
-
-# Load default RSPEC MATCHERS
+# Load our default RSPEC MATCHERS
 require_relative 'lib/matchers.rb'
 
 RSpec.configure do |config|
@@ -32,7 +29,7 @@ end
 Capybara.register_driver :poltergeist do |app|
   Capybara::Poltergeist::Driver.new(app, 
     debug: false,
-    js_errors: false,
+    js_errors: false, # Use true if you are really careful about your site
     phantomjs_logger: '/dev/null', 
     timeout: 60,
     :phantomjs_options => [
@@ -46,10 +43,6 @@ Capybara.register_driver :poltergeist do |app|
    )
 end
 
-##
-# Config file tells us about the environment
-##
-
 # We never test a production site directly in WP-Palvelu
 # Instead we make a clone of the site and redirect queries into the clone.
 # This is done with the cookie found from ENV
@@ -59,8 +52,13 @@ shadow_hash = ENV['CONTAINER'].partition('_').last unless ENV['CONTAINER'].nil?
 # This works because we always have just 1 wordpress installation / instance
 if `wp core is-installed`
   target_url = `wp option get home`.strip
+  # export users table so we don't make any changes into it
+  # first empty string means '/'
+  dumpfile = File.join('',"tmp","wp-users-#{Time.now.to_i}.sql")
+  system "wp db export --tables=wp_users #{dumpfile}"
 else
-  exit(1) #fail if wp-cli isn't working
+  puts "ERROR: wp-cli can't find configured site"
+  exit(1)
 end
 
 # Parse wp-cli siteurl into smaller parts
@@ -69,7 +67,7 @@ uri = URI(target_url)
 # Create random test user, try to login with it and delete it after tests
 username = "wp-palvelu-tester-#{Time.now.to_i}"
 password = rand(36**32).to_s(36)
-`wp user create #{username} #{username}@#{uri.host} --user_pass=#{password} --role=administrator`
+system "wp user create #{username} #{username}@#{uri.host} --user_pass=#{password} --role=administrator"
 
 # If we couldn't create user just skip the last test
 unless $?.success?
@@ -78,7 +76,14 @@ end
 
 # Cleanup afterwise
 RSpec.configure do |config|
-  config.after(:suite) { `wp user delete #{username} --yes` }
+  config.after(:suite) {
+    # Import original users back and remove dump file
+    if File.exists? dumpfile
+      puts "\ndoing the cleanup..."
+      system "wp db import #{dumpfile}"
+      FileUtils.rm(dumpfile)
+    end
+  }
 end
 
 puts "testing #{target_url}..."
@@ -89,7 +94,10 @@ describe "wordpress: #{target_url} - ", :type => :request, :js => true do
 
   before(:each) do
     page.driver.add_header("User-Agent", "wp-palvelu-testbot")
-    page.driver.add_header("cookie", "wpp_shadow=#{shadow_hash};") unless shadow_hash.nil?
+    #if this is a shadow route the request into right shadow
+    unless shadow_hash.nil?
+      page.driver.set_cookie("shadow", shadow_hash, {:path => '/', :domain => uri.host.downcase}) 
+    end
   end
 
   describe "frontpage" do
@@ -130,7 +138,6 @@ describe "wordpress: #{target_url} - ", :type => :request, :js => true do
         end
         click_button 'wp-submit'
         # Should obtain cookies and be able to visit /wp-admin
-        visit "https://#{uri.host}#{uri.path}/wp-admin/"
         expect(page).to have_id "wpadminbar"
       end
     end
