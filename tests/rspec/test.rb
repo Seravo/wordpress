@@ -59,21 +59,25 @@ end
 # Parse wp-cli siteurl into smaller parts
 uri = URI(target_url)
 
-# Create random test user, try to login with it and delete it after tests
-username = "wp-palvelu-tester-#{Time.now.to_i}"
+# Use this specific user for tests
+username = "wp-rspec-test-user"
 password = rand(36**32).to_s(36)
-system "wp user create #{username} #{username}@#{uri.host} --user_pass=#{password} --role=administrator"
+system "wp user create #{username} #{username}@#{uri.host} --user_pass=#{password} --role=administrator --first_name=WP --last_name=Rspec-Test-Bot > /dev/null 2>&1"
+unless $?.success?
+  system "wp user update #{username} --user_pass=#{password} --role=administrator > /dev/null 2>&1"
+end
 
 # If we couldn't create user just skip the last test
 unless $?.success?
   username = nil
 end
 
-# Cleanup afterwise
+# After the tests put user into lesser mode so that it's harmless
+# This way tests won't increase the index of user IDs everytime
 RSpec.configure do |config|
   config.after(:suite) {
     puts "\ndoing the cleanup..."
-    system "wp user delete #{username} --yes"
+    system "wp user update #{username} --role=subscriber > /dev/null 2>&1"
   }
 end
 
