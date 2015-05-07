@@ -10,7 +10,6 @@ require 'rspec'
 require 'rspec/retry'
 require 'capybara/rspec'
 require 'uri' # parse the url from wp-cli
-require 'fileutils' # dump users before tests and delete them after
 
 # Load our default RSPEC MATCHERS
 require_relative 'lib/matchers.rb'
@@ -52,10 +51,6 @@ shadow_hash = ENV['CONTAINER'].partition('_').last unless ENV['CONTAINER'].nil?
 # This works because we always have just 1 wordpress installation / instance
 if `wp core is-installed`
   target_url = `wp option get home`.strip
-  # export users table so we don't make any changes into it
-  # first empty string means '/'
-  dumpfile = File.join('',"tmp","wp-users-#{Time.now.to_i}.sql")
-  system "wp db export --tables=wp_users #{dumpfile}"
 else
   puts "ERROR: wp-cli can't find configured site"
   exit(1)
@@ -77,12 +72,8 @@ end
 # Cleanup afterwise
 RSpec.configure do |config|
   config.after(:suite) {
-    # Import original users back and remove dump file
-    if File.exists? dumpfile
-      puts "\ndoing the cleanup..."
-      system "wp db import #{dumpfile}"
-      FileUtils.rm(dumpfile)
-    end
+    puts "\ndoing the cleanup..."
+    system "wp user delete #{username} --yes"
   }
 end
 
