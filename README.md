@@ -28,6 +28,10 @@ $ vagrant up
 
 4. Navigate to http://wordpress.dev or run `vagrant ssh` to get started.
 
+Default credentials are:
+  user: vagrant 
+  password: vagrant
+
 ## Configuration
 
 You can edit the siteurl and domains by creating config.yml file in the root of the repo.
