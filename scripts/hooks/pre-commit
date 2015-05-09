@@ -17,17 +17,13 @@ REPO_DIR=$(git rev-parse --show-toplevel)
 
 # Return non-zero if can't be run in vagrant
 function vagrant_available {
-  if [ "$(whoami)" != 'vagrant' ]; then
-    if command_available vagrant ; then
-      if vagrant status >/dev/null 2>&1; then
-        echo "==> Running tests in Vagrant..."
-        return 0
-      fi
-    else
-      return 1
+  if command_available vagrant ; then
+    if vagrant status >/dev/null 2>&1; then
+      return 0
     fi
+  else
+    return 1
   fi
-  return 2
 }
 
 #Check if binary exists
@@ -36,7 +32,27 @@ function command_available {
   return $?
 }
 
+##
+# Warn if there are unstaged changes in tracked files or untracked files present.
+# Such extra files might influence the integration tests to show a false result
+# compared to what the to-be-committed git head would have in a clean working
+# directory
+##
+function git_non_committed_changes {
+  NONSTAGED=$(git status --porcelain | grep -E '^( M|MM|\?\?)')
+  if [[ $NONSTAGED != '' ]]; then
+    echo "==> Non-committed extra files present at commit time - integration test results might be false!"
+    echo "$NONSTAGED"
+  fi
+}
+
+# Check locally if there's something extra which might affect the test results
 if vagrant_available; then
+  git_non_committed_changes
+fi
+
+if vagrant_available; then
+  echo "==> Running tests in Vagrant..."
   vagrant ssh -c "sudo bash /data/wordpress/scripts/hooks/pre-commit"
   exit $?
 fi
@@ -85,19 +101,6 @@ if [ ${#errors[@]} -ne 0 ]; then
         echo "==> To skip these tests run: 'git commit -n'"
     done
     exit 1
-fi
-
-
-##
-# Warn if there are unstaged changes in tracked files or untracked files present.
-# Such extra files might influence the integration tests to show a false result
-# compared to what the to-be-committed git head would have in a clean working
-# directory
-##
-NONSTAGED=$(git status --porcelain | grep -E '^( M|MM|\?\?)')
-if [[ $NONSTAGED != '' ]]; then
-  echo "==> Extra files present at commit time - integration test results might be false!"
-  echo -e "\e[1;33m$NONSTAGED\e[0m"
 fi
 
 ##
