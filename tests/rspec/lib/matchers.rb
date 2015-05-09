@@ -14,7 +14,7 @@ end
 
 RSpec::Matchers::define :have_js do
   match do |page|
-    page.body.include? ".css" or page.body.include? "<script>"
+    page.body.include? ".js" or page.body.include? "<script>"
   end
 end
 
