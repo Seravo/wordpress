@@ -15,18 +15,45 @@ A WordPress project layout for use with Vagrant, Git, Composer and Nginx. If you
 
 ## Installation
 
+### Linux (debian)
+To use virtualbox make sure you have ```vt-x``` enabled in your bios.
+
+```
+$ apt-get install vagrant virtualbox virtualbox-dkms nfsd git
+$ git clone https://github.com/Seravo/wordpress ~/wordpress-dev
+$ cd ~/wordpress-dev
+$ vagrant plugin install vagrant-hostsupdater vagrant-triggers
+$ vagrant up
+# Answer (y/n) for interactive installation script
+```
+
+### OS X
+
+1. [Install Xcode](https://developer.apple.com/xcode/downloads/)
+2. [Install Vagrant](http://docs.vagrantup.com/v2/installation/) (**1.7.2 or later**)
+3. [Install Virtualbox](https://www.virtualbox.org/wiki/Downloads)
+4. Clone this repo
+5. Do the installation in terminal:
+```
+$ vagrant plugin install vagrant-hostsupdater vagrant-triggers
+$ vagrant up
+# Answer (y/n) for interactive installation script
+```
+### Windows
+
+To use virtualbox make sure you have ```vt-x``` enabled in your bios. You might need to disable ```hyper-v``` in order to use virtualbox.
+
 1. [Install Vagrant](http://docs.vagrantup.com/v2/installation/) (**1.7.2 or later**)
 2. [Install Virtualbox](https://www.virtualbox.org/wiki/Downloads)
 3. Clone this repo
 4. Do the installation in terminal:
-
 ```
 $ vagrant plugin install vagrant-hostsupdater vagrant-triggers
 $ vagrant up
 # Answer (y/n) for interactive installation script
 ```
 
-4. Navigate to http://wordpress.dev or run `vagrant ssh` to get started.
+Navigate to http://wordpress.dev or run `vagrant ssh` to get started.
 
 Default credentials are:
   user: vagrant 
@@ -61,38 +88,40 @@ The root of this repository equals the contents of the directory ```/data/wordpr
 
 ```
 ├── composer.json # Use composer for package handling
-├── composer.lock
+├── composer.lock # Tells which composer package versions are currently used
 ├── Vagrantfile # Advanced vagrant environment and scripts packaged in Vagrantfile
 ├── config.yml # See about Configuration above
-├── tests
-│   ├── rspec
-│   │   ├── test.rb
-│   │   └──
-│   ├──
-│   └──
-├── nginx
-│   ├── rspec
-│   │   ├── test.rb
-│   │   └──
-│   ├──
+├── tests # Here you can include tests for your wordpress instance
+│   └── rspec # Our default tests use rspec/poltergeist/phantomjs since we have found them very effective.
+│       ├── test.rb
+│       └──
+│   
+├── nginx # Here you can have your custom modifications to nginx which are also used in production
+│   ├── custom.conf # Default file with few examples to get started
 │   └──
 ├── scripts
-│   ├── hooks
-│   │   ├── pre-commit #Git hooks for your project
+│   ├── hooks # Git hooks for your project
+│   │   ├── pre-commit # This is run after every commit
 │   │   └──
+│   │
 │   ├── Wordpress
 │   │   └── Installer.php #Additional composer scripts
 │   │
-│   └── run-tests #MAIN Bash script which determines the testing of your WordPress
-├── vendor
-└── htdocs
-    ├── wp-content
+│   └── run-tests # Bash-script as an interface for your tests in WP-Palvelu Production and Dev environment
+├── vendor # Composer packages go here
+└── htdocs # This is the web root of your site
+    ├── wp-content # wp-content is moved out of core
     │   ├── mu-plugins
     │   ├── plugins
-    │   └── themes
+    │   ├── themes
+    │   └── languages
     ├── wp-config.php
     ├── index.php
-    └── wordpress
+    └── wordpress # Wordpress Core installed by composer
+        ├── wp-admin
+        ├── index.php
+        ├── wp-load.php
+        └── ...
 ```
 
 ## WordPress plugins
