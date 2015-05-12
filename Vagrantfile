@@ -5,6 +5,11 @@ require 'yaml'
 require 'mkmf'
 require 'fileutils'
 
+# Prevent logs from mkmf
+module MakeMakefile::Logging
+  @logfile = File::NULL
+end
+
 DIR = File.dirname(__FILE__)
 
 config_file = File.join(DIR, 'config.yml')
@@ -13,7 +18,7 @@ sample_file = File.join(DIR, 'config-sample.yml')
 unless File.exists?(config_file)
   # Use sample instead
   FileUtils.copy sample_file, config_file
-  puts '==> default: config.yml was not found. Copying from sample configs..'
+  puts '==> default: config.yml was not found. Copying defaults from sample configs..'
 end
 
 site_config = YAML.load_file(config_file)
@@ -28,14 +33,21 @@ Vagrant.configure('2') do |config|
   # Use precompiled box
   config.vm.box = 'seravo/wordpress'
 
-  # Required for NFS to work, pick any local IP
-  config.vm.network :private_network, ip: '192.168.50.10'
+  # Use random ip address for box
+  # This is needed for updating the /etc/hosts file
+  config.vm.network :private_network, ip: "192.168.#{rand(255)}.#{rand(255)}"
+
+  ###
+  ## Use these if you want easily to connect into vagrant from local network
+  ## (for browser-sync)
+  ###
+  #config.vm.network "forwarded_port", guest: 80, host: 80
+  #config.vm.network "forwarded_port", guest: 443, host: 443
 
   config.vm.hostname = site_config['name']+"-wp-dev"
 
   if Vagrant.has_plugin? 'vagrant-hostsupdater'
     domains = get_domains(site_config)
-
     config.hostsupdater.aliases = domains - [config.vm.hostname]
   else
     puts 'vagrant-hostsupdater missing, please install the plugin:'
@@ -43,11 +55,13 @@ Vagrant.configure('2') do |config|
     exit 1
   end
 
-  # We only need to sync this project folder with /data/wordpress/
-  config.vm.synced_folder DIR, '/data/wordpress/', owner: 'vagrant', group: 'vagrant', mount_options: ['dmode=776', 'fmode=775']
-
   # Disable default vagrant share
   config.vm.synced_folder ".", "/vagrant", disabled: true
+
+  # Sync the folders
+  # We have tried using NFS but it's super slow compared to synced_folder
+  config.vm.synced_folder DIR, '/data/wordpress/', owner: 'vagrant', group: 'vagrant', mount_options: ['dmode=776', 'fmode=775']
+
 
   # For Self-signed ssl-certificate
   ssl_cert_path = File.join(DIR,'.vagrant','ssl')
@@ -67,21 +81,19 @@ Vagrant.configure('2') do |config|
     config.vm.provision :shell, :inline => "echo 'fastcgi_param  HTTPS_DOMAIN_ALIAS   #{site_config['name']}.seravo.dev;' >> /etc/nginx/fastcgi_params"
   end
 
-  # Some useful triggers with better workflow
+  # Some useful triggers for better workflow
   if Vagrant.has_plugin? 'vagrant-triggers'
-    # TODO: Create/Sync database with vagrant up
     config.trigger.after :up do
 
       #Run all system commands inside project root
       Dir.chdir(DIR)
-
-      if confirm "Install composer packages?"
-        #Run locally if possible
-        if find_executable 'composer' and system "composer validate > /dev/null"
-          system "composer install"
-        else
-          run_remote "composer install --working-dir=/data/wordpress"
-        end
+      
+      # Install packages with Composer
+      # run it locally if possible
+      if find_executable 'composer' and system "composer validate > /dev/null"
+        system "composer install"
+      else # run in vagrant
+        run_remote "composer install --working-dir=/data/wordpress"
       end
 
       # Database imports
@@ -100,23 +112,30 @@ Vagrant.configure('2') do |config|
         notice "Installed default wordpress with user:vagrant password:vagrant"
       end
 
-      unless Vagrant::Util::Platform.windows?
-        if  confirm "Activate git hooks in scripts/hooks?"
+      # Activate githooks for testing, etc...
+      git_hooks_dir = File.join(DIR,".git","hooks")
+      unless ( Vagrant::Util::Platform.windows? or File.exists?(File.join(git_hooks_dir,'.activated')) )
+        if confirm "Activate git hooks in scripts/hooks?"
           # symlink git on remote
           run_remote "wp-activate-git-hooks"
 
-          # create hook folder (if not exists) and symlink git on host
-          git_hooks_dir = File.join(DIR,".git","hooks")
-          Dir.mkdir(git_hooks_dir) unless File.exists?(git_hooks_dir)
+          # create hook folder (if not exists) and symlink git on host machine
+          Dir.mkdir git_hooks_dir unless File.exists? git_hooks_dir
           Dir.chdir git_hooks_dir
+
+          # Symlink all files from scripts to here
           system "ln -sf ../../scripts/hooks/* ."
-          system "chmod +x ../../scripts/hooks/*"
+          FileUtils.chmod_R(0755,File.join(DIR,'scripts','hooks'))
+          # Touch .activated file so that we don't have to do this again
+          touch_file( File.join(git_hooks_dir,'.activated'))
         end
       end
 
       case RbConfig::CONFIG['host_os']
       when /darwin/
         # Do OS X specific things
+
+        # Trust the self-signed cert in keychain
         unless File.exists?(File.join(ssl_cert_path,'trust.lock'))
           if File.exists?(File.join(ssl_cert_path,'development.crt')) and confirm "Trust the generated ssl-certificate in OS-X keychain?"
             system "sudo security add-trusted-cert -d -r trustRoot -k '/Library/Keychains/System.keychain' #{ssl_cert_path}/development.crt"
@@ -144,8 +163,6 @@ Vagrant.configure('2') do |config|
       dump_wordpress_database
     end
 
-    # TODO: Activate .git commit hooks with vagrant up
-    # - git commit to master should activate all tests
   else
     puts 'vagrant-triggers missing, please install the plugin:'
     puts 'vagrant plugin install vagrant-triggers'
@@ -178,15 +195,24 @@ def notice(text)
   puts "==> trigger: #{text}"
 end
 
+##
+# Dump database into file in vagrant
+##
 def dump_wordpress_database
   notice "dumping the database into: .vagrant/shutdown-dump.sql"
   run_remote "wp-vagrant-dump-db"
 end
 
+##
+# Create empty file
+##
 def touch_file(path)
   File.open(path, "w") {}
 end
 
+##
+# Generate /etc/hosts domain additions
+##
 def get_domains(config)
   unless config['development'].nil?
     domains = config['development']['domains'] || []
@@ -195,16 +221,21 @@ def get_domains(config)
     domains = []
   end
 
-  domains << "www."+config['name']+".dev"
+  # Add domain names for included applications for easier usage
+  subdomains = %w( www webgrind adminer mailcatcher browsersync info )
+
+  subdomains.each do |domain|
+    domains << "#{domain}.#{config['name']}.dev"
+  end
+
   domains << config['name']+".seravo.dev" #test https-domain-alias locally
-  domains << "webgrind."+config['name']+".dev" #For xdebug
-  domains << "adminer."+config['name']+".dev" #For adminer
-  domains << "mailcatcher."+config['name']+".dev" #For mailcatcher
-  domains << "terminal."+config['name']+".dev" #For ad-hoc terminal commands (and links into terminal)
-  domains << "info."+config['name']+".dev" #For info page
+
   domains.uniq #remove duplicates
 end
 
+##
+# Get boolean answer for question string
+##
 def confirm(question,default=true)
   if default
     default = "yes"

@@ -1,17 +1,39 @@
 # Seravo WordPress
 
-Brought to you by Seravo and [wp-palvelu.fi](http://wp-palvelu.fi).
+Brought to you by Seravo and [wp-palvelu.fi](https://wp-palvelu.fi).
 
-A WordPress project layout for use with Vagrant, Git, Composer and Nginx. If you develop using this Vagrant environment as a base, your development environment will be as compatible with the Seravo WP-Palvelu environment as possible.
+A WordPress project layout for use with Git, Composer and Nginx. It also includes a configs for opinionated vagrant box.
+
+This is designed to be used as local development environment of [wp-palvelu.fi](https://wp-palvelu.fi) instances.
+
+If you develop using this Vagrant environment as a base, your development environment will be as compatible with the Seravo WP-Palvelu environment as possible.
 
 ### Features
-* Includes Nginx, Redis, Git, PHP5-FPM, Xdebug, PHP Codesniffer...
+* Includes Nginx, Redis, Git, PHP5-FPM for running WordPress in modern stack.
+ , PHP Codesniffer...
 * Git hooks to test your code when running commits
 * Test https:// locally with self-signed certs (and trust them automatically in OS X)
-* Advanced wordpress integration tests with rspec
-* [Mailcatcher](http://mailcatcher.me/)
-* [Webgrind](https://code.google.com/p/webgrind/)
-* [Adminer](http://www.adminer.org/)
+* Advanced wordpress integration tests with rspec and phantomjs
+* [Xdebug](http://xdebug.org/) and [Webgrind](https://code.google.com/p/webgrind/) for debugging and profiling your application.
+* [Mailcatcher](http://mailcatcher.me/) to imitate as smtp server to debug mails.
+* [Adminer](http://www.adminer.org/) to look into your Database with GUI
+* [BrowserSync](http://browsersync.io) as automatic testing middleware for wordpress
+
+
+### Defaults
+After installation navigate to http://wordpress.dev or run `vagrant ssh` to get started. The domain can be changed by changing ```config.yml```. See directives below.
+
+#### Credentials for vagrant
+
+WordPress:
+
+user:     vagrant
+password: vagrant
+
+Mysql:
+
+user:     root
+password: root
 
 ## Installation
 
@@ -22,7 +44,7 @@ To use virtualbox make sure you have ```vt-x``` enabled in your bios.
 $ apt-get install vagrant virtualbox virtualbox-dkms nfsd git
 $ git clone https://github.com/Seravo/wordpress ~/wordpress-dev
 $ cd ~/wordpress-dev
-$ vagrant plugin install vagrant-hostsupdater vagrant-triggers
+$ vagrant plugin install vagrant-hostsupdater vagrant-triggers vagrant-bindfs
 $ vagrant up
 # Answer (y/n) for interactive installation script
 ```
@@ -35,40 +57,65 @@ $ vagrant up
 4. Clone this repo
 5. Do the installation in terminal:
 ```
-$ vagrant plugin install vagrant-hostsupdater vagrant-triggers
+$ vagrant plugin install vagrant-hostsupdater vagrant-triggers vagrant-bindfs
 $ vagrant up
 # Answer (y/n) for interactive installation script
 ```
 ### Windows
 
-To use virtualbox make sure you have ```vt-x``` enabled in your bios. You might need to disable ```hyper-v``` in order to use virtualbox.
+To use virtualbox make sure you have ```vt-x``` enabled in your bios.
+You might need to disable ```hyper-v``` in order to use virtualbox.
 
 1. [Install Vagrant](http://docs.vagrantup.com/v2/installation/) (**1.7.2 or later**)
 2. [Install Virtualbox](https://www.virtualbox.org/wiki/Downloads)
 3. Clone this repo
 4. Do the installation in terminal:
 ```
-$ vagrant plugin install vagrant-hostsupdater vagrant-triggers
+$ vagrant plugin install vagrant-hostsupdater vagrant-triggers 
 $ vagrant up
 # Answer (y/n) for interactive installation script
 ```
 
-Navigate to http://wordpress.dev or run `vagrant ssh` to get started.
+## Development strategies
 
-Default credentials are:
-  user: vagrant 
-  password: vagrant
+The layout of this repo is designed in a way which allows you to open-source your site. By default all sensible data is ignored by git.
+
+All plugins are handled by composer so they are ignored by git. If you create custom plugins, force add them to git so that they are tracked. Or add new lines into .gitignore to not ignore: ```!htdocs/wp-content/plugins/your-plugin/```
+
+If you create custom themese, they are automatically tracked in git.
+
+Best way to develop custom plugins and themes is to add them into their own repositories and install them by composer.
+You can do this by adding ```composer.json``` for your plugin/theme and then requiring them in your project like:
+
+```json
+"require": {
+    "your-name/custom-plugin": "*"
+},
+
+"repositories": [
+  {
+      "type": "vcs",
+      "url": "https://github.com/your-name/custom-plugin.git"
+  }
+]
+```
 
 ## Configuration
 
-You can edit the siteurl and domains by creating config.yml file in the root of the repo.
-See ```config-sample.yml```.
+#### config.yml
+Change ```name``` in config.yml to change your site name. This is used in quite some places in development environment.
+
+Add ```production => domain``` and ```production => ssh_port``` to sync with your production instance.
+
+Add new domains under ```development => domains``` before first vagrant up to have extra domains.
+
+See ```config-sample.yml``` for more
 
 ```yaml
 ###
 # Configuration for Vagrant
 ###
-name: wordpress #This is used for all of the domains
+name: wordpress #This the main name and is used for all of the domains and wordpress
 production:
   # This is used to automatically fetch data from a staging/production environment
   # This is for WP-Palvelu customers. Leave blank if you don't want to use this feature.
@@ -84,21 +131,22 @@ development:
 
 ### Folder Structure
 
-The root of this repository equals the contents of the directory ```/data/wordpress``` in the WP-palvelu.fi service.
+The root of this repository equals the contents of the directory ```/data/wordpress``` in the WP-palvelu.fi instance.
 
 ```
-├── composer.json # Use composer for package handling
-├── composer.lock # Tells which composer package versions are currently used
-├── Vagrantfile # Advanced vagrant environment and scripts packaged in Vagrantfile
 ├── config.yml # See about Configuration above
+├── composer.json # Use composer for package handling
+├── composer.lock 
+├── gulpfile.js # Example for using gulp
+├── Vagrantfile # Advanced vagrant environment and scripts packaged in Vagrantfile
+│
 ├── tests # Here you can include tests for your wordpress instance
-│   └── rspec # Our default tests use rspec/poltergeist/phantomjs since we have found them very effective.
-│       ├── test.rb
-│       └──
+│   └── rspec 
+│       └── test.rb # Our default tests use rspec/poltergeist/phantomjs since we have found them very effective.
 │   
 ├── nginx # Here you can have your custom modifications to nginx which are also used in production
-│   ├── custom.conf # Default file with few examples to get started
-│   └──
+│   └── custom.conf # Default file with few examples to get started
+│   
 ├── scripts
 │   ├── hooks # Git hooks for your project
 │   │   ├── pre-commit # This is run after every commit
@@ -108,6 +156,7 @@ The root of this repository equals the contents of the directory ```/data/wordpr
 │   │   └── Installer.php #Additional composer scripts
 │   │
 │   └── run-tests # Bash-script as an interface for your tests in WP-Palvelu Production and Dev environment
+│
 ├── vendor # Composer packages go here
 └── htdocs # This is the web root of your site
     ├── wp-content # wp-content is moved out of core
