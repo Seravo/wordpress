@@ -91,7 +91,7 @@ describe "wordpress: #{target_url} - ", :type => :request, :js => true do
     page.driver.add_header("User-Agent", "wp-palvelu-testbot")
     #if this is a shadow route the request into right shadow
     unless shadow_hash.nil?
-      page.driver.set_cookie("shadow", shadow_hash, {:path => '/', :domain => uri.host.downcase}) 
+      page.driver.set_cookie("wpp_shadow", shadow_hash, {:path => '/', :domain => uri.host.downcase})
     end
   end
 
