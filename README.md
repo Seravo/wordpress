@@ -10,7 +10,6 @@ If you develop using this Vagrant environment as a base, your development enviro
 
 ### Features
 * Includes Nginx, Redis, Git, PHP5-FPM for running WordPress in modern stack.
- , PHP Codesniffer...
 * Git hooks to test your code when running commits
 * Test https:// locally with self-signed certs (and trust them automatically in OS X)
 * Advanced wordpress integration tests with rspec and phantomjs
@@ -18,7 +17,7 @@ If you develop using this Vagrant environment as a base, your development enviro
 * [Mailcatcher](http://mailcatcher.me/) to imitate as smtp server to debug mails.
 * [Adminer](http://www.adminer.org/) to look into your Database with GUI
 * [BrowserSync](http://browsersync.io) as automatic testing middleware for wordpress
-
+* [PHP Codesniffer](https://github.com/squizlabs/PHP_CodeSniffer)
 
 ### Defaults
 After installation navigate to http://wordpress.dev or run `vagrant ssh` to get started. The domain can be changed by changing ```config.yml```. See directives below.
