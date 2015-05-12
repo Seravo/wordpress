@@ -60,6 +60,7 @@
     "koodimonni-language/sv_SE": "*",
 
     "seravo/wp-palvelu-plugin": ">=1.0.1",
+    "wpackagist-plugin/relative-url": "*",
     "wpackagist-plugin/https-domain-alias": "*",
     
     "wpackagist-plugin/auto-post-thumbnail": "*",
