@@ -79,7 +79,7 @@ $ vagrant up
 
 ## Development strategies
 
-The layout of this repo is designed in a way which allows you to open-source your site. By default all sensible data is ignored by git.
+The layout of this repo is designed in a way which allows you to open-source your site without exposing confidential data. By default all sensible data is ignored by git.
 
 All plugins are handled by composer so they are ignored by git. If you create custom plugins, force add them to git so that they are tracked. Or add new lines into .gitignore to not ignore: ```!htdocs/wp-content/plugins/your-plugin/```
 
