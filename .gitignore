@@ -1,42 +1,45 @@
-# WordPress
+# WordPress core is installed by Composer
 htdocs/wordpress
 htdocs/.htaccess
 
-# WP-CLI
+# WP-CLI database dumps that should not be tracked in git
 db-sync
 sql-dump-*.sql
 
-# Dotenv
+# Custon environment variables may include passwords and other
+# secrets and should not be tracked in git
 .env
 .env.*
 !.env.example
 
-# Wordpress content
+# WordPress content directories usually populated by composer
+# If you create custom plugins, force add it to git so that it's tracked
+# If you create custom themese, they are automatically tracked in git
 htdocs/wp-content/plugins/*
 !htdocs/wp-content/plugins/.gitkeep
-htdocs/wp-content/languages/*
-!htdocs/wp-content/languages/.gitkeep
 htdocs/wp-content/mu-plugins/*
 !htdocs/wp-content/mu-plugins/.gitkeep
-htdocs/wp-content/upgrade
-htdocs/wp-content/uploads/*
-!htdocs/wp-content/uploads/.gitkeep
 !htdocs/wp-content/mu-plugins/register-theme-directory.php
 !htdocs/wp-content/mu-plugins/bedrock-autoloader.php
 htdocs/wp-content/themes/twenty*
 !htdocs/wp-content/themes/.gitkeep
+htdocs/wp-content/languages/*
+!htdocs/wp-content/languages/.gitkeep
 
-# Vendor (e.g. Composer)
+# WordPress content directories filled with user data
+# not to be tracked in git
+htdocs/wp-content/upgrade
+htdocs/wp-content/uploads/*
+!htdocs/wp-content/uploads/.gitkeep
+
+# Libraries installed by Composer, Bower etc
 vendor/*
 !vendor/.gitkeep
 
 # Node Package Manager
 node_modules
 
-# Vagrant
+# Vagrant run-time output, not need to track in git
 bin
 .vagrant
 mkmf.log
-
-# Ignore self-signed ssl conf
-nginx/self-signed-development-ssl.conf
