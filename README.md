@@ -81,24 +81,24 @@ $ vagrant up
 
 The layout of this repo is designed in a way which allows you to open-source your site without exposing confidential data. By default all sensible data is ignored by git.
 
-All plugins are handled by composer so they are ignored by git. If you create custom plugins, force add them to git so that they are tracked. Or add new lines into .gitignore to not ignore: ```!htdocs/wp-content/plugins/your-plugin/```
+All plugins are handled by composer so they are ignored by git. If you create custom plugins, force add them to git so that they are tracked or add new lines into .gitignore to not ignore.
+For example: ```!htdocs/wp-content/plugins/your-plugin/```
 
-If you create custom themese, they are automatically tracked in git.
+If you create custom themes, they are automatically tracked in git.
 
 Best way to develop custom plugins and themes is to add them into their own repositories and install them by composer.
 You can do this by adding ```composer.json``` for your plugin/theme and then requiring them in your project like:
 
 ```json
-"require": {
-    "your-name/custom-plugin": "*"
-},
-
 "repositories": [
   {
       "type": "vcs",
       "url": "https://github.com/your-name/custom-plugin.git"
   }
-]
+],
+"require": {
+    "your-name/custom-plugin": "*"
+}
 ```
 
 ## Configuration
