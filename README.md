@@ -26,13 +26,15 @@ After installation navigate to http://wordpress.dev or run `vagrant ssh` to get 
 
 WordPress:
 
-user:     vagrant
-password: vagrant
+**user:     vagrant**
+
+**password: vagrant**
 
 Mysql:
 
-user:     root
-password: root
+**user:     root**
+
+**password: root**
 
 ## Installation
 
