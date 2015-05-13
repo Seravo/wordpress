@@ -116,6 +116,17 @@ $ vagrant up
 # Answer (y/n) for interactive installation script
 ```
 
+## Updating
+Vagrant will prompt you when new baseimage version is available. You can download new box by ``` $ vagrant box update ```
+
+To update your vagrant to use the new image run:
+```
+$ vagrant box update
+$ vagrant destroy # don't worry about destroying. Database will be dumped before it is deleted and automatically restored into new one.
+$ vagrant up # This will restore the earlier DB
+```
+If vagrant asks for credentials the default ones are ```user: vagrant``` and ```password: vagrant```
+
 ## Configuration
 
 #### config.yml
