@@ -43,3 +43,5 @@ node_modules
 bin
 .vagrant
 mkmf.log
+myrecording
+config.yml
