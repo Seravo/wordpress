@@ -1,12 +1,14 @@
+![WP-palvelu.fi](https://wp-palvelu.seravo.fi/wp-content/uploads/2015/01/wp-palvelu-header.jpg)
+
 # Seravo WordPress
 
-Brought to you by Seravo and [wp-palvelu.fi](https://wp-palvelu.fi).
+Brought to you by Seravo and [WP-palvelu.fi](https://wp-palvelu.fi).
 
-A WordPress project layout for use with Git, Composer and Nginx. It also includes a configs for opinionated vagrant box.
+A WordPress project layout for use with Git, Composer and Nginx. It also includes a configs for an opinionated vagrant box. 
 
-This is designed to be used as local development environment of [wp-palvelu.fi](https://wp-palvelu.fi) instances.
+This repository was designed to be used as a local WordPress development environment. 
 
-If you develop using this Vagrant environment as a base, your development environment will be as compatible with the Seravo WP-Palvelu environment as possible.
+This same project layout is used by default on all [WP-palvelu.fi](https://wp-palvelu.fi) instances for easy deployment workflow. 
 
 ### Features
 * Includes Nginx, Redis, Git, PHP5-FPM for running WordPress in modern stack.
@@ -20,6 +22,7 @@ If you develop using this Vagrant environment as a base, your development enviro
 * [PHP Codesniffer](https://github.com/squizlabs/PHP_CodeSniffer)
 
 ### Defaults
+
 After installation navigate to http://wordpress.dev or run `vagrant ssh` to get started. The domain can be changed by changing ```config.yml```. See directives below.
 
 #### Credentials for vagrant
@@ -61,6 +64,7 @@ You can do this by adding ```composer.json``` for your plugin/theme and then req
 ```
 
 ## Development tools
+
 ### Gulp
 This repo contains pre-configured gulpfile with browsersync to make development more fun! You can start the gulp by running:
 
@@ -101,7 +105,7 @@ $ vagrant plugin install vagrant-hostsupdater vagrant-triggers vagrant-bindfs
 $ vagrant up
 # Answer (y/n) for interactive installation script
 ```
-### Windows
+### Windows (Cygwin)
 
 To use virtualbox make sure you have ```vt-x``` enabled in your bios.
 You might need to disable ```hyper-v``` in order to use virtualbox.
@@ -113,6 +117,9 @@ You might need to disable ```hyper-v``` in order to use virtualbox.
 ```
 $ vagrant plugin install vagrant-hostsupdater vagrant-triggers 
 $ vagrant up
+
+In theory, Seravo WordPress should work even without cygwin installed, but we strongly recommend using Cygwin for doing WordPress development on Windows machines.
+
 # Answer (y/n) for interactive installation script
 ```
 
@@ -212,3 +219,4 @@ The composer.json contains some plugins and themes that are likely to be useful 
 
 Layout Heavily inspired by [roots/bedrock](https://github.com/roots/bedrock)
 Development stack inspired by [VVV](https://github.com/Varying-Vagrant-Vagrants/VVV)
+
