@@ -92,6 +92,22 @@ $ vagrant plugin install vagrant-hostsupdater vagrant-triggers vagrant-bindfs
 $ vagrant up
 # Answer (y/n) for interactive installation script
 ```
+### Linux (Fedora)
+
+Add RPMFusion repositories. See  [RpmFusion](http://rpmfusion.org/). Repository is
+needed for Virtualbox.
+
+Clone the wordpress Git repo.
+
+```
+sudo yum update
+sudo yum install vagrant
+sudo yum install virtualbox
+sudo gem update bundler
+sudo yum install ruby-devel #needed to build native ruby extensions
+sudo gem install hittimes -v '1.2.2'
+vagrant plugin install vagrant-hostsupdater vagrant-triggers vagrant-bindfs
+vagrant up
 
 ### OS X
 
