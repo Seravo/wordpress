@@ -10,5 +10,5 @@ name: wordpress
 development:
   # Domains are automatically mapped to Vagrant with /etc/hosts modifications
   domains:
-    - wordpress.seravo.fi
+    - wordpress.seravo.dev #https-domain-alias version for vagrant
     - wordpress.dev
