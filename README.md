@@ -4,26 +4,26 @@
 
 Brought to you by Seravo and [WP-palvelu.fi](https://wp-palvelu.fi).
 
-A WordPress project layout for use with Git, Composer and Nginx. It also includes a configs for an opinionated vagrant box. 
+A WordPress project layout for use with Git, Composer and Nginx. It also includes a configs for an opinionated vagrant box.
 
-This repository was designed to be used as a local WordPress development environment. 
+This repository was designed to be used as a local WordPress development environment.
 
-This same project layout is used by default on all [WP-palvelu.fi](https://wp-palvelu.fi) instances for easy deployment workflow. 
+This same project layout is used by default on all [WP-palvelu.fi](https://wp-palvelu.fi) instances for easy deployment workflow. Contents of this repository equals to what you would have on the server in the directory /data/wordpress/.
 
 ### Features
 * Includes Nginx, Redis, Git, PHP5-FPM for running WordPress in modern stack.
-* Git hooks to test your code when running commits
-* Test https:// locally with self-signed certs (and trust them automatically in OS X)
-* Advanced wordpress integration tests with rspec and phantomjs
-* [Xdebug](http://xdebug.org/) and [Webgrind](https://code.google.com/p/webgrind/) for debugging and profiling your application.
-* [Mailcatcher](http://mailcatcher.me/) to imitate as smtp server to debug mails.
-* [Adminer](http://www.adminer.org/) to look into your Database with GUI
-* [BrowserSync](http://browsersync.io) as automatic testing middleware for wordpress
-* [PHP Codesniffer](https://github.com/squizlabs/PHP_CodeSniffer)
+* Git hooks to test your code to make sure that only high quality code is committed into git
+* [PHP Codesniffer](https://github.com/squizlabs/PHP_CodeSniffer) code style and quality analyser
+* Includes self-signed certs (and trust them automatically in OS X) to test https:// locally with
+* Advanced WordPress integration tests with Rspec and PhantomJS
+* [Xdebug](http://xdebug.org/) and [Webgrind](https://code.google.com/p/webgrind/) for debugging and profiling your application
+* [Mailcatcher](http://mailcatcher.me/) to imitate as SMTP server to debug mails
+* [Adminer](http://www.adminer.org/) for a graphical interface to manage your database
+* [BrowserSync](http://browsersync.io) as automatic testing middleware for WordPress
 
 ### Defaults
 
-After installation navigate to http://wordpress.dev or run `vagrant ssh` to get started. The domain can be changed by changing ```config.yml```. See directives below.
+After installation navigate to http://wordpress.dev or run `vagrant ssh` to get started. The domain can be changed by changing ```config.yml``` and it is recommended you switch the default wordress.dev to something else.
 
 #### Credentials for vagrant
 
@@ -33,7 +33,7 @@ WordPress:
 
 **password: vagrant**
 
-Mysql:
+MariaDB (MySQL):
 
 **user:     root**
 
@@ -41,10 +41,10 @@ Mysql:
 
 ## Development strategies
 
-The layout of this repo is designed in a way which allows you to open-source your site without exposing confidential data. By default all sensible data is ignored by git.
+The layout of this repo is designed in a way which allows you to open source your site without exposing any confidential data. By default all sensitive data is ignored by git.
 
 All plugins are handled by composer so they are ignored by git. If you create custom plugins, force add them to git so that they are tracked or add new lines into .gitignore to not ignore.
-For example: ```!htdocs/wp-content/plugins/your-plugin/```
+Example of not ignore line in .gitignore: ```!htdocs/wp-content/plugins/your-plugin/```
 
 If you create custom themes, they are automatically tracked in git.
 
@@ -66,7 +66,7 @@ You can do this by adding ```composer.json``` for your plugin/theme and then req
 ## Development tools
 
 ### Gulp
-This repo contains pre-configured gulpfile with browsersync to make development more fun! You can start the gulp by running:
+This repo contains pre-configured gulpfile with BrowserSync to make development more fun! You can start the gulp by running:
 
 ```$ vagrant ssh -c 'cd /data/wordpress && gulp'```
 
@@ -81,17 +81,27 @@ Vagrant box has xdebug pre-configured for you. If you want to investigate certai
 
 ## Installation
 
-### Linux (debian)
+### Linux (Debian)
+
 To use virtualbox make sure you have ```vt-x``` enabled in your bios.
 
 ```
-$ apt-get install vagrant virtualbox virtualbox-dkms nfsd git
-$ git clone https://github.com/Seravo/wordpress ~/wordpress-dev
-$ cd ~/wordpress-dev
-$ vagrant plugin install vagrant-hostsupdater vagrant-triggers vagrant-bindfs
-$ vagrant up
+sudo apt-get install vagrant virtualbox virtualbox-dkms git
+git clone https://github.com/Seravo/wordpress ~/wordpress-dev
+cd ~/wordpress-dev
+vagrant plugin install vagrant-hostsupdater vagrant-triggers vagrant-bindfs
+vagrant up
 # Answer (y/n) for interactive installation script
 ```
+
+If you want to have PHP Composer locally installed run:
+```
+sudo apt-add-repository -y ppa:duggan/composer
+sudo apt-get update
+sudo apt-get install php5-composer
+```
+
+
 ### Linux (Fedora)
 
 Add RPMFusion repositories. See  [RpmFusion](http://rpmfusion.org/). Repository is
@@ -134,7 +144,7 @@ You might need to disable ```hyper-v``` in order to use virtualbox.
 3. Clone this repo
 4. Do the installation in terminal:
 ```
-$ vagrant plugin install vagrant-hostsupdater vagrant-triggers 
+$ vagrant plugin install vagrant-hostsupdater vagrant-triggers
 $ vagrant up
 
 In theory, Seravo WordPress should work even without cygwin installed, but we strongly recommend using Cygwin for doing WordPress development on Windows machines.
@@ -189,17 +199,17 @@ The root of this repository equals the contents of the directory ```/data/wordpr
 ```
 ├── config.yml # See about Configuration above
 ├── composer.json # Use composer for package handling
-├── composer.lock 
+├── composer.lock
 ├── gulpfile.js # Example for using gulp
 ├── Vagrantfile # Advanced vagrant environment and scripts packaged in Vagrantfile
 │
 ├── tests # Here you can include tests for your wordpress instance
-│   └── rspec 
+│   └── rspec
 │       └── test.rb # Our default tests use rspec/poltergeist/phantomjs since we have found them very effective.
-│   
+│
 ├── nginx # Here you can have your custom modifications to nginx which are also used in production
 │   └── custom.conf # Default file with few examples to get started
-│   
+│
 ├── scripts
 │   ├── hooks # Git hooks for your project
 │   │   ├── pre-commit # This is run after every commit
@@ -236,6 +246,6 @@ The composer.json contains some plugins and themes that are likely to be useful 
 
 ## Credits
 
-Layout Heavily inspired by [roots/bedrock](https://github.com/roots/bedrock)
+Directory layout heavily inspired by [roots/bedrock](https://github.com/roots/bedrock)
 Development stack inspired by [VVV](https://github.com/Varying-Vagrant-Vagrants/VVV)
 
