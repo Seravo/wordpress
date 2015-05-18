@@ -240,6 +240,8 @@ The root of this repository equals the contents of the directory ```/data/wordpr
 
 The composer.json contains some plugins and themes that are likely to be useful for pretty much every installation. For particular use cases see our list of recommended plugins at http://wp-palvelu.fi/lisaosat/
 
+Note that all plugins are installed, but not active by default. To activate them, run ```wp plugin activate --all``` (inside Vagrant, to which you get via ```vagrant ssh```).
+
 ## TODO
 
 * Add HHVM to Vagrant and the possibility to easily change between PHP5-FPM and HHVM
