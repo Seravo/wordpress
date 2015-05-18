@@ -109,6 +109,8 @@ sudo gem install hittimes -v '1.2.2'
 vagrant plugin install vagrant-hostsupdater vagrant-triggers vagrant-bindfs
 vagrant up
 
+```
+
 ### OS X
 
 1. [Install Xcode](https://developer.apple.com/xcode/downloads/)
