@@ -97,7 +97,7 @@ $ vagrant up
 Add RPMFusion repositories. See  [RpmFusion](http://rpmfusion.org/). Repository is
 needed for Virtualbox.
 
-Clone the wordpress Git repo.
+Clone the wordpress Git repo and run following commands:
 
 ```
 sudo yum update
@@ -107,6 +107,7 @@ sudo gem update bundler
 sudo yum install ruby-devel #needed to build native ruby extensions
 sudo gem install hittimes -v '1.2.2'
 vagrant plugin install vagrant-hostsupdater vagrant-triggers vagrant-bindfs
+sudo modprobe vboxdrv #Need to load the kernel module for virtualbox, you may want to load it automatically on boot...
 vagrant up
 
 ```
