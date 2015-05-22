@@ -21,6 +21,8 @@ This same project layout is used by default on all [WP-palvelu.fi](https://wp-pa
 * [Adminer](http://www.adminer.org/) for a graphical interface to manage your database
 * [BrowserSync](http://browsersync.io) as automatic testing middleware for WordPress
 
+Mailcatcher can be used to emulate emails use mailcatcher.wordpress.dev (vagrant).
+
 ### Defaults
 
 After installation navigate to http://wordpress.dev or run `vagrant ssh` to get started. The domain can be changed by changing ```config.yml``` and it is recommended you switch the default wordress.dev to something else.
