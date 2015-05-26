@@ -60,9 +60,9 @@ end
 uri = URI(target_url)
 
 # Use this specific user for tests
-username = "wp-rspec-test-user"
+username = "testbotuser"
 password = rand(36**32).to_s(36)
-system "wp user create #{username} #{username}@#{uri.host} --user_pass=#{password} --role=administrator --first_name=WP --last_name=Rspec-Test-Bot > /dev/null 2>&1"
+system "wp user create #{username} #{username}@#{uri.host} --user_pass=#{password} --role=administrator --first_name=Testbotuser --last_name=Rspec > /dev/null 2>&1"
 unless $?.success?
   system "wp user update #{username} --user_pass=#{password} --role=administrator > /dev/null 2>&1"
 end

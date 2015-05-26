@@ -10,77 +10,6 @@ This repository was designed to be used as a local WordPress development environ
 
 This same project layout is used by default on all [WP-palvelu.fi](https://wp-palvelu.fi) instances for easy deployment workflow. Contents of this repository equals to what you would have on the server in the directory /data/wordpress/.
 
-### Features
-* Includes Nginx, Redis, Git, PHP5-FPM for running WordPress in modern stack.
-* Git hooks to test your code to make sure that only high quality code is committed into git
-* [PHP Codesniffer](https://github.com/squizlabs/PHP_CodeSniffer) code style and quality analyser
-* Includes self-signed certs (and trust them automatically in OS X) to test https:// locally with
-* Advanced WordPress integration tests with Rspec and PhantomJS
-* [Xdebug](http://xdebug.org/) and [Webgrind](https://code.google.com/p/webgrind/) for debugging and profiling your application
-* [Mailcatcher](http://mailcatcher.me/) to imitate as SMTP server to debug mails
-* [Adminer](http://www.adminer.org/) for a graphical interface to manage your database
-* [BrowserSync](http://browsersync.io) as automatic testing middleware for WordPress
-
-Mailcatcher can be used to emulate emails use mailcatcher.wordpress.dev (vagrant).
-
-### Defaults
-
-After installation navigate to http://wordpress.dev or run `vagrant ssh` to get started. The domain can be changed by changing ```config.yml``` and it is recommended you switch the default wordress.dev to something else.
-
-#### Credentials for vagrant
-
-WordPress:
-
-**user:     vagrant**
-
-**password: vagrant**
-
-MariaDB (MySQL):
-
-**user:     root**
-
-**password: root**
-
-## Development strategies
-
-The layout of this repo is designed in a way which allows you to open source your site without exposing any confidential data. By default all sensitive data is ignored by git.
-
-All plugins are handled by composer so they are ignored by git. If you create custom plugins, force add them to git so that they are tracked or add new lines into .gitignore to not ignore.
-Example of not ignore line in .gitignore: ```!htdocs/wp-content/plugins/your-plugin/```
-
-If you create custom themes, they are automatically tracked in git.
-
-Best way to develop custom plugins and themes is to add them into their own repositories and install them by composer.
-You can do this by adding ```composer.json``` for your plugin/theme and then requiring them in your project like:
-
-```json
-"repositories": [
-  {
-      "type": "vcs",
-      "url": "https://github.com/your-name/custom-plugin.git"
-  }
-],
-"require": {
-    "your-name/custom-plugin": "*"
-}
-```
-
-## Development tools
-
-### Gulp
-This repo contains pre-configured gulpfile with BrowserSync to make development more fun! You can start the gulp by running:
-
-```$ vagrant ssh -c 'cd /data/wordpress && gulp'```
-
-### Xdebug & Webgrind
-Vagrant box has xdebug pre-configured for you. If you want to investigate certain page load time you can add ```?XDEBUG_PROFILE``` to get params.
-
-#### For example to profile Frontpage
-
-1. Open http://wordpress.dev?XDEBUG_PROFILE
-2. Open http://webgrind.wordpress.dev
-3. Click update button
-
 ## Installation
 
 ### Linux (Debian)
@@ -102,7 +31,6 @@ sudo apt-add-repository -y ppa:duggan/composer
 sudo apt-get update
 sudo apt-get install php5-composer
 ```
-
 
 ### Linux (Fedora)
 
@@ -136,6 +64,7 @@ $ vagrant plugin install vagrant-hostsupdater vagrant-triggers vagrant-bindfs
 $ vagrant up
 # Answer (y/n) for interactive installation script
 ```
+
 ### Windows (Cygwin)
 
 To use virtualbox make sure you have ```vt-x``` enabled in your bios.
@@ -154,47 +83,100 @@ In theory, Seravo WordPress should work even without cygwin installed, but we st
 # Answer (y/n) for interactive installation script
 ```
 
-## Updating
-Vagrant will prompt you when new baseimage version is available. You can download new box by ``` $ vagrant box update ```
+## Features
+* Includes Nginx, Redis, Git, PHP5-FPM for running WordPress in modern stack.
+* Git hooks to test your code to make sure that only high quality code is committed into git
+* [PHP Codesniffer](https://github.com/squizlabs/PHP_CodeSniffer) code style and quality analyser
+* Includes self-signed certs (and trust them automatically in OS X) to test https:// locally with
+* Advanced WordPress integration tests with Rspec and PhantomJS
+* [Xdebug](http://xdebug.org/) and [Webgrind](https://code.google.com/p/webgrind/) for debugging and profiling your application
+* [Mailcatcher](http://mailcatcher.me/) to imitate as SMTP server to debug mails
+* [Adminer](http://www.adminer.org/) for a graphical interface to manage your database
+* [BrowserSync](http://browsersync.io) as automatic testing middleware for WordPress
+
+Mailcatcher can be used to emulate emails use mailcatcher.wordpress.dev (vagrant).
+
+## Defaults
+
+After installation navigate to http://wordpress.dev or run `vagrant ssh` to get started. The domain can be changed by changing ```config.yml``` and it is recommended you switch the default wordress.dev to something else.
+
+### Credentials for vagrant
+
+WordPress:
+```
+user:     vagrant
+**password: vagrant
+```
+
+MariaDB (MySQL):
+```
+user:     root
+password: root
+```
+
+## Development tools
+
+### Gulp
+This repo contains pre-configured gulpfile with BrowserSync to make development more fun! You can start the gulp by running:
+
+```$ vagrant ssh -c 'cd /data/wordpress && gulp'```
+
+### Xdebug & Webgrind
+Vagrant box has xdebug pre-configured for you. If you want to investigate certain page load time you can add ```?XDEBUG_PROFILE``` to get params.
+
+#### For example to profile Frontpage
+
+1. Open http://wordpress.dev?XDEBUG_PROFILE
+2. Open http://webgrind.wordpress.dev
+3. Click update button
+
+
+## Development strategies
+
+The layout of this repo is designed in a way which allows you to open source your site without exposing any confidential data. By default all sensitive data is ignored by git.
+
+All plugins are handled by composer so they are ignored by git. If you create custom plugins, force add them to git so that they are tracked or add new lines into .gitignore to not ignore.
+Example of not ignore line in .gitignore: ```!htdocs/wp-content/plugins/your-plugin/```
+
+If you create custom themes, they are automatically tracked in git.
+
+Best way to develop custom plugins and themes is to add them into their own repositories and install them by composer.
+You can do this by adding ```composer.json``` for your plugin/theme and then requiring them in your project like:
+
+```json
+"repositories": [
+  {
+      "type": "vcs",
+      "url": "https://github.com/your-name/custom-plugin.git"
+  }
+],
+"require": {
+    "your-name/custom-plugin": "*"
+}
+```
+
+## Updates
+Vagrant will let you know as soon as a new version of the Vagrant box is available. You may download the newest box via `$ vagrant box update`
 
 To update your vagrant to use the new image run:
 ```
 $ vagrant box update
-$ vagrant destroy # don't worry about destroying. Database will be dumped before it is deleted and automatically restored into new one.
-$ vagrant up # This will restore the earlier DB
+$ vagrant destroy
+$ vagrant up
 ```
-If vagrant asks for credentials the default ones are ```user: vagrant``` and ```password: vagrant```
 
 ## Configuration
 
-#### config.yml
-Change ```name``` in config.yml to change your site name. This is used in quite some places in development environment.
+### config.yml
+Change `name` in config.yml to change your site name. This is used in quite some places in development environment.
 
-Add ```production => domain``` and ```production => ssh_port``` to sync with your production instance.
+Add `production => domain` and `production => ssh_port` to sync with your production instance.
 
-Add new domains under ```development => domains``` before first vagrant up to have extra domains.
+Add new domains under `development => domains` before first vagrant up to have extra domains.
 
-See ```config-sample.yml``` for more
+See `config-sample.yml` for more
 
-```yaml
-###
-# Configuration for Vagrant
-###
-name: wordpress #This the main name and is used for all of the domains and wordpress
-production:
-  # This is used to automatically fetch data from a staging/production environment
-  # This is for WP-Palvelu customers. Leave blank if you don't want to use this feature.
-  domain: wordpress.seravo.fi
-  ssh_port: 10000
-development:
-  # Domains are automatically mapped to Vagrant with /etc/hosts modifications
-  domains:
-    - wordpress.seravo.fi
-    - wordpress.dev
-
-```
-
-### Folder Structure
+## The Layout
 
 The root of this repository equals the contents of the directory ```/data/wordpress``` in the WP-palvelu.fi instance.
 
