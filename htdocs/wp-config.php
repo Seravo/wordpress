@@ -42,11 +42,6 @@ $table_prefix = getenv('DB_PREFIX') ? getenv('DB_PREFIX') : 'wp_';
 $redis_server = array( 'host' => getenv('REDIS_HOST'), 'port' => getenv('REDIS_PORT'));
 
 /**
- * WordPress Localized Language
- */
-define('WPLANG', 'fi');
-
-/**
  * Content Directory is moved out of the wp-core.
  */
 define('CONTENT_DIR', '/wp-content');
