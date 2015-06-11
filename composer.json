@@ -68,7 +68,9 @@
     "wpackagist-plugin/wp-native-dashboard": "*",
 
     "wpackagist-theme/twentyfifteen": "*",
-    "wpackagist-theme/twentyfourteen": "*"
+    "wpackagist-theme/twentyfourteen": "*",
+
+    "seravo/wp-palvelu-plugin": "*"
   },
   "extra": {
     "installer-paths": {
