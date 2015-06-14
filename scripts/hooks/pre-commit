@@ -51,12 +51,6 @@ if vagrant_available; then
   git_non_committed_changes
 fi
 
-if vagrant_available; then
-  echo "==> Running tests in Vagrant..."
-  vagrant ssh -c "sudo bash /data/wordpress/scripts/hooks/pre-commit"
-  exit $?
-fi
-
 # Save all errors in array
 errors=()
 
@@ -90,6 +84,15 @@ for FILE in $(git diff --cached --name-only); do
     fi
   fi
 done
+
+##
+# Run time consuming rspec tests as the last step
+##
+if vagrant_available; then
+  echo "==> Running tests in Vagrant..."
+  vagrant ssh -c "sudo bash /data/wordpress/scripts/hooks/pre-commit"
+  exit $?
+fi
 
 ##
 # Display all errors
