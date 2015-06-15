@@ -15,5 +15,7 @@ echo "==> Running rspec tests..."
 for rspecfile in $DIR/../tests/rspec/*.rb; do
  echo Running $(basename $rspecfile):
  rspec --fail-fast $rspecfile
+ if [ $? -ne 0 ]; then
+   exit 1
+ fi
 done
-
