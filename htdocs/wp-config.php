@@ -67,9 +67,10 @@ define('LOGGED_IN_SALT',   getenv('LOGGED_IN_SALT'));
 define('NONCE_SALT',       getenv('NONCE_SALT'));
 
 /**
- * SSL Admin
+ * SSL ADMIN
+ * Allow overriding it in dev environment so we can use phantomjs to test logging in.
  */
-define('FORCE_SSL_ADMIN', true);
+defined('FORCE_SSL_ADMIN') or define('FORCE_SSL_ADMIN', true);
 
 /**
  * Use *.seravo.fi domain as the wp-admin
