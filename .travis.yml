@@ -1,0 +1,40 @@
+# This uses newer and faster docker based build system
+sudo: false
+
+language: php
+
+notifications:
+  on_success: never
+  on_failure: change
+
+php:
+  - nightly # PHP 7.0
+  - 5.6
+  - 5.5
+  - 5.4
+
+env:
+  - WP_TEST_URL=http://localhost:12000 WP_TEST_USER=test WP_TEST_USER_PASS=test DB_USER=root DB_PASSWORD='' DB_NAME=test
+
+matrix:
+  allow_failures:
+    - php: nightly
+
+before_script:
+  # Install composer packages before trying to activate themes or plugins
+  - composer install
+  # Create database
+  - mysqladmin create $DB_NAME --user="$DB_USER" --password="$DB_PASSWORD"
+  # Install router so that we don't need nginx/php-fpm
+  - curl -s https://raw.githubusercontent.com/Seravo/wordpress-test-template/master/lib/router.php > htdocs/router.php
+  # Start php server on background
+  - cd htdocs && php -S 0.0.0.0:12000 router.php &
+  # Install wordpress with wp-cli
+  - curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
+  - php wp-cli.phar core install  --url=$WP_TEST_URL --title='Test' --admin_user=$WP_TEST_USER --admin_password=$WP_TEST_USER_PASS --admin_email="$WP_TEST_USER@wordpress.dev" --path=htdocs/wordpress
+  # Install gems for rspec tests
+  - gem install bundler
+  - bundle install --gemfile=tests/rspec/Gemfile
+
+script:
+  - cd tests/rspec && bundle exec rspec test.rb

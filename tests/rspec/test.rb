@@ -11,6 +11,14 @@ require 'rspec/retry'
 require 'capybara/rspec'
 require 'uri' # parse the url from wp-cli
 
+## Custom Helpers
+
+# Check if command exists
+def command?(name)
+  `which #{name}`
+  $?.success?
+end
+
 # Load our default RSPEC MATCHERS
 require_relative 'lib/matchers.rb'
 
@@ -28,7 +36,7 @@ end
 Capybara.register_driver :poltergeist do |app|
   Capybara::Poltergeist::Driver.new(app, 
     debug: false,
-    js_errors: false, # Use true if you are really careful about your site
+    js_errors: true, # Use true if you are really careful about your site
     phantomjs_logger: '/dev/null', 
     timeout: 60,
     :phantomjs_options => [
@@ -47,29 +55,39 @@ end
 # This is done with the cookie found from ENV
 shadow_hash = ENV['CONTAINER'].partition('_').last unless ENV['CONTAINER'].nil?
 
+# Allow overriding target url with ENV $WP_TEST_URL
 # Try to query siteurl with wp-cli
 # This works because we always have just 1 wordpress installation / instance
-if `wp core is-installed`
+if ENV['WP_TEST_URL']
+  target_url = ENV['WP_TEST_URL']
+elsif command? 'wp' and `wp core is-installed`
   target_url = `wp option get home`.strip
 else
-  puts "ERROR: wp-cli can't find configured site"
-  exit(1)
+  puts "ERROR: can't find configured site"
+  target_url = "http://localhost"
 end
 
 # Parse wp-cli siteurl into smaller parts
 uri = URI(target_url)
 
-# Use this specific user for tests
-username = "testbotuser"
-password = rand(36**32).to_s(36)
-system "wp user create #{username} #{username}@#{uri.host} --user_pass=#{password} --role=administrator --first_name=Testbotuser --last_name=Rspec > /dev/null 2>&1"
-unless $?.success?
-  system "wp user update #{username} --user_pass=#{password} --role=administrator > /dev/null 2>&1"
-end
 
-# If we couldn't create user just skip the last test
-unless $?.success?
-  username = nil
+# Test login with real user
+# Either use given in ENVs
+# or create one with wp-cli
+if ENV['WP_TEST_USER'] and ENV['WP_TEST_USER_PASS']
+  username = ENV['WP_TEST_USER']
+  password = ENV['WP_TEST_USER_PASS']
+elsif command? 'wp'
+  username = "testbotuser"
+  password = rand(36**32).to_s(36)
+  system "wp user create #{username} #{username}@#{uri.host} --user_pass=#{password} --role=administrator --first_name=Testbotuser --last_name=Rspec > /dev/null 2>&1"
+  unless $?.success?
+    system "wp user update #{username} --user_pass=#{password} --role=administrator > /dev/null 2>&1"
+  end
+  # If we couldn't create user just skip the last test
+  unless $?.success?
+    username = nil
+  end
 end
 
 # After the tests put user into lesser mode so that it's harmless
