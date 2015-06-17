@@ -116,7 +116,7 @@ describe "wordpress: #{target_url} - ", :type => :request, :js => true do
   describe "frontpage" do
 
     before do
-      visit "#{uri.scheme}://#{uri.host}#{uri.path}/"
+      visit "#{uri.scheme}://#{uri.host}:#{uri.port}#{uri.path}/"
     end
 
     it "Healthy status code 200, 301, 302, 503" do
@@ -135,7 +135,7 @@ describe "wordpress: #{target_url} - ", :type => :request, :js => true do
 
     before do
       #Our sites always have https on
-      visit "https://#{uri.host}#{uri.path}/wp-login.php"
+      visit "#{uri.scheme}://#{uri.host}:#{uri.port}#{uri.path}/wp-login.php"
     end
 
     it "There's a login form" do

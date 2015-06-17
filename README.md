@@ -1,6 +1,7 @@
 ![WP-palvelu.fi](https://wp-palvelu.seravo.fi/wp-content/uploads/2015/01/wp-palvelu-header.jpg)
 
 # Seravo WordPress
+[![Build Status](https://travis-ci.org/Seravo/wordpress.svg?branch=master)](https://travis-ci.org/Seravo/wordpress)
 
 Brought to you by Seravo and [WP-palvelu.fi](https://wp-palvelu.fi).
 

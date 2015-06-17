@@ -32,6 +32,10 @@ before_script:
   # Install wordpress with wp-cli
   - curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
   - php wp-cli.phar core install  --url=$WP_TEST_URL --title='Test' --admin_user=$WP_TEST_USER --admin_password=$WP_TEST_USER_PASS --admin_email="$WP_TEST_USER@wordpress.dev" --path=htdocs/wordpress
+
+  # test webserver
+  - curl -i http://localhost:12000
+  
   # Install gems for rspec tests
   - gem install bundler
   - bundle install --gemfile=tests/rspec/Gemfile
