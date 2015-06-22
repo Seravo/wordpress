@@ -88,7 +88,7 @@ In theory, Seravo WordPress should work even without cygwin installed, but we st
 * Includes Nginx, Redis, Git, PHP5-FPM for running WordPress in modern stack.
 * Git hooks to test your code to make sure that only high quality code is committed into git
 * [PHP Codesniffer](https://github.com/squizlabs/PHP_CodeSniffer) code style and quality analyser
-* Includes self-signed certs (and trust them automatically in OS X) to test https:// locally with
+* Includes self-signed certs (and trust them automatically in OS X) to test https:// locally
 * Advanced WordPress integration tests with Rspec and PhantomJS
 * [Xdebug](http://xdebug.org/) and [Webgrind](https://code.google.com/p/webgrind/) for debugging and profiling your application
 * [Mailcatcher](http://mailcatcher.me/) to imitate as SMTP server to debug mails
@@ -106,7 +106,7 @@ After installation navigate to http://wordpress.dev or run `vagrant ssh` to get 
 WordPress:
 ```
 user:     vagrant
-**password: vagrant
+password: vagrant
 ```
 
 MariaDB (MySQL):
