@@ -85,6 +85,12 @@ define('AUTOMATIC_UPDATER_DISABLED', true); /* automatic updates are handled by 
 define('DISALLOW_FILE_EDIT', true); /* this disables the theme/plugin file editor */
 define('PLL_COOKIE', false); /* this allows caching sites with polylang, disable if weird issues occur */
 
+/*
+ * Auto activated plugins
+ * - These plugins will be activated automatically when this is installed
+ */
+define('WP_AUTO_ACTIVATE_PLUGINS',"auto-post-thumbnail,https-domain-alias,google-analytics-dashboard-for-wp");
+
 /**
  * For developers: WordPress debugging mode.
  *
