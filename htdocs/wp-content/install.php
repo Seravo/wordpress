@@ -43,7 +43,7 @@ function wp_install( $blog_title, $user_name, $user_email, $public, $deprecated 
   update_option('blogname', $blog_title);
   update_option('admin_email', $user_email);
   update_option('blog_public', $public);
-  update_option('blogdescription',__('Uusi WordPress sivusto'));
+  update_option('blogdescription',__('Uusi WP-palvelu.fi -sivusto'));
 
   $guessurl = wp_guess_url();
 
@@ -159,7 +159,7 @@ function wp_install_defaults( $user_id ) {
     $first_post = str_replace( "SITE_URL", esc_url( network_home_url() ), $first_post );
     $first_post = str_replace( "SITE_NAME", get_current_site()->site_name, $first_post );
   } else {
-    $first_post = __("Hienoa, että päätit valita WP-palvelun!<br><br><a href='https://wp-palvelu.fi/'><img class='size-medium wp-image-6 alignright' src='https://wp-palvelu.fi/wp-palvelu-logo-blue.png' alt='wp-palvelu-logo' width='300' height='60' /></a>Voit aloittaa <a href='/wp-login.php'>kirjautumalla sisälle</a>.<br>Saat apua kysymyksiin lukemalla:<br><a href='https://wp-palvelu.fi/ohjeet/'>wp-palvelu.fi/ohjeet/</a>");
+    $first_post = __('<img class="wp-image-6 alignnone" src="https://wp-palvelu.fi/wp-palvelu-logo-blue.png" alt="wp-palvelu-logo" width="381" height="80" /><br><br>Hienoa että päätit valita WP-palvelun!<br><br>Aloita <a href="/wp-login.php">kirjautumalla sisälle</a> sinulle sähköpostitse lähetetyillä tunnuksilla.<br><br>Saat apua useimpiin kysymyksiin palvelusta lukemalla:<br><a href="https://wp-palvelu.fi/ohjeet/">wp-palvelu.fi/ohjeet/</a>');
   }
 
   $wpdb->insert( $wpdb->posts, array(
