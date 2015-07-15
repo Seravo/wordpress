@@ -161,8 +161,8 @@ function wp_install_defaults( $user_id ) {
   } else {
     $first_post = __('<p>Hienoa, että valitsit palvelumme WP-palvelu.fi:n!</p>
 <p>Voit aloittaa <a href="/wp-login.php">kirjautumalla sisälle</a>.</p>
-<p>Saat apua kysymyksiin lukemalla:<a href="https://wp-palvelu.fi/ohjeet/">wp-palvelu.fi/ohjeet/</a></p>
-<p><img class="wp-image-6  alignright" src="https://wp-palvelu.fi/wp-palvelu-logo-blue.png" alt="wp-palvelu-logo" width="auto" height="50" /></p>');
+<p>Saat apua kysymyksiin lukemalla: <a href="https://wp-palvelu.fi/ohjeet/">wp-palvelu.fi/ohjeet/</a></p>
+<p><img class="wp-image-6 alignnone" src="https://wp-palvelu.fi/wp-palvelu-logo-blue.png" alt="wp-palvelu-logo" width="237" height="50" /></p>');
   }
 
   $wpdb->insert( $wpdb->posts, array(
