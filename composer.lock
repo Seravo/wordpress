@@ -92,16 +92,16 @@
         },
         {
             "name": "johnpbloch/wordpress",
-            "version": "4.2.3",
+            "version": "4.2.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/johnpbloch/wordpress.git",
-                "reference": "56525f7941a9835ae64deafcaff15cd52336e467"
+                "reference": "7ba0030c15a88c63b3ba2e8ebee1215e211aa9a1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/johnpbloch/wordpress/zipball/56525f7941a9835ae64deafcaff15cd52336e467",
-                "reference": "56525f7941a9835ae64deafcaff15cd52336e467",
+                "url": "https://api.github.com/repos/johnpbloch/wordpress/zipball/7ba0030c15a88c63b3ba2e8ebee1215e211aa9a1",
+                "reference": "7ba0030c15a88c63b3ba2e8ebee1215e211aa9a1",
                 "shasum": ""
             },
             "require": {
@@ -125,7 +125,7 @@
                 "blog",
                 "cms"
             ],
-            "time": "2015-07-23 11:16:08"
+            "time": "2015-08-04 12:01:12"
         },
         {
             "name": "johnpbloch/wordpress-core-installer",
@@ -177,10 +177,10 @@
         },
         {
             "name": "koodimonni-language/fi",
-            "version": "4.2.2",
+            "version": "4.2.4",
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/translation/core/4.2.2/fi.zip",
+                "url": "https://downloads.wordpress.org/translation/core/4.2.4/fi.zip",
                 "reference": null,
                 "shasum": null
             },
@@ -191,6 +191,7 @@
                 "koodimonni-theme-language/twentyeleven-fi": "*",
                 "koodimonni-theme-language/twentyfifteen-fi": "*",
                 "koodimonni-theme-language/twentyfourteen-fi": "*",
+                "koodimonni-theme-language/twentyten-fi": "*",
                 "koodimonni-theme-language/twentythirteen-fi": "*",
                 "koodimonni-theme-language/twentytwelve-fi": "*",
                 "koodimonni/composer-dropin-installer": ">=0.2.3"
@@ -207,10 +208,10 @@
         },
         {
             "name": "koodimonni-language/sv_se",
-            "version": "4.2.3",
+            "version": "4.2.4",
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/translation/core/4.2.3/sv_SE.zip",
+                "url": "https://downloads.wordpress.org/translation/core/4.2.4/sv_SE.zip",
                 "reference": null,
                 "shasum": null
             },
@@ -511,6 +512,27 @@
             ]
         },
         {
+            "name": "koodimonni-theme-language/twentyten-fi",
+            "version": "1.9",
+            "dist": {
+                "type": "zip",
+                "url": "https://downloads.wordpress.org/translation/theme/twentyten/1.9/fi.zip",
+                "reference": null,
+                "shasum": null
+            },
+            "require": {
+                "koodimonni/composer-dropin-installer": ">=0.2.3"
+            },
+            "type": "wordpress-language",
+            "description": "Wordpress twentyten translation for Finnish - fi",
+            "keywords": [
+                "Translation",
+                "Wordpress",
+                "fi",
+                "twentyten"
+            ]
+        },
+        {
             "name": "koodimonni-theme-language/twentyten-sv_se",
             "version": "1.9",
             "dist": {
@@ -656,16 +678,16 @@
         },
         {
             "name": "seravo/wp-palvelu-plugin",
-            "version": "1.0.3",
+            "version": "1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Seravo/wp-palvelu-plugin.git",
-                "reference": "51415d0ec5fbba418e1ec8b7d0bd7531d26b8aab"
+                "reference": "55156de70d81abf501c18c7a39223fdc9ae498f2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Seravo/wp-palvelu-plugin/zipball/51415d0ec5fbba418e1ec8b7d0bd7531d26b8aab",
-                "reference": "51415d0ec5fbba418e1ec8b7d0bd7531d26b8aab",
+                "url": "https://api.github.com/repos/Seravo/wp-palvelu-plugin/zipball/55156de70d81abf501c18c7a39223fdc9ae498f2",
+                "reference": "55156de70d81abf501c18c7a39223fdc9ae498f2",
                 "shasum": ""
             },
             "type": "wordpress-muplugin",
@@ -692,7 +714,7 @@
                 "wp",
                 "wp-palvelu"
             ],
-            "time": "2015-05-22 07:16:49"
+            "time": "2015-08-06 08:30:03"
         },
         {
             "name": "vlucas/phpdotenv",
@@ -807,15 +829,15 @@
         },
         {
             "name": "wpackagist-plugin/wordpress-seo",
-            "version": "2.3.2",
+            "version": "2.3.4",
             "source": {
                 "type": "svn",
                 "url": "http://plugins.svn.wordpress.org/wordpress-seo/",
-                "reference": "tags/2.3.2"
+                "reference": "tags/2.3.4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/wordpress-seo.2.3.2.zip",
+                "url": "https://downloads.wordpress.org/plugin/wordpress-seo.2.3.4.zip",
                 "reference": null,
                 "shasum": null
             },
