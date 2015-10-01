@@ -4,6 +4,7 @@
 require 'yaml'
 require 'mkmf'
 require 'fileutils'
+require 'socket'
 
 # Prevent logs from mkmf
 module MakeMakefile::Logging
@@ -23,7 +24,8 @@ end
 
 site_config = YAML.load_file(config_file)
 
-Vagrant.require_version '>= 1.5.1'
+# Multiple public_network mappings need at least 1.7.4
+Vagrant.require_version '>= 1.7.4'
 
 Vagrant.configure('2') do |config|
 
@@ -33,18 +35,20 @@ Vagrant.configure('2') do |config|
   # Use precompiled box
   config.vm.box = 'seravo/wordpress'
 
+  # Use the name of the box as the hostname
+  config.vm.hostname = site_config['name']
+
+  if has_internet? and is_osx?
+    # The box uses avahi-daemon to make itself available to local network
+    config.vm.network "public_network", bridge: [
+      "en0: Wi-Fi (AirPort)",
+      "en1: Wi-Fi (AirPort)",
+      "wlan0"
+    ]
+  end
   # Use random ip address for box
   # This is needed for updating the /etc/hosts file
   config.vm.network :private_network, ip: "192.168.#{rand(255)}.#{rand(255)}"
-
-  ###
-  ## Use these if you want easily to connect into vagrant from local network
-  ## (for browser-sync)
-  ###
-  #config.vm.network "forwarded_port", guest: 80, host: 80
-  #config.vm.network "forwarded_port", guest: 443, host: 443
-
-  config.vm.hostname = site_config['name']+"-wp-dev"
 
   if Vagrant.has_plugin? 'vagrant-hostsupdater'
     domains = get_domains(site_config)
@@ -77,8 +81,8 @@ Vagrant.configure('2') do |config|
 
   # WP-Palvelu uses Https-domain-alias plugin heavily. For debugging add HTTPS_DOMAIN_ALIAS to envs
   unless site_config['name'].nil?
-    config.vm.provision :shell, :inline => "echo 'export HTTPS_DOMAIN_ALIAS=#{site_config['name']}.seravo.dev' >> /etc/container_environment.sh"
-    config.vm.provision :shell, :inline => "echo 'fastcgi_param  HTTPS_DOMAIN_ALIAS   #{site_config['name']}.seravo.dev;' >> /etc/nginx/fastcgi_params"
+    config.vm.provision :shell, :inline => "echo 'export HTTPS_DOMAIN_ALIAS=#{site_config['name']}.seravo.local' >> /etc/container_environment.sh"
+    config.vm.provision :shell, :inline => "echo 'fastcgi_param  HTTPS_DOMAIN_ALIAS   #{site_config['name']}.seravo.local;' >> /etc/nginx/fastcgi_params"
   end
 
   # Some useful triggers for better workflow
@@ -90,7 +94,7 @@ Vagrant.configure('2') do |config|
       
       # Install packages with Composer
       # run it locally if possible
-      if find_executable 'composer' and system "composer validate > /dev/null"
+      if find_executable 'composer' and system "composer validate &>/dev/null"
         system "composer install"
       else # run in vagrant
         run_remote "composer install --working-dir=/data/wordpress"
@@ -103,15 +107,21 @@ Vagrant.configure('2') do |config|
         ##
         run_remote("wp-pull-production-db")
       elsif File.exists?(File.join(DIR,'.vagrant','shutdown-dump.sql'))
-        #Return the state where we last left
-        run_remote("wp-vagrant-import-db")
+        # Return the state where we last left if WordPress isn't currently installed
+        # First part in the command prevents overriding existing database
+        run_remote("wp core is-installed --quiet &>/dev/null || wp-vagrant-import-db")
       else
         # If nothing else was specified just install basic wordpress
-        run_remote("wp core install --url=http://#{site_config['name']}.dev --title=#{site_config['name'].capitalize}\
-         --admin_email=vagrant@#{site_config['name']}.dev --admin_user=vagrant --admin_password=vagrant")
+        run_remote("wp core install --url=http://#{site_config['name']}.local --title=#{site_config['name'].capitalize}\
+         --admin_email=vagrant@#{site_config['name']}.local --admin_user=vagrant --admin_password=vagrant")
         notice "Installed default wordpress with user:vagrant password:vagrant"
       end
 
+      # Init git if it doesn't exists
+      if not File.exists?( File.join(DIR,".git") ) and confirm "There's no .git repository. Shall I create it?"
+        system "git init ."
+      end
+      
       # Activate githooks for testing, etc...
       git_hooks_dir = File.join(DIR,".git","hooks")
       unless ( Vagrant::Util::Platform.windows? or File.exists?(File.join(git_hooks_dir,'.activated')) )
@@ -150,7 +160,7 @@ Vagrant.configure('2') do |config|
       # File system might not have been ready when nginx started.
       run_remote("sudo service nginx restart")
 
-      notice "Visit your site: http://#{site_config['name']}.dev"
+      notice "Visit your site: http://#{site_config['name']}.local"
     end
 
     config.trigger.before :halt do
@@ -178,7 +188,7 @@ Vagrant.configure('2') do |config|
     end
 
     # Customize memory in MB
-    vb.customize ['modifyvm', :id, '--memory', 1024]
+    vb.customize ['modifyvm', :id, '--memory', 1536]
     vb.customize ['modifyvm', :id, '--cpus', cpus]
 
     # Fix for slow external network connections
@@ -199,8 +209,10 @@ end
 # Dump database into file in vagrant
 ##
 def dump_wordpress_database
-  notice "dumping the database into: .vagrant/shutdown-dump.sql"
-  run_remote "wp-vagrant-dump-db"
+  if vagrant_running?
+    notice "dumping the database into: .vagrant/shutdown-dump.sql"
+    run_remote "wp-vagrant-dump-db"
+  end
 end
 
 ##
@@ -225,10 +237,11 @@ def get_domains(config)
   subdomains = %w( www webgrind adminer mailcatcher browsersync info )
 
   subdomains.each do |domain|
-    domains << "#{domain}.#{config['name']}.dev"
+    domains << "#{domain}.#{config['name']}.local"
   end
 
-  domains << config['name']+".seravo.dev" #test https-domain-alias locally
+  domains << config['name']+".seravo.local" # test https-domain-alias locally
+  domains << config['name']+".seravo.dev" #TODO: For some reason domain alias still uses '.dev'
 
   domains.uniq #remove duplicates
 end
@@ -260,3 +273,32 @@ def confirm(question,default=true)
   return false
 end
 
+##
+# This is quite hacky but for my understanding the only way to check if the current box state
+##
+def vagrant_running?
+  system("vagrant status --machine-readable | grep state,running --quiet")
+end
+
+##
+# On OS X we can use a few more features like zeroconf (discovery of .local addresses in local network)
+##
+def is_osx?
+  RbConfig::CONFIG['host_os'].include? 'darwin'
+end
+
+##
+# Modified from: https://coderrr.wordpress.com/2008/05/28/get-your-local-ip-address/
+# Returns true/false
+##
+def has_internet?
+  orig, Socket.do_not_reverse_lookup = Socket.do_not_reverse_lookup, true  # turn off reverse DNS resolution temporarily
+  begin
+    UDPSocket.open { |s| s.connect '8.8.8.8', 1 }
+    return true
+  rescue Errno::ENETUNREACH
+    return false # Network is not reachable
+  end
+ensure
+  Socket.do_not_reverse_lookup = orig
+end
