@@ -56,7 +56,7 @@ vagrant up
 ### OS X
 
 1. [Install Xcode](https://developer.apple.com/xcode/downloads/)
-2. [Install Vagrant](http://docs.vagrantup.com/v2/installation/) (**1.7.2 or later**)
+2. [Install Vagrant](http://docs.vagrantup.com/v2/installation/) (**1.7.4 or later**)
 3. [Install Virtualbox](https://www.virtualbox.org/wiki/Downloads)
 4. Clone this repo
 5. Do the installation in terminal:
@@ -71,7 +71,7 @@ $ vagrant up
 To use virtualbox make sure you have ```vt-x``` enabled in your bios.
 You might need to disable ```hyper-v``` in order to use virtualbox.
 
-1. [Install Vagrant](http://docs.vagrantup.com/v2/installation/) (**1.7.2 or later**)
+1. [Install Vagrant](http://docs.vagrantup.com/v2/installation/) (**1.7.4 or later**)
 2. [Install Virtualbox](https://www.virtualbox.org/wiki/Downloads)
 3. Clone this repo
 4. Do the installation in terminal:
@@ -131,6 +131,12 @@ Vagrant box has xdebug pre-configured for you. If you want to investigate certai
 2. Open http://webgrind.wordpress.dev
 3. Click update button
 
+
+## Testing
+
+### Rspec
+This repo contains basic rspec testing for wordpress
+See the file ```tests/rspec/test.rb``` as an example.
 
 ## Development strategies
 
