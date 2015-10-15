@@ -1,4 +1,4 @@
-#Include these into your rspec for basic testing
+# Include these into your rspec for basic testing
 
 RSpec::Matchers::define :have_title do |text|
   match do |page|
