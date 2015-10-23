@@ -13,6 +13,12 @@ end
 
 DIR = File.dirname(__FILE__)
 
+# Create .vagrant folder
+unless File.exist?(File.join(DIR,'.vagrant'))
+  FileUtils.mkdir_p( File.join(DIR,'.vagrant') )
+end
+
+# Create config file
 config_file = File.join(DIR, 'config.yml')
 sample_file = File.join(DIR, 'config-sample.yml')
 
@@ -24,6 +30,16 @@ end
 
 site_config = YAML.load_file(config_file)
 
+# Create private ip address in file
+private_ip_file = File.join(DIR,'.vagrant','private.ip')
+
+unless File.exists?(private_ip_file)
+  private_ip = "192.168.#{rand(255)}.#{rand(255)}"
+  File.write(private_ip_file, private_ip)
+else
+  private_ip = File.open(private_ip_file, 'rb') { |file| file.read }
+end
+
 # Multiple public_network mappings need at least 1.7.4
 Vagrant.require_version '>= 1.7.4'
 
@@ -31,6 +47,9 @@ Vagrant.configure('2') do |config|
 
   # Use host-machine ssh-key so we can log into production
   config.ssh.forward_agent = true
+
+  # Older boxes don't include all necessary binaries
+  config.vm.box_version = ">= 20151006.12.5604"
 
   # Use precompiled box
   config.vm.box = 'seravo/wordpress'
@@ -46,11 +65,17 @@ Vagrant.configure('2') do |config|
       "wlan0"
     ]
   end
+
   # Use random ip address for box
   # This is needed for updating the /etc/hosts file
-  config.vm.network :private_network, ip: "192.168.#{rand(255)}.#{rand(255)}"
+  config.vm.network :private_network, ip: private_ip
+
+  config.vm.define "#{site_config['name']}-box"
 
   if Vagrant.has_plugin? 'vagrant-hostsupdater'
+    # Remove hosts when suspending too
+    config.hostsupdater.remove_on_suspend = true
+
     domains = get_domains(site_config)
     config.hostsupdater.aliases = domains - [config.vm.hostname]
   else
@@ -79,10 +104,9 @@ Vagrant.configure('2') do |config|
     config.vm.provision :shell, :inline => "echo '#{id_rsa_ssh_key_pub }' >> /home/vagrant/.ssh/authorized_keys && chmod 600 /home/vagrant/.ssh/authorized_keys"
   end
 
-  # WP-Palvelu uses Https-domain-alias plugin heavily. For debugging add HTTPS_DOMAIN_ALIAS to envs
+  # Do vagrant specific scripts here
   unless site_config['name'].nil?
-    config.vm.provision :shell, :inline => "echo 'export HTTPS_DOMAIN_ALIAS=#{site_config['name']}.seravo.local' >> /etc/container_environment.sh"
-    config.vm.provision :shell, :inline => "echo 'fastcgi_param  HTTPS_DOMAIN_ALIAS   #{site_config['name']}.seravo.local;' >> /etc/nginx/fastcgi_params"
+    config.vm.provision :shell, :inline => "sudo wp-vagrant-activation"
   end
 
   # Some useful triggers for better workflow
@@ -157,9 +181,8 @@ Vagrant.configure('2') do |config|
         # Do linux specific things
       end
 
-      # File system might not have been ready when nginx started.
-      run_remote("sudo service nginx restart")
-
+      puts "\n"
+      notice "Documentation is available in https://docs.wp-palvelu.fi"
       notice "Visit your site: http://#{site_config['name']}.local"
     end
 
@@ -226,6 +249,7 @@ end
 # Generate /etc/hosts domain additions
 ##
 def get_domains(config)
+
   unless config['development'].nil?
     domains = config['development']['domains'] || []
     domains << config['development']['domain'] unless config['development']['domain'].nil?
@@ -233,15 +257,16 @@ def get_domains(config)
     domains = []
   end
 
+  # The main domain
+  domains << config['name']+".local"
+
   # Add domain names for included applications for easier usage
   subdomains = %w( www webgrind adminer mailcatcher browsersync info )
 
   subdomains.each do |domain|
     domains << "#{domain}.#{config['name']}.local"
-  end
-
-  domains << config['name']+".seravo.local" # test https-domain-alias locally
-  domains << config['name']+".seravo.dev" #TODO: For some reason domain alias still uses '.dev'
+  end 
+  domains << config['name']+".wp-palvelu.local" # test https-domain-alias locally
 
   domains.uniq #remove duplicates
 end

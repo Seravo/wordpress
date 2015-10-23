@@ -18,8 +18,10 @@ REPO_DIR=$(git rev-parse --show-toplevel)
 # Return non-zero if can't be run in vagrant
 function vagrant_available {
   if command_available vagrant ; then
-    if vagrant status >/dev/null 2>&1; then
+    if vagrant status --machine-readable | grep state,running --quiet; then
       return 0
+    else
+      return 1
     fi
   else
     return 1
