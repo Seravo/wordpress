@@ -22,21 +22,21 @@ Capybara.configure do |config|
   config.javascript_driver = :poltergeist
   config.default_driver = :poltergeist # Tests can be more faster with rack::test.
 end
- 
+
 Capybara.register_driver :poltergeist do |app|
-  Capybara::Poltergeist::Driver.new(app, 
+  Capybara::Poltergeist::Driver.new(app,
     debug: false,
     js_errors: true, # Use true if you are really careful about your site
-    phantomjs_logger: '/dev/null', 
+    phantomjs_logger: '/dev/null',
     timeout: 60,
     :phantomjs_options => [
        '--webdriver-logfile=/dev/null',
        '--load-images=no',
-       '--debug=no', 
-       '--ignore-ssl-errors=yes', 
+       '--debug=no',
+       '--ignore-ssl-errors=yes',
        '--ssl-protocol=TLSv1'
     ],
-    window_size: [1920,1080] 
+    window_size: [1920,1080]
    )
 end
 
@@ -56,11 +56,10 @@ RSpec.configure do |config|
   # Make request more verbose for the logs so that we can differentiate real requests and bot
   # Also in production we need to pass shadow cookie to route the requests to right container
   ##
-  config.after(:each) {
-    page.driver.add_header("User-Agent", "wp-palvelu-testbot")
-    #if this is a shadow route the request into right shadow
-    if WP.shadow?
-      page.driver.set_cookie("wpp_shadow", WP.shadowHash, {:path => '/', :domain => WP.host})
-    end
+  config.before(:each) {
+    page.driver.add_header("User-Agent", "WP-palvelu Testbot")
+
+    page.driver.set_cookie("wpp_shadow", WP.shadowHash, {:path => '/', :domain => WP.hostname})
+    page.driver.set_cookie("wpp_shadow", WP.shadowHash, {:path => '/', :domain => WP.domainAlias}) unless WP.domainAlias == nil
   }
 end
