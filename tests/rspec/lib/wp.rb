@@ -41,12 +41,12 @@ module WP
   end
 
   # sugar for @hostname
-  def self.host 
+  def self.host
     self.hostname
   end
 
   # Check if this is shadow
-  def self.shadow? 
+  def self.shadow?
     if @@shadow_hash.empty?
       return false
     else
@@ -57,6 +57,11 @@ module WP
   # Return ID of shadow container
   def self.shadowHash
     @@shadow_hash
+  end
+
+  # Return domain alias
+  def self.domainAlias
+    @@domain_alias
   end
 
   # Return OpenStruct @@user
@@ -155,9 +160,20 @@ module WP
     end
   end
 
+  ##
+  # Get domain alias for admin if used
+  ##
+  def self.getDomainAlias
+    ENV['HTTPS_DOMAIN_ALIAS']
+  end
+
+
   # Cache the parsed site uri here for other functions to use
   @@uri = getUri()
 
   # Check for container id as well
   @@shadow_hash = getShadowHash()
+
+  # Check for domain alias
+  @@domain_alias = getDomainAlias()
 end
