@@ -60,6 +60,7 @@
     "koodimonni-language/sv_SE": "*",
 
     "seravo/wp-palvelu-plugin": ">=1.0.1",
+    
     "wpackagist-plugin/https-domain-alias": "*",
 
     "wpackagist-plugin/auto-post-thumbnail": "*",
@@ -68,9 +69,7 @@
     "wpackagist-plugin/wp-native-dashboard": "*",
 
     "wpackagist-theme/twentyfifteen": "*",
-    "wpackagist-theme/twentyfourteen": "*",
-
-    "seravo/wp-palvelu-plugin": "*"
+    "wpackagist-theme/twentyfourteen": "*"
   },
   "extra": {
     "installer-paths": {
