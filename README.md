@@ -13,6 +13,11 @@ This same project layout is used by default on all [WP-palvelu.fi](https://wp-pa
 
 ## Installation
 
+### Linux (General)
+
+If you get errors related to creating host-only network adapters during vagrant up, run ```sudo vboxreload```.
+It seems that sometimes virtualbox kernel modules are not working correctly after the machine wakes up from sleep.
+
 ### Linux (Debian)
 
 To use virtualbox make sure you have ```vt-x``` enabled in your bios.
