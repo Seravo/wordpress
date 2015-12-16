@@ -181,6 +181,9 @@ Vagrant.configure('2') do |config|
         # Do linux specific things
       end
 
+      # Restart nginx because the file system might not have been ready when the certificate was created
+      run_remote "wp-restart-nginx &>/dev/null"
+
       puts "\n"
       notice "Documentation is available in https://docs.wp-palvelu.fi"
       notice "Visit your site: http://#{site_config['name']}.local"
