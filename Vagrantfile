@@ -57,7 +57,10 @@ Vagrant.configure('2') do |config|
   # Use the name of the box as the hostname
   config.vm.hostname = site_config['name']
 
-  if has_internet? and is_osx?
+  # Only use avahi if config has this
+  # development:
+  #   avahi: true
+  if site_config['development']['avahi'] && has_internet? and is_osx?
     # The box uses avahi-daemon to make itself available to local network
     config.vm.network "public_network", bridge: [
       "en0: Wi-Fi (AirPort)",
