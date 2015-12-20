@@ -4,7 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "f031b7cd3a94cf233b902b6429049a30",
+    "hash": "338ecb0f68e12f46022bd3d86a99b4ea",
+    "content-hash": "1015fa257b4a1c04c98f10b9a3a5a144",
     "packages": [
         {
             "name": "composer/installers",
@@ -92,16 +93,16 @@
         },
         {
             "name": "johnpbloch/wordpress",
-            "version": "4.2.4",
+            "version": "4.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/johnpbloch/wordpress.git",
-                "reference": "7ba0030c15a88c63b3ba2e8ebee1215e211aa9a1"
+                "reference": "ad70e5cf518b697eed94f558ca6c88e5cc87e65b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/johnpbloch/wordpress/zipball/7ba0030c15a88c63b3ba2e8ebee1215e211aa9a1",
-                "reference": "7ba0030c15a88c63b3ba2e8ebee1215e211aa9a1",
+                "url": "https://api.github.com/repos/johnpbloch/wordpress/zipball/ad70e5cf518b697eed94f558ca6c88e5cc87e65b",
+                "reference": "ad70e5cf518b697eed94f558ca6c88e5cc87e65b",
                 "shasum": ""
             },
             "require": {
@@ -125,7 +126,7 @@
                 "blog",
                 "cms"
             ],
-            "time": "2015-08-04 12:01:12"
+            "time": "2015-12-08 23:46:14"
         },
         {
             "name": "johnpbloch/wordpress-core-installer",
@@ -177,10 +178,10 @@
         },
         {
             "name": "koodimonni-language/fi",
-            "version": "4.2.4",
+            "version": "4.4",
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/translation/core/4.2.4/fi.zip",
+                "url": "https://downloads.wordpress.org/translation/core/4.4/fi.zip",
                 "reference": null,
                 "shasum": null
             },
@@ -208,10 +209,10 @@
         },
         {
             "name": "koodimonni-language/sv_se",
-            "version": "4.2.4",
+            "version": "4.4",
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/translation/core/4.2.4/sv_SE.zip",
+                "url": "https://downloads.wordpress.org/translation/core/4.4/sv_SE.zip",
                 "reference": null,
                 "shasum": null
             },
@@ -240,10 +241,10 @@
         },
         {
             "name": "koodimonni-plugin-language/akismet-fi",
-            "version": "3.1",
+            "version": "3.1.5",
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/translation/plugin/akismet/3.1/fi.zip",
+                "url": "https://downloads.wordpress.org/translation/plugin/akismet/3.1.5/fi.zip",
                 "reference": null,
                 "shasum": null
             },
@@ -261,10 +262,10 @@
         },
         {
             "name": "koodimonni-plugin-language/akismet-sv_se",
-            "version": "3.1.3",
+            "version": "3.1.6",
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/translation/plugin/akismet/3.1.3/sv_SE.zip",
+                "url": "https://downloads.wordpress.org/translation/plugin/akismet/3.1.6/sv_SE.zip",
                 "reference": null,
                 "shasum": null
             },
@@ -303,10 +304,10 @@
         },
         {
             "name": "koodimonni-plugin-language/woocommerce-fi",
-            "version": "v2.4.0",
+            "version": "v2.4.12",
             "dist": {
                 "type": "zip",
-                "url": "https://raw.githubusercontent.com/woothemes/woocommerce-language-packs/ccd3f4774a4ed8c351a6c085a370e3b270450709/packages/fi.zip",
+                "url": "https://raw.githubusercontent.com/woothemes/woocommerce-language-packs/a2caa5432e4acde3558179827b4eed748032b70d/packages/fi.zip",
                 "reference": null,
                 "shasum": null
             },
@@ -324,10 +325,10 @@
         },
         {
             "name": "koodimonni-plugin-language/woocommerce-sv_se",
-            "version": "v2.4.0",
+            "version": "v2.4.12",
             "dist": {
                 "type": "zip",
-                "url": "https://raw.githubusercontent.com/woothemes/woocommerce-language-packs/ccd3f4774a4ed8c351a6c085a370e3b270450709/packages/sv_SE.zip",
+                "url": "https://raw.githubusercontent.com/woothemes/woocommerce-language-packs/a2caa5432e4acde3558179827b4eed748032b70d/packages/sv_SE.zip",
                 "reference": null,
                 "shasum": null
             },
@@ -387,10 +388,10 @@
         },
         {
             "name": "koodimonni-theme-language/twentyeleven-fi",
-            "version": "2.1",
+            "version": "2.2",
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/translation/theme/twentyeleven/2.1/fi.zip",
+                "url": "https://downloads.wordpress.org/translation/theme/twentyeleven/2.2/fi.zip",
                 "reference": null,
                 "shasum": null
             },
@@ -408,10 +409,10 @@
         },
         {
             "name": "koodimonni-theme-language/twentyeleven-sv_se",
-            "version": "2.1",
+            "version": "2.3",
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/translation/theme/twentyeleven/2.1/sv_SE.zip",
+                "url": "https://downloads.wordpress.org/translation/theme/twentyeleven/2.3/sv_SE.zip",
                 "reference": null,
                 "shasum": null
             },
@@ -429,10 +430,10 @@
         },
         {
             "name": "koodimonni-theme-language/twentyfifteen-fi",
-            "version": "1.2",
+            "version": "1.4",
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/translation/theme/twentyfifteen/1.2/fi.zip",
+                "url": "https://downloads.wordpress.org/translation/theme/twentyfifteen/1.4/fi.zip",
                 "reference": null,
                 "shasum": null
             },
@@ -450,10 +451,10 @@
         },
         {
             "name": "koodimonni-theme-language/twentyfifteen-sv_se",
-            "version": "1.2",
+            "version": "1.4",
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/translation/theme/twentyfifteen/1.2/sv_SE.zip",
+                "url": "https://downloads.wordpress.org/translation/theme/twentyfifteen/1.4/sv_SE.zip",
                 "reference": null,
                 "shasum": null
             },
@@ -471,10 +472,10 @@
         },
         {
             "name": "koodimonni-theme-language/twentyfourteen-fi",
-            "version": "1.4",
+            "version": "1.6",
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/translation/theme/twentyfourteen/1.4/fi.zip",
+                "url": "https://downloads.wordpress.org/translation/theme/twentyfourteen/1.6/fi.zip",
                 "reference": null,
                 "shasum": null
             },
@@ -492,10 +493,10 @@
         },
         {
             "name": "koodimonni-theme-language/twentyfourteen-sv_se",
-            "version": "1.4",
+            "version": "1.6",
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/translation/theme/twentyfourteen/1.4/sv_SE.zip",
+                "url": "https://downloads.wordpress.org/translation/theme/twentyfourteen/1.6/sv_SE.zip",
                 "reference": null,
                 "shasum": null
             },
@@ -513,10 +514,10 @@
         },
         {
             "name": "koodimonni-theme-language/twentyten-fi",
-            "version": "1.9",
+            "version": "2.0",
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/translation/theme/twentyten/1.9/fi.zip",
+                "url": "https://downloads.wordpress.org/translation/theme/twentyten/2.0/fi.zip",
                 "reference": null,
                 "shasum": null
             },
@@ -534,10 +535,10 @@
         },
         {
             "name": "koodimonni-theme-language/twentyten-sv_se",
-            "version": "1.9",
+            "version": "2.1",
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/translation/theme/twentyten/1.9/sv_SE.zip",
+                "url": "https://downloads.wordpress.org/translation/theme/twentyten/2.1/sv_SE.zip",
                 "reference": null,
                 "shasum": null
             },
@@ -555,10 +556,10 @@
         },
         {
             "name": "koodimonni-theme-language/twentythirteen-fi",
-            "version": "1.5",
+            "version": "1.7",
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/translation/theme/twentythirteen/1.5/fi.zip",
+                "url": "https://downloads.wordpress.org/translation/theme/twentythirteen/1.7/fi.zip",
                 "reference": null,
                 "shasum": null
             },
@@ -576,10 +577,10 @@
         },
         {
             "name": "koodimonni-theme-language/twentythirteen-sv_se",
-            "version": "1.5",
+            "version": "1.7",
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/translation/theme/twentythirteen/1.5/sv_SE.zip",
+                "url": "https://downloads.wordpress.org/translation/theme/twentythirteen/1.7/sv_SE.zip",
                 "reference": null,
                 "shasum": null
             },
@@ -597,10 +598,10 @@
         },
         {
             "name": "koodimonni-theme-language/twentytwelve-fi",
-            "version": "1.7",
+            "version": "1.8",
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/translation/theme/twentytwelve/1.7/fi.zip",
+                "url": "https://downloads.wordpress.org/translation/theme/twentytwelve/1.8/fi.zip",
                 "reference": null,
                 "shasum": null
             },
@@ -618,10 +619,10 @@
         },
         {
             "name": "koodimonni-theme-language/twentytwelve-sv_se",
-            "version": "1.7",
+            "version": "1.9",
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/translation/theme/twentytwelve/1.7/sv_SE.zip",
+                "url": "https://downloads.wordpress.org/translation/theme/twentytwelve/1.9/sv_SE.zip",
                 "reference": null,
                 "shasum": null
             },
@@ -678,17 +679,20 @@
         },
         {
             "name": "seravo/wp-palvelu-plugin",
-            "version": "1.1",
+            "version": "1.3.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Seravo/wp-palvelu-plugin.git",
-                "reference": "55156de70d81abf501c18c7a39223fdc9ae498f2"
+                "reference": "a793adee4f6c6dc6ad76057accabec6d19eb8727"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Seravo/wp-palvelu-plugin/zipball/55156de70d81abf501c18c7a39223fdc9ae498f2",
-                "reference": "55156de70d81abf501c18c7a39223fdc9ae498f2",
+                "url": "https://api.github.com/repos/Seravo/wp-palvelu-plugin/zipball/a793adee4f6c6dc6ad76057accabec6d19eb8727",
+                "reference": "a793adee4f6c6dc6ad76057accabec6d19eb8727",
                 "shasum": ""
+            },
+            "require": {
+                "composer/installers": "v1.0.12"
             },
             "type": "wordpress-muplugin",
             "notification-url": "https://packagist.org/downloads/",
@@ -707,14 +711,14 @@
                     "homepage": "https://github.com/anttiviljami"
                 }
             ],
-            "description": "Wordpress Mu-Plugin for wordpress instances in wp-palvelu.",
+            "description": "Enhances WordPress with WP-Palvelu.fi specific features and integrations",
             "homepage": "http://seravo.fi",
             "keywords": [
                 "wordpress",
                 "wp",
                 "wp-palvelu"
             ],
-            "time": "2015-08-06 08:30:03"
+            "time": "2015-11-06 12:54:59"
         },
         {
             "name": "vlucas/phpdotenv",
@@ -789,15 +793,15 @@
         },
         {
             "name": "wpackagist-plugin/google-analytics-dashboard-for-wp",
-            "version": "4.8.1.2",
+            "version": "4.9.1.2",
             "source": {
                 "type": "svn",
                 "url": "http://plugins.svn.wordpress.org/google-analytics-dashboard-for-wp/",
-                "reference": "tags/4.8.1.2"
+                "reference": "tags/4.9.1.2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/google-analytics-dashboard-for-wp.4.8.1.2.zip",
+                "url": "https://downloads.wordpress.org/plugin/google-analytics-dashboard-for-wp.4.9.1.2.zip",
                 "reference": null,
                 "shasum": null
             },
@@ -809,15 +813,15 @@
         },
         {
             "name": "wpackagist-plugin/https-domain-alias",
-            "version": "1.3.1",
+            "version": "1.4.1",
             "source": {
                 "type": "svn",
                 "url": "http://plugins.svn.wordpress.org/https-domain-alias/",
-                "reference": "tags/1.3.1"
+                "reference": "trunk"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/https-domain-alias.1.3.1.zip",
+                "url": "https://downloads.wordpress.org/plugin/https-domain-alias.zip",
                 "reference": null,
                 "shasum": null
             },
@@ -829,15 +833,15 @@
         },
         {
             "name": "wpackagist-plugin/wordpress-seo",
-            "version": "2.3.4",
+            "version": "3.0.6",
             "source": {
                 "type": "svn",
                 "url": "http://plugins.svn.wordpress.org/wordpress-seo/",
-                "reference": "tags/2.3.4"
+                "reference": "tags/3.0.6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/wordpress-seo.2.3.4.zip",
+                "url": "https://downloads.wordpress.org/plugin/wordpress-seo.3.0.6.zip",
                 "reference": null,
                 "shasum": null
             },
@@ -869,15 +873,15 @@
         },
         {
             "name": "wpackagist-theme/twentyfifteen",
-            "version": "1.2",
+            "version": "1.4",
             "source": {
                 "type": "svn",
                 "url": "http://themes.svn.wordpress.org/twentyfifteen/",
-                "reference": "1.2"
+                "reference": "1.4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/theme/twentyfifteen.1.2.zip",
+                "url": "https://downloads.wordpress.org/theme/twentyfifteen.1.4.zip",
                 "reference": null,
                 "shasum": null
             },
@@ -888,16 +892,16 @@
             "homepage": "https://wordpress.org/themes/twentyfifteen/"
         },
         {
-            "name": "wpackagist-theme/twentyfourteen",
-            "version": "1.4",
+            "name": "wpackagist-theme/twentysixteen",
+            "version": "1.0",
             "source": {
                 "type": "svn",
-                "url": "http://themes.svn.wordpress.org/twentyfourteen/",
-                "reference": "1.4"
+                "url": "http://themes.svn.wordpress.org/twentysixteen/",
+                "reference": "1.0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/theme/twentyfourteen.1.4.zip",
+                "url": "https://downloads.wordpress.org/theme/twentysixteen.1.0.zip",
                 "reference": null,
                 "shasum": null
             },
@@ -905,7 +909,7 @@
                 "composer/installers": "~1.0"
             },
             "type": "wordpress-theme",
-            "homepage": "https://wordpress.org/themes/twentyfourteen/"
+            "homepage": "https://wordpress.org/themes/twentysixteen/"
         }
     ],
     "packages-dev": [],
