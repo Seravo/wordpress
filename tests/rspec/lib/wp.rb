@@ -103,7 +103,7 @@ module WP
       password = rand(36**32).to_s(36)
       system "wp user create #{username} #{username}@#{@@uri.host} --user_pass=#{password} --role=administrator --first_name=#{firstname} --last_name=#{lastname} > /dev/null 2>&1"
       unless $?.success?
-        system "wp user update #{username} --user_pass=#{password} --role=administrator > /dev/null 2>&1"
+        system "wp user update #{username} --user_pass=#{password} --role=administrator --require=#{File.dirname(__FILE__)}/disable-wp-mail.php > /dev/null 2>&1"
       end
       # If we couldn't create user just skip the last test
       unless $?.success?
