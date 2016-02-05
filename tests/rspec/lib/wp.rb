@@ -92,16 +92,18 @@ module WP
     end
 
     # We can create tests which check the user name too
-    firstname = ENV['WP_TEST_USER_FIRSTNAME'] || 'Test'
-    lastname = ENV['WP_TEST_USER_LASTNAME'] || 'WP-Palvelu'
+    firstname = ENV['WP_TEST_USER_FIRSTNAME'] || 'Seravo'
+    lastname = ENV['WP_TEST_USER_LASTNAME'] || 'Test User'
 
     if ENV['WP_TEST_USER'] and ENV['WP_TEST_USER_PASS']
       username = ENV['WP_TEST_USER']
       password = ENV['WP_TEST_USER_PASS']
     elsif command? 'wp'
-      username = "testbotuser"
+      # delete the old testbotuser if exists
+      system "wp user delete testbotuser --yes > /dev/null 2>&1"
+      username = "seravo-test"
       password = rand(36**32).to_s(36)
-      system "wp user create #{username} #{username}@#{@@uri.host} --user_pass=#{password} --role=administrator --first_name=#{firstname} --last_name=#{lastname} > /dev/null 2>&1"
+      system "wp user create #{username} no-reply@seravo.fi --user_pass=#{password} --role=administrator --first_name='#{firstname}' --last_name='#{lastname}' > /dev/null 2>&1"
       unless $?.success?
         system "wp user update #{username} --user_pass=#{password} --role=administrator --require=#{File.dirname(__FILE__)}/disable-wp-mail.php > /dev/null 2>&1"
       end
