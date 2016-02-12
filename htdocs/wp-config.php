@@ -74,7 +74,7 @@ define('NONCE_SALT',       getenv('NONCE_SALT'));
 defined('FORCE_SSL_ADMIN') or define('FORCE_SSL_ADMIN', true);
 
 /**
- * Use *.seravo.fi domain as the wp-admin
+ * Use *.wp-palvelu.fi domain as the wp-admin
  */
 if (getenv('HTTPS_DOMAIN_ALIAS'))
   define('HTTPS_DOMAIN_ALIAS', getenv('HTTPS_DOMAIN_ALIAS'));
