@@ -1,13 +1,12 @@
 {
   "name": "seravo-wordpress",
   "version": "1.2.0",
-  "author": "Onni Hakala <onni@seravo.fi>",
+  "author": "Seravo Oy",
   "homepage": "https://github.com/seravo/wordpress/",
   "contributors" : [
     {
       "name" : "Onni Hakala",
-      "email" : "onni@seravo.fi",
-      "url" : "http://github.com/onnimonni"
+      "email" : "onni@seravo.fi"
     },
     {
       "name": "Antti Kuosmanen",
