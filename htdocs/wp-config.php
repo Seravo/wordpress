@@ -1,8 +1,10 @@
 <?php
-##############################################################################
-##### We highly suggest not put anything sensitive in this file directly #####
-##### Use .env instead. Instructions in http://wp-palvelu.fi/ohjeet      #####
-##############################################################################
+######################################################################################
+##### We highly suggest not put anything sensitive in this file directly         #####
+##### Use a separate .env file instead that overwrites the defaults.             #####
+##### Read more at                                                               #####
+##### https://docs.wp-palvelu.fi/development/configure-vagrant-box/#using-dotenv #####
+######################################################################################
 
 #Load composer libraries
 require_once(dirname(__DIR__) . '/vendor/autoload.php');
