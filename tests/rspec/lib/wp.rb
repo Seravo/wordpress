@@ -101,7 +101,7 @@ module WP
     elsif command? 'wp'
       # delete the old testbotuser if exists
       system "wp user delete testbotuser --yes > /dev/null 2>&1"
-      username = "seravo-test"
+      username = "seravotest"
       password = rand(36**32).to_s(36)
       system "wp user create #{username} no-reply@seravo.fi --user_pass=#{password} --role=administrator --first_name='#{firstname}' --last_name='#{lastname}' > /dev/null 2>&1"
       unless $?.success?
