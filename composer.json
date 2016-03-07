@@ -41,11 +41,11 @@
   "repositories": [
     {
       "type": "composer",
-      "url": "http://wpackagist.org"
+      "url": "https://wpackagist.org"
     },
     {
       "type": "composer",
-      "url": "http://languages.koodimonni.fi"
+      "url": "https://wp-languages.github.io"
     }
   ],
   "require": {
