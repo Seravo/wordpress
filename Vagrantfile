@@ -118,7 +118,7 @@ Vagrant.configure('2') do |config|
 
       #Run all system commands inside project root
       Dir.chdir(DIR)
-      
+
       # Install packages with Composer
       # run it locally if possible
       if find_executable 'composer' and system "composer validate &>/dev/null"
@@ -148,7 +148,7 @@ Vagrant.configure('2') do |config|
       if not File.exists?( File.join(DIR,".git") ) and confirm "There's no .git repository. Shall I create it?"
         system "git init ."
       end
-      
+
       # Activate githooks for testing, etc...
       git_hooks_dir = File.join(DIR,".git","hooks")
       unless ( Vagrant::Util::Platform.windows? or File.exists?(File.join(git_hooks_dir,'.activated')) )
@@ -271,7 +271,7 @@ def get_domains(config)
 
   subdomains.each do |domain|
     domains << "#{domain}.#{config['name']}.local"
-  end 
+  end
   domains << config['name']+".wp-palvelu.local" # test https-domain-alias locally
 
   domains.uniq #remove duplicates
@@ -289,7 +289,7 @@ def confirm(question,default=true)
 
   confirm = nil
   until ["Y","N","YES","NO",""].include?(confirm)
-    ask "#{question} (default: #{default}): "
+    confirm = ask "#{question} (#{default}): "
 
     if (confirm.nil? or confirm.empty?)
       confirm = default
