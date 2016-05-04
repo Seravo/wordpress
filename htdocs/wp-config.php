@@ -38,13 +38,6 @@ define('DB_COLLATE', '');
 $table_prefix = getenv('DB_PREFIX') ? getenv('DB_PREFIX') : 'wp_';
 
 /**
- * Redis as object cache
- * You need to have this plugin in https://wordpress.org/plugins/wp-redis/
- * wp-content/object-cache.php in order to use redis for transients and cache
- */
-$redis_server = array( 'host' => getenv('REDIS_HOST'), 'port' => getenv('REDIS_PORT'));
-
-/**
  * Content Directory is moved out of the wp-core.
  */
 define('CONTENT_DIR', '/wp-content');
