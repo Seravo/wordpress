@@ -239,8 +239,12 @@ end
 ##
 def dump_wordpress_database
   if vagrant_running?
-    notice "dumping the database into: .vagrant/shutdown-dump.sql"
-    run_remote "wp-vagrant-dump-db"
+    begin
+      notice "dumping the database into: .vagrant/shutdown-dump.sql"
+      run_remote "wp-vagrant-dump-db"
+    rescue => e
+      notice "Couldn't dump database. Skipping..."
+    end
   end
 end
 
