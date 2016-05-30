@@ -48,8 +48,8 @@ Vagrant.configure('2') do |config|
   # Use host-machine ssh-key so we can log into production
   config.ssh.forward_agent = true
 
-  # Older boxes don't include all necessary binaries
-  config.vm.box_version = ">= 20151006.12.5604"
+  # Minimum box version requirement for this Vagrantfile revision
+  config.vm.box_version = ">= 20160530.05.0810"
 
   # Use precompiled box
   config.vm.box = 'seravo/wordpress'
@@ -181,6 +181,9 @@ Vagrant.configure('2') do |config|
       when /linux/
         # Do linux specific things
       end
+
+      # Attempt to use the asset proxy for production url defined in config.yml
+      run_remote "wp-use-asset-proxy &> /dev/null"
 
       # Restart nginx because the file system might not have been ready when the certificate was created
       run_remote "wp-restart-nginx &> /dev/null"

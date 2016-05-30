@@ -4,9 +4,9 @@
 name: wordpress
 #production:
   # This is used to automatically fetch data from a staging/production environment
-  # This is for WP-Palvelu customers. Leave blank if you don't want to use this feature.
   #domain: wordpress.wp-palvelu.fi
   #ssh_port: 12345
+  #url: https://wordpress.wp-palvelu.fi
 development:
   # Domains are automatically mapped to Vagrant with /etc/hosts modifications
   domains:
