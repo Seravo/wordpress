@@ -129,9 +129,7 @@ Vagrant.configure('2') do |config|
 
       # Database imports
       if site_config['production'] != nil && site_config['production']['ssh_port'] != nil and confirm("Pull database from production?",false)
-        ##
-        # Wordpress palvelu customers can pull the production database here
-        ##
+        # WP-palvelu customers are asked if they want to pull the production database here
         run_remote("wp-pull-production-db")
       elsif File.exists?(File.join(DIR,'.vagrant','shutdown-dump.sql'))
         # Return the state where we last left if WordPress isn't currently installed
@@ -144,8 +142,8 @@ Vagrant.configure('2') do |config|
         notice "Installed default wordpress with user:vagrant password:vagrant"
       end
 
-      # Init git if it doesn't exists
-      if not File.exists?( File.join(DIR,".git") ) and confirm "There's no .git repository. Shall I create it?"
+      # Init git if it doesn't exist
+      if not File.exists?( File.join(DIR,".git") ) and confirm "There's no git repository. Should we create one?"
         system "git init ."
       end
 
@@ -185,11 +183,11 @@ Vagrant.configure('2') do |config|
       end
 
       # Restart nginx because the file system might not have been ready when the certificate was created
-      run_remote "wp-restart-nginx &>/dev/null"
+      run_remote "wp-restart-nginx &> /dev/null"
 
       puts "\n"
-      notice "Documentation is available in https://docs.wp-palvelu.fi"
-      notice "Visit your site: http://#{site_config['name']}.local"
+      notice "Documentation available at https://docs.wp-palvelu.fi"
+      notice "Visit your site: https://#{site_config['name']}.local"
     end
 
     config.trigger.before :halt do
