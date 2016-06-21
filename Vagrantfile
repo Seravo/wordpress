@@ -277,7 +277,6 @@ def get_domains(config)
   subdomains.each do |domain|
     domains << "#{domain}.#{config['name']}.local"
   end
-  domains << config['name']+".wp-palvelu.local" # test https-domain-alias locally
 
   domains.uniq #remove duplicates
 end

@@ -60,8 +60,6 @@
 
     "seravo/wp-palvelu-plugin": ">=1.0.1",
 
-    "wpackagist-plugin/https-domain-alias": "*",
-
     "wpackagist-plugin/auto-post-thumbnail": "*",
     "wpackagist-plugin/google-analytics-dashboard-for-wp": "*",
     "wpackagist-plugin/wordpress-seo": "*",

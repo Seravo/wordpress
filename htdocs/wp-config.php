@@ -85,7 +85,7 @@ define('PLL_COOKIE', false); /* this allows caching sites with polylang, disable
  * Auto activated plugins
  * - These plugins will be activated automatically when this is installed
  */
-define('WP_AUTO_ACTIVATE_PLUGINS',"https-domain-alias,google-analytics-dashboard-for-wp");
+define('WP_AUTO_ACTIVATE_PLUGINS',"google-analytics-dashboard-for-wp");
 
 /**
  * For developers: WordPress debugging mode.

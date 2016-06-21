@@ -326,9 +326,7 @@ function wp_palvelu_install_activate_plugins() {
   if (defined('WP_AUTO_ACTIVATE_PLUGINS')) {
     $plugins = explode(',',WP_AUTO_ACTIVATE_PLUGINS);
   } else {
-    $plugins = array(
-      'https-domain-alias'
-    );
+    $plugins = array();
   }
 
   // Activate plugins if they can be found from installed plugins
