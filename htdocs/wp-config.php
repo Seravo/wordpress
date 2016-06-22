@@ -88,6 +88,13 @@ define('PLL_COOKIE', false); /* this allows caching sites with polylang, disable
 define('WP_AUTO_ACTIVATE_PLUGINS',"google-analytics-dashboard-for-wp");
 
 /**
+ * Only keep the last 30 revisions of a post. Having hundreds of revisions of
+ * each post might cause sites to slow down, sometimes significantly due to a
+ * massive, and usually unecessary bloating the wp_posts and wp_postmeta tables.
+ */
+define( 'WP_POST_REVISIONS', 30 );
+
+/**
  * For developers: WordPress debugging mode.
  *
  * Change this to true to enable the display of notices during development.
