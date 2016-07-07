@@ -34,7 +34,7 @@ site_config = YAML.load_file(config_file)
 private_ip_file = File.join(DIR,'.vagrant','private.ip')
 
 unless File.exists?(private_ip_file)
-  private_ip = "192.168.#{rand(255)}.#{rand(255)}"
+  private_ip = "192.168.#{rand(255)}.#{rand(2..255)}"
   File.write(private_ip_file, private_ip)
 else
   private_ip = File.open(private_ip_file, 'rb') { |file| file.read }
