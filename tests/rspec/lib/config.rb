@@ -2,6 +2,7 @@ require 'capybara/poltergeist'
 require 'rspec'
 require 'rspec/retry'
 require 'capybara/rspec'
+require 'capybara-screenshot/rspec'
 
 # Load our default RSPEC MATCHERS
 require_relative 'matchers.rb'
@@ -21,6 +22,15 @@ end
 Capybara.configure do |config|
   config.javascript_driver = :poltergeist
   config.default_driver = :poltergeist # Tests can be more faster with rack::test.
+end
+
+# Failed test screenshot directory
+Capybara.save_path = "/tmp/screenshots"
+
+# Failed test screenshot filename
+Capybara::Screenshot.append_timestamp = false
+Capybara::Screenshot.register_filename_prefix_formatter(:rspec) do |test|
+  "wp-test"
 end
 
 Capybara.register_driver :poltergeist do |app|
