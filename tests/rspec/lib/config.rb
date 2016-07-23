@@ -12,6 +12,8 @@ require_relative 'wp.rb'
 # Create new user for the tests (or automatically use one from ENVs: WP_TEST_USER && WP_TEST_USER_PASS)
 ##
 WP.createUser
+WP.disableBotPreventionPlugins
+WP.flushCache
 
 RSpec.configure do |config|
   config.include Capybara::DSL
@@ -60,6 +62,8 @@ RSpec.configure do |config|
   config.after(:suite) {
     puts "\ndoing the cleanup..."
     WP.lowerTestUserPrivileges
+    WP.resetBotPreventionPlugins
+    WP.flushCache
   }
 
   ##

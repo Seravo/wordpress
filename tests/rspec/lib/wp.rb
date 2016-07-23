@@ -15,6 +15,9 @@ module WP
   # This is populated in bottom
   @@user = nil
 
+  # Track whether we've disabled the Jetpack protect module which prevents admin access from bots
+  @@protect_disabled = false
+
   # Return siteurl
   # This works for subdirectory installations as well
   def self.siteurl(additional_path="/")
@@ -115,6 +118,32 @@ module WP
 
     @@user = OpenStruct.new({ :username => username, :password => password, :firstname => firstname, :lastname => lastname })
     return @@user
+  end
+
+  def self.flushCache
+    # Flush the wordpress caches that might affect tests
+    `/usr/local/bin/wp-purge-cache > /dev/null 2>&1`
+    `wp transient delete-all > /dev/null 2>&1`
+    `wp rewrite flush > /dev/null 2>&1`
+  end
+
+  def self.disableBotPreventionPlugins
+    # Disable the jetpack protect module
+    `wp option get jetpack_active_modules | grep protect > /dev/null 2>&1`
+    if $?.success?
+      puts "----> Disabling the Jetpack Protect module for the duration of the tests..."
+      `wp eval --skip-plugins --skip-themes "update_option('jetpack_active_modules',array_diff(get_option('jetpack_active_modules'),['protect']));" > /dev/null 2>&1`
+      @@protect_disabled = true
+    end
+  end
+
+  def self.resetBotPreventionPlugins
+    # Reactivate the jetpack protect module after tests
+    if @@protect_disabled
+      puts "----> Reactivating the Jetpack Protect module..."
+      `wp eval --skip-plugins --skip-themes "update_option('jetpack_active_modules',array_unique(array_merge(get_option('jetpack_active_modules'),['protect'])));" > /dev/null 2>&1`
+      @@protect_disabled = false
+    end
   end
 
   # Set smaller privileges for the test user after tests
