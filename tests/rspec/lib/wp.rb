@@ -15,8 +15,9 @@ module WP
   # This is populated in bottom
   @@user = nil
 
-  # Track whether we've disabled the Jetpack protect module which prevents admin access from bots
+  # Track whether we've disabled bot preventing plugins so we can reactivate them later
   @@protect_disabled = false
+  @@login_form_recaptcha_disabled = false
 
   # Return siteurl
   # This works for subdirectory installations as well
@@ -129,11 +130,18 @@ module WP
 
   def self.disableBotPreventionPlugins
     # Disable the jetpack protect module
-    `wp option get jetpack_active_modules | grep protect > /dev/null 2>&1`
+    `wp option get jetpack_active_modules --skip-plugins --skip-themes | grep protect > /dev/null 2>&1`
     if $?.success?
       #puts "----> Disabling the Jetpack Protect module for the duration of the tests..."
       `wp eval --skip-plugins --skip-themes "update_option('jetpack_active_modules',array_diff(get_option('jetpack_active_modules'),['protect']));" > /dev/null 2>&1`
       @@protect_disabled = true
+    end
+
+    # Disable login-form-recaptcha plugin
+    `wp plugin list --skip-plugins --skip-themes | grep login-form-recaptcha > /dev/null 2>&1`
+    if $?.success?
+      `wp plugin deactivate --skip-plugins --skip-themes login-form-recaptcha > /dev/null 2>&1`
+      @@login_form_recaptcha_disabled = true
     end
   end
 
@@ -144,7 +152,13 @@ module WP
       `wp eval --skip-plugins --skip-themes "update_option('jetpack_active_modules',array_unique(array_merge(get_option('jetpack_active_modules'),['protect'])));" > /dev/null 2>&1`
       @@protect_disabled = false
     end
+
+    if @@login_form_recaptcha_disabled
+      `wp plugin activate --skip-plugins --skip-themes login-form-recaptcha > /dev/null 2>&1`
+      @@login_form_recaptcha_disabled = false
+    end
   end
+
 
   # Set smaller privileges for the test user after tests
   # This is so that we don't have to create multiple users in production
