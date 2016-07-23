@@ -35,6 +35,34 @@ Capybara::Screenshot.register_filename_prefix_formatter(:rspec) do |test|
   "wp-test"
 end
 
+# Link to the screenshot after tests have failed
+module SeravoReporter
+  extend Capybara::Screenshot::RSpec::BaseReporter
+
+  enhance_with_screenshot :example_failed
+
+  def example_failed_with_screenshot(notification)
+    example_failed_without_screenshot notification
+    output_screenshot_info(notification.example)
+  end
+
+  private
+  def output_screenshot_info(example)
+    return unless (screenshot = example.metadata[:screenshot])
+    output.puts "" # newline
+    output.puts "View screenshots:"
+
+    output.puts get_screenshot_url(screenshot[:html]) if screenshot[:html]
+    output.puts get_screenshot_url(screenshot[:image]) if screenshot[:image]
+  end
+
+  def get_screenshot_url(path)
+    path.gsub('/tmp', WP.siteurl + '.seravo')
+  end
+end
+
+Capybara::Screenshot::RSpec::REPORTERS['RSpec::Core::Formatters::ProgressFormatter'] = SeravoReporter
+
 Capybara.register_driver :poltergeist do |app|
   Capybara::Poltergeist::Driver.new(app,
     debug: false,
