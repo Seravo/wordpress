@@ -88,7 +88,7 @@ RSpec.configure do |config|
   # This way tests won't increase the index of user IDs everytime
   ##
   config.after(:suite) {
-    puts "\ndoing the cleanup..."
+    puts "\nCleaning up..."
     WP.lowerTestUserPrivileges
     WP.resetBotPreventionPlugins
     WP.flushCache

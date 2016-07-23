@@ -131,7 +131,7 @@ module WP
     # Disable the jetpack protect module
     `wp option get jetpack_active_modules | grep protect > /dev/null 2>&1`
     if $?.success?
-      puts "----> Disabling the Jetpack Protect module for the duration of the tests..."
+      #puts "----> Disabling the Jetpack Protect module for the duration of the tests..."
       `wp eval --skip-plugins --skip-themes "update_option('jetpack_active_modules',array_diff(get_option('jetpack_active_modules'),['protect']));" > /dev/null 2>&1`
       @@protect_disabled = true
     end
@@ -140,7 +140,7 @@ module WP
   def self.resetBotPreventionPlugins
     # Reactivate the jetpack protect module after tests
     if @@protect_disabled
-      puts "----> Reactivating the Jetpack Protect module..."
+      #puts "----> Reactivating the Jetpack Protect module..."
       `wp eval --skip-plugins --skip-themes "update_option('jetpack_active_modules',array_unique(array_merge(get_option('jetpack_active_modules'),['protect'])));" > /dev/null 2>&1`
       @@protect_disabled = false
     end
