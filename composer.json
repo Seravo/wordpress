@@ -28,14 +28,14 @@
     "preferred-install": "dist"
   },
   "autoload": {
-    "psr-0": {"Wordpress\\Installer": "scripts"}
+    "psr-0": {"WordPress\\Installer": "scripts"}
   },
   "scripts": {
     "post-install-cmd": [
-    "Wordpress\\Installer::symlinkWPContent"
+      "WordPress\\Installer::symlinkWPContent"
     ],
     "post-update-cmd": [
-    "Wordpress\\Installer::symlinkWPContent"
+      "WordPress\\Installer::symlinkWPContent"
     ]
   },
   "repositories": [

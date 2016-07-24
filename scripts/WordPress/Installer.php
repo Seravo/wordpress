@@ -1,6 +1,6 @@
 <?php
 
-namespace Wordpress;
+namespace WordPress;
 
 use Composer\Script\Event;
 
@@ -45,7 +45,7 @@ class Installer {
   /**
    * Check if this is windows
    *
-   * @return bool 
+   * @return bool
    */
   private static function isWindows() {
     if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
