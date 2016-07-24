@@ -7,38 +7,44 @@ Brought to you by Seravo and [WP-palvelu.fi](https://wp-palvelu.fi).
 
 A WordPress project layout for use with Git, Composer and Nginx. It also includes a configs for an opinionated vagrant box.
 
-This repository was designed to be used as a local WordPress development environment.
-
 This same project layout is used by default on all [WP-palvelu.fi](https://wp-palvelu.fi) instances for easy deployment workflow. Contents of this repository equals to what you would have on the server in the directory /data/wordpress/.
 
+## Documentation
+
+Please see our documentation at https://docs.wp-palvelu.fi for more info.
+
 ## Installation
+
+### MacOS
+
+1. [Install Xcode](https://developer.apple.com/xcode/downloads/)
+2. [Install Vagrant](http://docs.vagrantup.com/v2/installation/)
+3. [Install Virtualbox](https://www.virtualbox.org/wiki/Downloads)
+4. Clone this repo
+5. Run the installation in terminal:
+```
+$ vagrant plugin install vagrant-hostsupdater vagrant-triggers vagrant-bindfs
+$ vagrant up
+```
 
 ### Linux (General)
 
 If you get errors related to creating host-only network adapters during vagrant up, run ```sudo vboxreload```.
 It seems that sometimes virtualbox kernel modules are not working correctly after the machine wakes up from sleep.
 
-### Linux (Debian)
+### Linux (Ubuntu/Debian)
 
 To use virtualbox make sure you have ```vt-x``` enabled in your bios.
 
 ```
-sudo apt-get install vagrant virtualbox virtualbox-dkms git
+sudo apt-get install -y vagrant virtualbox virtualbox-dkms
 git clone https://github.com/Seravo/wordpress ~/wordpress-dev
 cd ~/wordpress-dev
 vagrant plugin install vagrant-hostsupdater vagrant-triggers vagrant-bindfs
 vagrant up
-# Answer (y/n) for interactive installation script
 ```
 
-If you want to have PHP Composer locally installed run:
-```
-sudo apt-add-repository -y ppa:duggan/composer
-sudo apt-get update
-sudo apt-get install php5-composer
-```
-
-### Linux (Fedora)
+### Linux (CentOS/RHEL/Fedora)
 
 Add RPMFusion repositories. See  [RpmFusion](http://rpmfusion.org/). Repository is
 needed for Virtualbox.
@@ -46,29 +52,12 @@ needed for Virtualbox.
 Clone the wordpress Git repo and run following commands:
 
 ```
-sudo yum update
-sudo yum install vagrant
-sudo yum install virtualbox
+sudo yum install vagrant virtualbox ruby-devel
 sudo gem update bundler
-sudo yum install ruby-devel #needed to build native ruby extensions
 sudo gem install hittimes -v '1.2.2'
 vagrant plugin install vagrant-hostsupdater vagrant-triggers vagrant-bindfs
 sudo modprobe vboxdrv #Need to load the kernel module for virtualbox, you may want to load it automatically on boot...
 vagrant up
-
-```
-
-### OS X
-
-1. [Install Xcode](https://developer.apple.com/xcode/downloads/)
-2. [Install Vagrant](http://docs.vagrantup.com/v2/installation/) (**1.7.4 or later**)
-3. [Install Virtualbox](https://www.virtualbox.org/wiki/Downloads)
-4. Clone this repo
-5. Do the installation in terminal:
-```
-$ vagrant plugin install vagrant-hostsupdater vagrant-triggers vagrant-bindfs
-$ vagrant up
-# Answer (y/n) for interactive installation script
 ```
 
 ### Windows (Cygwin)
@@ -90,21 +79,17 @@ In theory, Seravo WordPress should work even without cygwin installed, but we st
 ```
 
 ## Features
-* Includes Nginx, Redis, Git, PHP5-FPM for running WordPress in modern stack.
+* Includes Nginx, MariaDB, PHP5, PHP7, HHVM, Redis and Git for running WordPress in modern stack.
 * Git hooks to test your code to make sure that only high quality code is committed into git
+* Advanced WordPress acceptance tests with Rspec and PhantomJS
 * [PHP Codesniffer](https://github.com/squizlabs/PHP_CodeSniffer) code style and quality analyser
 * Includes self-signed certs (and trust them automatically in OS X) to test https:// locally
-* Advanced WordPress integration tests with Rspec and PhantomJS
 * [Xdebug](http://xdebug.org/) and [Webgrind](https://code.google.com/p/webgrind/) for debugging and profiling your application
 * [Mailcatcher](http://mailcatcher.me/) to imitate as SMTP server to debug mails
 * [Adminer](http://www.adminer.org/) for a graphical interface to manage your database
 * [BrowserSync](http://browsersync.io) as automatic testing middleware for WordPress
 
-Mailcatcher can be used to emulate emails use mailcatcher.wordpress.dev (vagrant).
-
-## Defaults
-
-After installation navigate to http://wordpress.dev or run `vagrant ssh` to get started. The domain can be changed by changing ```config.yml``` and it is recommended you switch the default wordress.dev to something else.
+Mailcatcher can be used to emulate emails use mailcatcher.wordpress.local (vagrant).
 
 ### Credentials for vagrant
 
@@ -120,30 +105,7 @@ user:     root
 password: root
 ```
 
-## Development tools
-
-### Gulp
-This repo contains pre-configured gulpfile with BrowserSync to make development more fun! You can start the gulp by running:
-
-```$ vagrant ssh -c 'cd /data/wordpress && gulp'```
-
-### Xdebug & Webgrind
-Vagrant box has xdebug pre-configured for you. If you want to investigate certain page load time you can add ```?XDEBUG_PROFILE``` to get params.
-
-#### For example to profile Frontpage
-
-1. Open http://wordpress.dev?XDEBUG_PROFILE
-2. Open http://webgrind.wordpress.dev
-3. Click update button
-
-
-## Testing
-
-### Rspec
-This repo contains basic rspec testing for wordpress
-See the file ```tests/rspec/test.rb``` as an example.
-
-## Development strategies
+## Development
 
 The layout of this repo is designed in a way which allows you to open source your site without exposing any confidential data. By default all sensitive data is ignored by git.
 
