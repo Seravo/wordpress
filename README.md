@@ -27,11 +27,6 @@ $ vagrant plugin install vagrant-hostsupdater vagrant-triggers vagrant-bindfs
 $ vagrant up
 ```
 
-### Linux (General)
-
-If you get errors related to creating host-only network adapters during vagrant up, run ```sudo vboxreload```.
-It seems that sometimes virtualbox kernel modules are not working correctly after the machine wakes up from sleep.
-
 ### Linux (Ubuntu/Debian)
 
 To use virtualbox make sure you have ```vt-x``` enabled in your bios.
@@ -59,6 +54,12 @@ vagrant plugin install vagrant-hostsupdater vagrant-triggers vagrant-bindfs
 sudo modprobe vboxdrv #Need to load the kernel module for virtualbox, you may want to load it automatically on boot...
 vagrant up
 ```
+
+### Linux (General)
+
+If you get errors related to creating host-only network adapters during vagrant up, run ```sudo vboxreload```.
+It seems that sometimes virtualbox kernel modules are not working correctly after the machine wakes up from sleep.
+
 
 ### Windows (Cygwin)
 
