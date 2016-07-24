@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "03649fb4176697f432ada4b6459c230f",
-    "content-hash": "a62db6dd86560fbb3ab4a0d7eed7bfb8",
+    "hash": "cf80ae7c0ed644e0961d8a2021c0a616",
+    "content-hash": "71e8793b19bd71481be3f6c935b37f67",
     "packages": [
         {
             "name": "composer/installers",
@@ -93,16 +93,16 @@
         },
         {
             "name": "johnpbloch/wordpress",
-            "version": "4.5.2",
+            "version": "4.5.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/johnpbloch/wordpress.git",
-                "reference": "e992d00a34ea84d55c80023d27d5bcb839069add"
+                "reference": "f5c6f4dd899e6365ddf2752d2705ed1de7e10715"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/johnpbloch/wordpress/zipball/e992d00a34ea84d55c80023d27d5bcb839069add",
-                "reference": "e992d00a34ea84d55c80023d27d5bcb839069add",
+                "url": "https://api.github.com/repos/johnpbloch/wordpress/zipball/f5c6f4dd899e6365ddf2752d2705ed1de7e10715",
+                "reference": "f5c6f4dd899e6365ddf2752d2705ed1de7e10715",
                 "shasum": ""
             },
             "require": {
@@ -126,7 +126,7 @@
                 "blog",
                 "cms"
             ],
-            "time": "2016-05-06 18:16:20"
+            "time": "2016-06-21 16:31:21"
         },
         {
             "name": "johnpbloch/wordpress-core-installer",
@@ -178,10 +178,10 @@
         },
         {
             "name": "koodimonni-language/fi",
-            "version": "4.5.2",
+            "version": "4.5.3",
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/translation/core/4.5.2/fi.zip",
+                "url": "https://downloads.wordpress.org/translation/core/4.5.3/fi.zip",
                 "reference": null,
                 "shasum": null
             },
@@ -211,10 +211,10 @@
         },
         {
             "name": "koodimonni-language/sv_se",
-            "version": "4.5.2",
+            "version": "4.5.3",
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/translation/core/4.5.2/sv_SE.zip",
+                "url": "https://downloads.wordpress.org/translation/core/4.5.3/sv_SE.zip",
                 "reference": null,
                 "shasum": null
             },
@@ -286,10 +286,10 @@
         },
         {
             "name": "koodimonni-plugin-language/bbpress-fi",
-            "version": "2.5.9",
+            "version": "2.5.10",
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/translation/plugin/bbpress/2.5.9/fi.zip",
+                "url": "https://downloads.wordpress.org/translation/plugin/bbpress/2.5.10/fi.zip",
                 "reference": null,
                 "shasum": null
             },
@@ -307,10 +307,10 @@
         },
         {
             "name": "koodimonni-plugin-language/bbpress-sv_se",
-            "version": "2.5.9",
+            "version": "2.5.10",
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/translation/plugin/bbpress/2.5.9/sv_SE.zip",
+                "url": "https://downloads.wordpress.org/translation/plugin/bbpress/2.5.10/sv_SE.zip",
                 "reference": null,
                 "shasum": null
             },
@@ -328,10 +328,10 @@
         },
         {
             "name": "koodimonni-plugin-language/woocommerce-fi",
-            "version": "2.5.5",
+            "version": "2.6.3",
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/translation/plugin/woocommerce/2.5.5/fi.zip",
+                "url": "https://downloads.wordpress.org/translation/plugin/woocommerce/2.6.3/fi.zip",
                 "reference": null,
                 "shasum": null
             },
@@ -706,16 +706,16 @@
         },
         {
             "name": "koodimonni/composer-dropin-installer",
-            "version": "1.0",
+            "version": "1.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Koodimonni/Composer-Dropin-Installer.git",
-                "reference": "717d992bccb9e5b1fded44136333704d4e61a4ae"
+                "reference": "1903a3a1e981a783618aad9e322a12ad39ad1760"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Koodimonni/Composer-Dropin-Installer/zipball/717d992bccb9e5b1fded44136333704d4e61a4ae",
-                "reference": "717d992bccb9e5b1fded44136333704d4e61a4ae",
+                "url": "https://api.github.com/repos/Koodimonni/Composer-Dropin-Installer/zipball/1903a3a1e981a783618aad9e322a12ad39ad1760",
+                "reference": "1903a3a1e981a783618aad9e322a12ad39ad1760",
                 "shasum": ""
             },
             "require": {
@@ -744,7 +744,7 @@
                 }
             ],
             "description": "Do what the fuck you want with your composer packages aka. Composer Dropin installer. Install packages or part of packages into custom paths without overwriting existing stuff.",
-            "time": "2015-06-11 14:15:20"
+            "time": "2016-07-11 09:21:59"
         },
         {
             "name": "seravo/wp-palvelu-plugin",
@@ -879,26 +879,6 @@
             },
             "type": "wordpress-plugin",
             "homepage": "https://wordpress.org/plugins/google-analytics-dashboard-for-wp/"
-        },
-        {
-            "name": "wpackagist-plugin/wordpress-seo",
-            "version": "3.2.5",
-            "source": {
-                "type": "svn",
-                "url": "https://plugins.svn.wordpress.org/wordpress-seo/",
-                "reference": "tags/3.2.5"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/wordpress-seo.3.2.5.zip",
-                "reference": null,
-                "shasum": null
-            },
-            "require": {
-                "composer/installers": "~1.0"
-            },
-            "type": "wordpress-plugin",
-            "homepage": "https://wordpress.org/plugins/wordpress-seo/"
         },
         {
             "name": "wpackagist-plugin/wp-native-dashboard",

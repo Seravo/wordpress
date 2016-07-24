@@ -6,10 +6,6 @@
   "homepage": "http://wp-palvelu.fi/",
   "authors": [
     {
-      "name": "Onni Hakala",
-      "email": "onni@seravo.fi"
-    },
-    {
       "name": "Antti Kuosmanen",
       "email": "antti@seravo.fi",
       "homepage": "https://github.com/anttiviljami"
@@ -18,11 +14,15 @@
       "name": "Otto Kekäläinen",
       "email": "otto@seravo.fi",
       "homepage": "https://github.com/ottok"
+    },
+    {
+      "name": "Onni Hakala",
+      "email": "onni@seravo.fi",
+      "homepage": "https://github.com/onnimonni"
     }
-
   ],
   "keywords": [
-    "wordpress", "composer", "wp", "wp-palvelu"
+    "wordpress", "composer", "wp", "wp-palvelu", "seravo"
   ],
   "config": {
     "preferred-install": "dist"
@@ -62,7 +62,6 @@
 
     "wpackagist-plugin/auto-post-thumbnail": "*",
     "wpackagist-plugin/google-analytics-dashboard-for-wp": "*",
-    "wpackagist-plugin/wordpress-seo": "*",
     "wpackagist-plugin/wp-native-dashboard": "*",
 
     "wpackagist-theme/twentysixteen": "*",
