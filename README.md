@@ -239,10 +239,6 @@ The composer.json contains some plugins and themes that are likely to be useful 
 
 Note that all plugins are installed, but not active by default. To activate them, run `vagrant ssh -c "wp plugin activate --all"`.
 
-## TODO
-
-* Add HHVM to Vagrant and the possibility to easily change between PHP5-FPM and HHVM
-
 ## Credits
 
 Directory layout heavily inspired by [roots/bedrock](https://github.com/roots/bedrock)
