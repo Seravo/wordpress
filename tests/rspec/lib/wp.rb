@@ -19,6 +19,7 @@ module WP
   @@jetpack_protect_disabled = false
   @@jetpack_sso_disabled = false
   @@login_form_recaptcha_disabled = false
+  @@google_captcha_disabled = false
 
   # Return siteurl
   # This works for subdirectory installations as well
@@ -152,7 +153,14 @@ module WP
       `wp plugin deactivate --skip-plugins --skip-themes login-form-recaptcha > /dev/null 2>&1`
       @@login_form_recaptcha_disabled = true
     end
-  end
+
+    # Disable google-captcha plugin
+    `wp plugin list --skip-plugins --skip-themes | grep google-captcha > /dev/null 2>&1`
+    if $?.success?
+      `wp plugin deactivate --skip-plugins --skip-themes google-captcha > /dev/null 2>&1`
+      @@google_captcha_disabled = true
+    end
+   end
 
   def self.resetBotPreventionPlugins
     # Reactivate the jetpack protect module after tests
@@ -173,7 +181,12 @@ module WP
       `wp plugin activate --skip-plugins --skip-themes login-form-recaptcha > /dev/null 2>&1`
       @@login_form_recaptcha_disabled = false
     end
-  end
+
+    if @@google_captcha_disabled
+      `wp plugin activate --skip-plugins --skip-themes google-captcha > /dev/null 2>&1`
+      @@google_captcha_disabled = false
+    end
+   end
 
 
   # Set smaller privileges for the test user after tests
