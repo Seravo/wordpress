@@ -105,12 +105,12 @@ module WP
       password = ENV['WP_TEST_USER_PASS']
     elsif command? 'wp'
       # delete the old testbotuser if exists
-      system "wp user delete testbotuser --yes > /dev/null 2>&1"
+      system "wp user delete testbotuser --yes --skip-themes --skip-plugins > /dev/null 2>&1"
       username = "seravotest"
       password = rand(36**32).to_s(36)
-      system "wp user create #{username} noreply@seravo.fi --user_pass=#{password} --role=administrator --first_name='#{firstname}' --last_name='#{lastname}' > /dev/null 2>&1"
+      system "wp user create #{username} noreply@seravo.fi --user_pass=#{password} --role=administrator --first_name='#{firstname}' --last_name='#{lastname}' --skip-themes --skip-plugins  > /dev/null 2>&1"
       unless $?.success?
-        system "wp user update #{username} --user_pass=#{password} --role=administrator --require=#{File.dirname(__FILE__)}/disable-wp-mail.php > /dev/null 2>&1"
+        system "wp user update #{username} --user_pass=#{password} --role=administrator --skip-themes --skip-plugins --require=#{File.dirname(__FILE__)}/disable-wp-mail.php > /dev/null 2>&1"
       end
       # If we couldn't create user just skip the last test
       unless $?.success?
@@ -125,8 +125,8 @@ module WP
   def self.flushCache
     # Flush the wordpress caches that might affect tests
     `/usr/local/bin/wp-purge-cache > /dev/null 2>&1`
-    `wp transient delete-all > /dev/null 2>&1`
-    `wp rewrite flush > /dev/null 2>&1`
+    `wp transient delete-all --skip-plugins --skip-themes > /dev/null 2>&1`
+    `wp rewrite flush --skip-plugins --skip-themes > /dev/null 2>&1`
   end
 
   def self.disableBotPreventionPlugins
@@ -188,7 +188,7 @@ module WP
       return true
     end
 
-    system "wp user update #{@@user.username} --role=subscriber > /dev/null 2>&1"
+    system "wp user update #{@@user.username} --skip-themes --skip-plugins --role=subscriber > /dev/null 2>&1"
     return true
   end
 
@@ -203,7 +203,7 @@ module WP
     if ENV['WP_TEST_URL']
       target_url = ENV['WP_TEST_URL']
     elsif command? 'wp' and `wp core is-installed`
-      target_url = `wp option get home`.strip
+      target_url = `wp option get home --skip-themes --skip-plugins`.strip
     else
       puts "WARNING: Can't find configured site. Using 'http://localhost' instead."
       target_url = "http://localhost"
