@@ -16,7 +16,8 @@ module WP
   @@user = nil
 
   # Track whether we've disabled bot preventing plugins so we can reactivate them later
-  @@protect_disabled = false
+  @@jetpack_protect_disabled = false
+  @@jetpack_sso_disabled = false
   @@login_form_recaptcha_disabled = false
 
   # Return siteurl
@@ -134,7 +135,15 @@ module WP
     if $?.success?
       #puts "----> Disabling the Jetpack Protect module for the duration of the tests..."
       `wp eval --skip-plugins --skip-themes "update_option('jetpack_active_modules',array_diff(get_option('jetpack_active_modules'),['protect']));" > /dev/null 2>&1`
-      @@protect_disabled = true
+      @@jetpack_protect_disabled = true
+    end
+
+    # Disable the jetpack single-sign-on module
+    `wp option get jetpack_active_modules --skip-plugins --skip-themes | grep sso > /dev/null 2>&1`
+    if $?.success?
+      #puts "----> Disabling the Jetpack Single Sign-on module for the duration of the tests..."
+      `wp eval --skip-plugins --skip-themes "update_option('jetpack_active_modules',array_diff(get_option('jetpack_active_modules'),['sso']));" > /dev/null 2>&1`
+      @@jetpack_sso_disabled = true
     end
 
     # Disable login-form-recaptcha plugin
@@ -147,10 +156,17 @@ module WP
 
   def self.resetBotPreventionPlugins
     # Reactivate the jetpack protect module after tests
-    if @@protect_disabled
+    if @@jetpack_protect_disabled
       #puts "----> Reactivating the Jetpack Protect module..."
       `wp eval --skip-plugins --skip-themes "update_option('jetpack_active_modules',array_unique(array_merge(get_option('jetpack_active_modules'),['protect'])));" > /dev/null 2>&1`
-      @@protect_disabled = false
+      @@jetpack_protect_disabled = false
+    end
+
+    # Reactivate the jetpack sso module after tests
+    if @@jetpack_sso_disabled
+      #puts "----> Reactivating the Jetpack Single Sign-on module..."
+      `wp eval --skip-plugins --skip-themes "update_option('jetpack_active_modules',array_unique(array_merge(get_option('jetpack_active_modules'),['sso'])));" > /dev/null 2>&1`
+      @@jetpack_sso_disabled = false
     end
 
     if @@login_form_recaptcha_disabled
