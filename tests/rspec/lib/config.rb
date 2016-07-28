@@ -76,6 +76,10 @@ Capybara.register_driver :poltergeist do |app|
        '--ignore-ssl-errors=yes',
        '--ssl-protocol=TLSv1'
     ],
+		url_blacklist: [
+      'youtube.com', # the youtube embed player doesn't support phantomjs
+      'ytimg.com'
+    ],
     window_size: [1920,1080]
    )
 end
