@@ -32,6 +32,9 @@ htdocs/wp-content/upgrade
 htdocs/wp-content/uploads/*
 !htdocs/wp-content/uploads/.gitkeep
 
+# Server data, not part of project
+htdocs/.well-known
+
 # Libraries installed by Composer, Bower etc
 vendor/*
 !vendor/.gitkeep
