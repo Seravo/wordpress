@@ -125,7 +125,7 @@ module WP
 
   def self.flushCache
     # Flush the wordpress caches that might affect tests
-    `/usr/local/bin/wp-purge-cache > /dev/null 2>&1`
+    `wp cache flush --skip-plugins --skip-themes > /dev/null 2>&1`
     `wp transient delete-all --skip-plugins --skip-themes > /dev/null 2>&1`
   end
 
