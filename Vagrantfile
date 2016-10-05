@@ -130,6 +130,10 @@ Vagrant.configure('2') do |config|
       # Database imports
       if site_config['production'] != nil && site_config['production']['ssh_port'] != nil and confirm("Pull database from production?",false)
         # WP-palvelu customers are asked if they want to pull the production database here
+
+        # Install WordPress with defaults first
+        run_remote("wp core install --url=http://#{site_config['name']}.local --title=#{site_config['name'].capitalize}\
+         --admin_email=vagrant@#{site_config['name']}.local --admin_user=vagrant --admin_password=vagrant")
         run_remote("wp-pull-production-db")
       elsif File.exists?(File.join(DIR,'.vagrant','shutdown-dump.sql'))
         # Return the state where we last left if WordPress isn't currently installed
