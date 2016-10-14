@@ -71,7 +71,7 @@ Capybara.register_driver :poltergeist do |app|
     timeout: 60,
     :phantomjs_options => [
        '--webdriver-logfile=/dev/null',
-       '--load-images=no',
+       '--load-images=yes',
        '--debug=no',
        '--ignore-ssl-errors=yes',
        '--ssl-protocol=TLSv1'
