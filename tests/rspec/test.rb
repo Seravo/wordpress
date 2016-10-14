@@ -10,7 +10,7 @@ require_relative 'lib/config.rb'
 
 ### Begin tests ###
 
-describe "wordpress: #{WP.siteurl} - ", :type => :request, :js => true do 
+describe "wordpress: #{WP.siteurl} - ", :type => :request, :js => true do
 
   subject { page }
 
@@ -18,6 +18,23 @@ describe "wordpress: #{WP.siteurl} - ", :type => :request, :js => true do
 
     before do
       visit WP.siteurl('/')
+    end
+
+    ##
+    # Take a few screenshots of the frontpage for basic external visual regression tests
+    #
+    # These screenshots are used to determine whether the front page has
+    # undergone significant unwanted changes after updates.
+    ##
+    after :all do
+      shots = 0
+      3.times do
+        visit WP.siteurl('/')
+        # All screenshots are accessible from the public url
+        # https://{siteurl}/.seravo/screenshots/frontpage-{0..2}.png
+        save_screenshot "frontpage-#{shots}.png"
+        shots += 1
+      end
     end
 
     # 200 Means OK
@@ -42,7 +59,7 @@ describe "wordpress: #{WP.siteurl} - ", :type => :request, :js => true do
     #end
 
     ### Add more customised business critical frontend tests here #####
-    
+
   end
 
   describe "admin-panel" do
@@ -69,5 +86,5 @@ describe "wordpress: #{WP.siteurl} - ", :type => :request, :js => true do
     end
 
   end
- 
+
 end
