@@ -5,7 +5,7 @@
 
 Brought to you by [Seravo.com](https://seravo.com).
 
-A WordPress project layout for use with Git, Composer and Nginx. It also includes a configs for an opinionated Vagrant box.
+A WordPress project layout for use with Git, Composer and Nginx. It also includes a config for an opinionated Vagrant box.
 
 This same project layout is used by default on all [Seravo.com](https://seravo.com) instances for easy deployment workflow. Contents of this repository equals to what you would have on the server in the directory /data/wordpress/.
 
