@@ -1,3 +1,5 @@
+-![Seravo.com](https://seravo.com/wp-content/themes/seravo/images/seravo-banner-808x300.png)
+
 # Seravo WordPress
 [![Build Status](https://travis-ci.org/Seravo/wordpress.svg?branch=master)](https://travis-ci.org/Seravo/wordpress)
 
