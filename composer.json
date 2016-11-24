@@ -2,8 +2,8 @@
   "name": "seravo/wordpress",
   "type": "project",
   "license": "MIT",
-  "description": "WP-palvelu.fi WordPress instance template",
-  "homepage": "http://wp-palvelu.fi/",
+  "description": "Seravo WordPress instance template",
+  "homepage": "https://seravo.com/",
   "authors": [
     {
       "name": "Antti Kuosmanen",

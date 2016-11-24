@@ -3,7 +3,7 @@
 ##### We highly suggest not put anything sensitive in this file directly         #####
 ##### Use a separate .env file instead that overwrites the defaults.             #####
 ##### Read more at                                                               #####
-##### https://docs.wp-palvelu.fi/development/configure-vagrant-box/#using-dotenv #####
+##### https://seravo.com/docs/development/configure-vagrant-box/#using-dotenv    #####
 ######################################################################################
 
 #Load composer libraries
@@ -14,7 +14,7 @@ $webroot_dir = $root_dir . '/htdocs';
 
 /**
  * Use Dotenv to set required environment variables and load .env file in root
- * WP-Palvelu provides all needed envs for wordpress by default.
+ * Seravo provides all needed envs for WordPress by default.
  * If you want to have more envs put them into .env file
  * .env file is also heavily used in development
  */
@@ -69,7 +69,7 @@ define('NONCE_SALT',       getenv('NONCE_SALT'));
 defined('FORCE_SSL_ADMIN') or define('FORCE_SSL_ADMIN', true);
 
 /**
- * Use *.wp-palvelu.fi domain as the wp-admin
+ * Use *.seravo.com domain as the wp-admin
  */
 if (getenv('HTTPS_DOMAIN_ALIAS'))
   define('HTTPS_DOMAIN_ALIAS', getenv('HTTPS_DOMAIN_ALIAS'));

@@ -1,17 +1,15 @@
-![WP-palvelu.fi](https://wp-palvelu.fi/wp-content/uploads/2015/01/wp-palvelu-header.jpg)
-
 # Seravo WordPress
 [![Build Status](https://travis-ci.org/Seravo/wordpress.svg?branch=master)](https://travis-ci.org/Seravo/wordpress)
 
-Brought to you by Seravo and [WP-palvelu.fi](https://wp-palvelu.fi).
+Brought to you by [Seravo.com](https://seravo.com).
 
-A WordPress project layout for use with Git, Composer and Nginx. It also includes a configs for an opinionated vagrant box.
+A WordPress project layout for use with Git, Composer and Nginx. It also includes a configs for an opinionated Vagrant box.
 
-This same project layout is used by default on all [WP-palvelu.fi](https://wp-palvelu.fi) instances for easy deployment workflow. Contents of this repository equals to what you would have on the server in the directory /data/wordpress/.
+This same project layout is used by default on all [Seravo.com](https://seravo.com) instances for easy deployment workflow. Contents of this repository equals to what you would have on the server in the directory /data/wordpress/.
 
 ## Documentation
 
-Please see our documentation at https://docs.wp-palvelu.fi for more info.
+Please see our documentation at https://seravo.com/docs/ for more info.
 
 ## Installation
 
@@ -154,7 +152,7 @@ See `config-sample.yml` for more
 
 ## The Layout
 
-The root of this repository equals the contents of the directory ```/data/wordpress``` in the WP-palvelu.fi instance.
+The root of this repository equals the contents of the directory ```/data/wordpress``` in the Seravo.com instance.
 
 ```
 ├── config.yml # See about Configuration above
@@ -178,7 +176,7 @@ The root of this repository equals the contents of the directory ```/data/wordpr
 │   ├── Wordpress
 │   │   └── Installer.php #Additional composer scripts
 │   │
-│   └── run-tests # Bash-script as an interface for your tests in WP-Palvelu Production and Dev environment
+│   └── run-tests # Bash-script as an interface for your tests in Seravo's production and development environments
 │
 ├── vendor # Composer packages go here
 └── htdocs # This is the web root of your site
@@ -206,4 +204,3 @@ Note that all plugins are installed, but not active by default. To activate them
 
 Directory layout heavily inspired by [roots/bedrock](https://github.com/roots/bedrock)
 Development stack inspired by [VVV](https://github.com/Varying-Vagrant-Vagrants/VVV)
-

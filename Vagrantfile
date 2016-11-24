@@ -129,7 +129,7 @@ Vagrant.configure('2') do |config|
 
       # Database imports
       if site_config['production'] != nil && site_config['production']['ssh_port'] != nil and confirm("Pull database from production?",false)
-        # WP-palvelu customers are asked if they want to pull the production database here
+        # Seravo customers are asked if they want to pull the production database here
 
         # Install WordPress with defaults first
         run_remote("wp core install --url=https://#{site_config['name']}.local --title=#{site_config['name'].capitalize}\
@@ -193,7 +193,7 @@ Vagrant.configure('2') do |config|
       run_remote "wp-restart-nginx &> /dev/null"
 
       puts "\n"
-      notice "Documentation available at https://docs.wp-palvelu.fi"
+      notice "Documentation available at https://seravo.com/docs/"
       notice "Visit your site: https://#{site_config['name']}.local"
     end
 

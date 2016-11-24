@@ -103,7 +103,7 @@ RSpec.configure do |config|
   # Also in production we need to pass shadow cookie to route the requests to right container
   ##
   config.before(:each) {
-    page.driver.add_header("User-Agent", "WP-palvelu Testbot")
+    page.driver.add_header("User-Agent", "Seravo Testbot")
     page.driver.add_header("Pragma", "no-cache")
 
     page.driver.set_cookie("wpp_shadow", WP.shadowHash, {:path => '/', :domain => WP.hostname})

@@ -4,9 +4,9 @@
 name: wordpress
 #production:
   # This is used to automatically fetch data from a staging/production environment
-  #domain: wordpress.wp-palvelu.fi
+  #domain: example.seravo.com
   #ssh_port: 12345
-  #url: https://wordpress.wp-palvelu.fi
+  #url: https://example.seravo.com
 development:
   # Domains are automatically mapped to Vagrant with /etc/hosts modifications
   domains:
