@@ -192,6 +192,12 @@ Vagrant.configure('2') do |config|
       # Restart nginx because the file system might not have been ready when the certificate was created
       run_remote "wp-restart-nginx &> /dev/null"
 
+      # Run 'vagrant up' customizer script if it exists
+      if File.exist?(File.join(DIR, 'vagrant-up-customizer.sh'))
+        notice 'Running vagrant-up-customizer.sh ...'
+        system 'vagrant-up-customizer.sh'
+      end
+
       puts "\n"
       notice "Documentation available at https://seravo.com/docs/"
       notice "Visit your site: https://#{site_config['name']}.local"
