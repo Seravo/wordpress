@@ -175,7 +175,7 @@ The root of this repository equals the contents of the directory ```/data/wordpr
 │   │   ├── pre-commit # This is run after every commit
 │   │   └──
 │   │
-│   ├── Wordpress
+│   ├── WordPress
 │   │   └── Installer.php #Additional composer scripts
 │   │
 │   └── run-tests # Bash-script as an interface for your tests in Seravo's production and development environments
