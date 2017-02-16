@@ -747,17 +747,17 @@
             "time": "2017-01-11T19:10:05+00:00"
         },
         {
-            "name": "seravo/wp-palvelu-plugin",
-            "version": "1.3.8",
+            "name": "seravo/seravo-plugin",
+            "version": "1.4.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/Seravo/wp-palvelu-plugin.git",
-                "reference": "beca3d45882b1ab7423f3d1dc23caa8baec00c86"
+                "url": "https://github.com/Seravo/seravo-plugin.git",
+                "reference": "fae841cb9d9a4ad84dc20901c3e7ce8746f233bf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Seravo/wp-palvelu-plugin/zipball/beca3d45882b1ab7423f3d1dc23caa8baec00c86",
-                "reference": "beca3d45882b1ab7423f3d1dc23caa8baec00c86",
+                "url": "https://api.github.com/repos/Seravo/seravo-plugin/zipball/fae841cb9d9a4ad84dc20901c3e7ce8746f233bf",
+                "reference": "fae841cb9d9a4ad84dc20901c3e7ce8746f233bf",
                 "shasum": ""
             },
             "require": {

@@ -58,7 +58,7 @@
     "koodimonni-language/fi": "*",
     "koodimonni-language/sv_SE": "*",
 
-    "seravo/wp-palvelu-plugin": ">=1.0.1",
+    "seravo/seravo-plugin": ">=1.4.0",
 
     "wpackagist-plugin/auto-post-thumbnail": "*",
     "wpackagist-plugin/google-analytics-dashboard-for-wp": "*",
