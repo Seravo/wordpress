@@ -20,6 +20,7 @@ module WP
   @@jetpack_sso_disabled = false
   @@login_form_recaptcha_disabled = false
   @@google_captcha_disabled = false
+  @@wp_recaptcha_integration_disabled = false
 
   # Return siteurl
   # This works for subdirectory installations as well
@@ -159,6 +160,13 @@ module WP
       `wp plugin deactivate --skip-plugins --skip-themes google-captcha > /dev/null 2>&1`
       @@google_captcha_disabled = true
     end
+
+    # Disable wp-recaptcha-integration plugin
+    `wp plugin list --skip-plugins --skip-themes | grep wp-recaptcha-integration > /dev/null 2>&1`
+    if $?.success?
+      `wp plugin deactivate --skip-plugins --skip-themes wp-recaptcha-integration > /dev/null 2>&1`
+      @@wp_recaptcha_integration_disabled = true
+    end
    end
 
   def self.resetBotPreventionPlugins
@@ -185,6 +193,12 @@ module WP
       `wp plugin activate --skip-plugins --skip-themes google-captcha > /dev/null 2>&1`
       @@google_captcha_disabled = false
     end
+
+    if @@wp_recaptcha_integration_disabled
+      `wp plugin activate --skip-plugins --skip-themes wp-recaptcha-integration > /dev/null 2>&1`
+      @@wp_recaptcha_integration_disabled = false
+    end
+
    end
 
 
