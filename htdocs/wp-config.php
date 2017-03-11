@@ -98,15 +98,17 @@ define('WP_AUTO_ACTIVATE_PLUGINS',"google-analytics-dashboard-for-wp");
 define( 'WP_POST_REVISIONS', 30 );
 
 /**
- * For developers: WordPress debugging mode.
- *
- * Change this to true to enable the display of notices during development.
- * It is strongly recommended that plugin and theme developers use WP_DEBUG
- * in their development environments.
+ * For developers: show verbose debugging output if not in production.
  */
-define('WP_DEBUG', false);
-define('WP_DEBUG_DISPLAY', false);
-define('SCRIPT_DEBUG', false);
+if ( 'production' === getenv('WP_ENV') ) {
+  define('WP_DEBUG', false);
+  define('WP_DEBUG_DISPLAY', false);
+  define('SCRIPT_DEBUG', false);
+} else {
+  define('WP_DEBUG', true);
+  define('WP_DEBUG_DISPLAY', true);
+  define('SCRIPT_DEBUG', true);
+}
 
 /**
  * Log error data but don't show it in the frontend.
