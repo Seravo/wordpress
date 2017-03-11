@@ -108,6 +108,9 @@ if ( 'production' === getenv('WP_ENV') ) {
   define('WP_DEBUG', true);
   define('WP_DEBUG_DISPLAY', true);
   define('SCRIPT_DEBUG', true);
+
+  // Disable wp-content/object-cache.php from being active during development
+  define('WP_REDIS_DISABLED', true);
 }
 
 /**
