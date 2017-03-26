@@ -26,7 +26,7 @@ gulp.task('serve', ['sass'], function() {
 
     // Initialize browsersync
     // Nginx is configured to use any service in port 1337
-    // as middleware to wordpress in vagrant environment
+    // as middleware to WordPress in vagrant environment
     browserSync.init({
         // browsersync with a php server
         proxy: "http://localhost:8080",
@@ -60,4 +60,3 @@ gulp.task('sass', function() {
 // This is run when site is deployed!
 gulp.task('default', ['sass'], function() {
 });
-

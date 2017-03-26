@@ -140,10 +140,10 @@ Vagrant.configure('2') do |config|
         # First part in the command prevents overriding existing database
         run_remote("wp core is-installed --quiet &>/dev/null || wp-vagrant-import-db")
       else
-        # If nothing else was specified just install basic wordpress
+        # If nothing else was specified just install basic WordPress
         run_remote("wp core install --url=https://#{site_config['name']}.local --title=#{site_config['name'].capitalize}\
          --admin_email=vagrant@#{site_config['name']}.local --admin_user=vagrant --admin_password=vagrant")
-        notice "Installed default wordpress with user:vagrant password:vagrant"
+        notice "Installed default WordPress with user:vagrant password:vagrant"
       end
 
       # Init git if it doesn't exist

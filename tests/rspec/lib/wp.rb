@@ -125,7 +125,7 @@ module WP
   end
 
   def self.flushCache
-    # Flush the wordpress caches that might affect tests
+    # Flush the WordPress caches that might affect tests
     `wp cache flush --skip-plugins --skip-themes > /dev/null 2>&1`
     `wp transient delete-all --skip-plugins --skip-themes > /dev/null 2>&1`
   end

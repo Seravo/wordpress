@@ -6,7 +6,7 @@ use Composer\Script\Event;
 
 class Installer {
   /**
-   * Remove wp-content from wordpress and symlink it to correct location
+   * Remove wp-content from WordPress and symlink it to correct location
    *
    * @param Composer\Script\Event $event - This is the way composer talks to it's plugins
    */

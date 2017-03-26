@@ -163,12 +163,14 @@ The root of this repository equals the contents of the directory ```/data/wordpr
 ├── gulpfile.js # Example for using gulp
 ├── Vagrantfile # Advanced vagrant environment and scripts packaged in Vagrantfile
 │
-├── tests # Here you can include tests for your wordpress instance
+├── tests # Here you can include tests for your WordPress instance
 │   └── rspec
-│       └── test.rb # Our default tests use rspec/poltergeist/phantomjs since we have found them very effective.
+│       └── baseline.rb # Our baseline tests use rspec/poltergeist/phantomjs since we have found them very effective.
+│       └── anything.rb # Your own test suite files can be named anything *.rb.
 │
-├── nginx # Here you can have your custom modifications to nginx which are also used in production
-│   └── custom.conf # Default file with few examples to get started
+├── nginx # Here you can have your custom modifications to Nginx which are also used in production
+│   └── examples.conf # Some examples to get started
+│   └── anything.conf # Your own config files can be named anything *.conf.
 │
 ├── scripts
 │   ├── hooks # Git hooks for your project
@@ -189,7 +191,7 @@ The root of this repository equals the contents of the directory ```/data/wordpr
     │   └── languages
     ├── wp-config.php
     ├── index.php
-    └── wordpress # Wordpress Core installed by composer
+    └── wordpress # WordPress Core installed by composer
         ├── wp-admin
         ├── index.php
         ├── wp-load.php

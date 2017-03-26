@@ -10,7 +10,7 @@ require_relative 'lib/config.rb'
 
 ### Begin tests ###
 
-describe "wordpress: #{WP.siteurl} - ", :type => :request, :js => true do
+describe "WordPress: #{WP.siteurl} - ", :type => :request, :js => true do
 
   subject { page }
 
