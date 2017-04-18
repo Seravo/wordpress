@@ -194,8 +194,8 @@ Vagrant.configure('2') do |config|
 
       # Run 'vagrant up' customizer script if it exists
       if File.exist?(File.join(DIR, 'vagrant-up-customizer.sh'))
-        notice 'Running vagrant-up-customizer.sh ...'
-        system 'vagrant-up-customizer.sh'
+        notice 'Found vagrant-up-customizer.sh and running it ...'
+        system File.join(DIR, 'vagrant-up-customizer.sh')
       end
 
       puts "\n"
