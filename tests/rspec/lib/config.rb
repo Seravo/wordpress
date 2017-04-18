@@ -66,7 +66,7 @@ Capybara::Screenshot::RSpec::REPORTERS['RSpec::Core::Formatters::ProgressFormatt
 Capybara.register_driver :poltergeist do |app|
   Capybara::Poltergeist::Driver.new(app,
     debug: false,
-    js_errors: true, # Use true if you are really careful about your site
+    js_errors: false, # Use true if you are really careful about your site
     phantomjs_logger: '/dev/null',
     timeout: 60,
     :phantomjs_options => [
