@@ -139,6 +139,8 @@ Vagrant.configure('2') do |config|
         # Return the state where we last left if WordPress isn't currently installed
         # First part in the command prevents overriding existing database
         run_remote("wp core is-installed --quiet &>/dev/null || wp-vagrant-import-db")
+      elsif File.exists?(File.join(DIR,'vagrant-base.sql'))
+        run_remote("wp db import /data/wordpress/vagrant-base.sql")
       else
         # If nothing else was specified just install basic WordPress
         run_remote("wp core install --url=https://#{site_config['name']}.local --title=#{site_config['name'].capitalize}\
