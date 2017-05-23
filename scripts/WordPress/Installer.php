@@ -37,9 +37,13 @@ class Installer {
    * @param String $dir - path to folder to be destroyed
    */
   public static function rrmdir($dir) {
+    foreach(glob($dir . '/.htaccess') as $file) {
+      unlink($file);
+    }
     foreach(glob($dir . '/*') as $file) {
       if(is_dir($file)) Installer::rrmdir($file); else unlink($file);
-    } rmdir($dir);
+    }
+    rmdir($dir);
   }
 
   /**
