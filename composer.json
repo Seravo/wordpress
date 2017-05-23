@@ -56,9 +56,6 @@
     "koodimonni/composer-dropin-installer": ">=0.2.4",
     "vlucas/phpdotenv": "1.0.9",
 
-    "koodimonni-language/fi": "*",
-    "koodimonni-language/sv_SE": "*",
-
     "seravo/seravo-plugin": ">=1.4.0",
 
     "wpackagist-plugin/auto-post-thumbnail": "*",
