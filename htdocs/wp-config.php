@@ -86,6 +86,14 @@ define('PLL_COOKIE', false); /* this allows caching sites with polylang, disable
 define( 'WP_POST_REVISIONS', 30 );
 
 /**
+ * Namespace session cookies so that overlapping cookie names would not result
+ * in deleting session when users are switching between production and a shadow
+ * instances. Using a clear-text container name does no harm. The default value
+ * is a fully remote predictable md5 hash of the siteurl.
+ */
+define( 'COOKIEHASH', getenv('CONTAINER') );
+
+/**
  * For developers: show verbose debugging output if not in production.
  */
 if ( 'production' === getenv('WP_ENV') ) {
