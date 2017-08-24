@@ -71,7 +71,8 @@
     "installer-paths": {
       "htdocs/wp-content/plugins/{$name}/": ["type:wordpress-plugin"],
       "htdocs/wp-content/mu-plugins/{$name}/": ["type:wordpress-muplugin"],
-      "htdocs/wp-content/themes/{$name}": ["type:wordpress-theme"]
+      "htdocs/wp-content/themes/{$name}": ["type:wordpress-theme"],
+      ".": ["type:seravo-wordpress-dropin"]
     },
     "dropin-paths": {
       "htdocs/wp-content/languages/": ["vendor:koodimonni-language"],
