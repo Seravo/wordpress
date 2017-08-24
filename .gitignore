@@ -47,3 +47,6 @@ bin
 .vagrant
 mkmf.log
 myrecording
+
+# OSX Desktop Services Store files.
+.DS_Store
