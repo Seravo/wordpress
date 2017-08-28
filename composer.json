@@ -71,13 +71,13 @@
     "installer-paths": {
       "htdocs/wp-content/plugins/{$name}/": ["type:wordpress-plugin"],
       "htdocs/wp-content/mu-plugins/{$name}/": ["type:wordpress-muplugin"],
-      "htdocs/wp-content/themes/{$name}": ["type:wordpress-theme"],
-      ".": ["type:seravo-wordpress-dropin"]
+      "htdocs/wp-content/themes/{$name}": ["type:wordpress-theme"]
     },
     "dropin-paths": {
       "htdocs/wp-content/languages/": ["vendor:koodimonni-language"],
       "htdocs/wp-content/languages/plugins/": ["vendor:koodimonni-plugin-language"],
-      "htdocs/wp-content/languages/themes/": ["vendor:koodimonni-theme-language"]
+      "htdocs/wp-content/languages/themes/": ["vendor:koodimonni-theme-language"],
+      ".": ["type:seravo-wordpress-dropin"]
     },
     "wordpress-install-dir": "htdocs/wordpress"
   }
