@@ -179,7 +179,7 @@ Vagrant.configure('2') do |config|
         # Trust the self-signed cert in keychain
         unless File.exists?(File.join(ssl_cert_path,'trust.lock'))
           if File.exists?(File.join(ssl_cert_path,'development.crt')) and confirm "Trust the generated ssl-certificate in OS-X keychain?"
-            system "sudo security add-trusted-cert -d -r trustRoot -k '/Library/Keychains/System.keychain' #{ssl_cert_path}/development.crt"
+            system "sudo security add-trusted-cert -d -r trustRoot -k '/Library/Keychains/System.keychain' '#{ssl_cert_path}/development.crt'"
             # Write lock file so we can remove it too
             touch_file File.join(ssl_cert_path,'trust.lock')
           end
