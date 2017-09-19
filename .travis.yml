@@ -43,8 +43,9 @@ before_script:
 
   # Install packages for gulp
   - npm install
+  
   # Test gulp and compile assets
-  - gulp
+  - ./node_modules/.bin/gulp
 
   # Install gems for rspec tests
   - gem install bundler
