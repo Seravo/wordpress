@@ -17,19 +17,20 @@ Please see our documentation at https://seravo.com/docs/ for more info.
 
 ### MacOS
 
-1. [Install Xcode](https://developer.apple.com/xcode/downloads/)
+1. [Install Xcode](https://developer.apple.com/xcode/downloads/): `xcode-select --install`
 2. [Install Vagrant](http://docs.vagrantup.com/v2/installation/)
 3. [Install Virtualbox](https://www.virtualbox.org/wiki/Downloads)
-4. Clone this repo
+4. Clone this repo: `git clone https://github.com/Seravo/wordpress ~/wordpress-dev`
 5. Run the installation in terminal:
 ```
-$ vagrant plugin install vagrant-hostsupdater vagrant-triggers vagrant-bindfs
-$ vagrant up
+cd ~/wordpress-dev
+vagrant plugin install vagrant-hostsupdater vagrant-triggers vagrant-bindfs
+vagrant up
 ```
 
 ### Linux (Ubuntu/Debian)
 
-To use virtualbox make sure you have ```vt-x``` enabled in your bios.
+To use Virtualbox make sure you have ```vt-x``` enabled in your BIOS.
 
 ```
 sudo apt-get install -y vagrant virtualbox virtualbox-dkms
@@ -71,13 +72,11 @@ You might need to disable ```hyper-v``` in order to use virtualbox.
 3. Clone this repo
 4. Do the installation in terminal:
 ```
-$ vagrant plugin install vagrant-hostsupdater vagrant-triggers
-$ vagrant up
-
-In theory, Seravo WordPress should work even without cygwin installed, but we strongly recommend using Cygwin for doing WordPress development on Windows machines.
-
-# Answer (y/n) for interactive installation script
+vagrant plugin install vagrant-hostsupdater vagrant-triggers
+vagrant up
 ```
+
+In theory, Seravo WordPress should work even without Cygwin installed, but we strongly recommend using Cygwin for doing WordPress development on Windows machines.
 
 ## Features
 * Includes Nginx, MariaDB, PHP5, PHP7, HHVM, Redis and Git for running WordPress in modern stack.
@@ -190,11 +189,11 @@ The root of this repository equals the contents of the directory ```/data/wordpr
     │   ├── themes
     │   └── languages
     ├── wp-config.php
+    ├── wp-load.php
     ├── index.php
     └── wordpress # WordPress Core installed by composer
         ├── wp-admin
         ├── index.php
-        ├── wp-load.php
         └── ...
 ```
 
