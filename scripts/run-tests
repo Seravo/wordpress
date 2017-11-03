@@ -21,10 +21,10 @@ if wp core is-installed --quiet &> /dev/null || [ -n "$WP_TEST_URL" ]; then
      exit 1
    fi
   done
-    
+
 else
   # Can't figure out rspec tests
-  echo "To do rspec testing you need to have vagrant, wp-cli or set WP_TEST_URL"
+  echo "To do rspec testing you need to have Vagrant, WP-cli or set WP_TEST_URL"
   echo "skipping rspec tests..."
-  exit 0
+  exit 1
 fi
