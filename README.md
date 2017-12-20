@@ -64,18 +64,19 @@ It seems that sometimes virtualbox kernel modules are not working correctly afte
 
 ### Windows (Cygwin)
 
-To use virtualbox make sure you have ```vt-x``` enabled in your bios.
-You might need to disable ```hyper-v``` in order to use virtualbox.
+To use Virtualbox make sure you have ```vt-x``` enabled in your BIOS.
+You might need to disable ```hyper-v``` in order to use Virtualbox.
 
-1. [Install Vagrant](http://docs.vagrantup.com/v2/installation/) (**1.7.4 or later**)
-2. [Install Virtualbox](https://www.virtualbox.org/wiki/Downloads)
-3. Clone this repo
-4. Do the installation in terminal:
+1. [Install Cygwin](https://www.cygwin.com/) and via Cygwin `openssh` and `git`
+2. [Install Vagrant](http://docs.vagrantup.com/v2/installation/)
+3. [Install Virtualbox](https://www.virtualbox.org/wiki/Downloads)
+4. Clone this repo: `git clone https://github.com/Seravo/wordpress ~/wordpress-dev`
+5. Run the installation in terminal:
 ```
-vagrant plugin install vagrant-hostsupdater vagrant-triggers
+cd ~/wordpress-dev
+vagrant plugin install vagrant-hostsupdater vagrant-triggers vagrant-bindfs
 vagrant up
 ```
-
 In theory, Seravo WordPress should work even without Cygwin installed, but we strongly recommend using Cygwin for doing WordPress development on Windows machines.
 
 ## Features
