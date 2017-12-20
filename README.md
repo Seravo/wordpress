@@ -11,73 +11,11 @@ This same project layout is used by default on all [Seravo.com](https://seravo.c
 
 ## Documentation
 
-Please see our documentation at https://seravo.com/docs/ for more info.
+Please see our documentation at https://seravo.com/docs/ on general information about git workflow with this project template.
 
 ## Installation
 
-### MacOS
-
-1. [Install Xcode](https://developer.apple.com/xcode/downloads/): `xcode-select --install`
-2. [Install Vagrant](http://docs.vagrantup.com/v2/installation/)
-3. [Install Virtualbox](https://www.virtualbox.org/wiki/Downloads)
-4. Clone this repo: `git clone https://github.com/Seravo/wordpress ~/wordpress-dev`
-5. Run the installation in terminal:
-```
-cd ~/wordpress-dev
-vagrant plugin install vagrant-hostsupdater vagrant-triggers vagrant-bindfs
-vagrant up
-```
-
-### Linux (Ubuntu/Debian)
-
-To use Virtualbox make sure you have ```vt-x``` enabled in your BIOS.
-
-```
-sudo apt-get install -y vagrant virtualbox virtualbox-dkms
-git clone https://github.com/Seravo/wordpress ~/wordpress-dev
-cd ~/wordpress-dev
-vagrant plugin install vagrant-hostsupdater vagrant-triggers vagrant-bindfs
-vagrant up
-```
-
-### Linux (CentOS/RHEL/Fedora)
-
-Add RPMFusion repositories. See  [RpmFusion](http://rpmfusion.org/). Repository is
-needed for Virtualbox.
-
-Clone the wordpress Git repo and run following commands:
-
-```
-sudo yum install vagrant virtualbox ruby-devel
-sudo gem update bundler
-sudo gem install hittimes -v '1.2.2'
-vagrant plugin install vagrant-hostsupdater vagrant-triggers vagrant-bindfs
-sudo modprobe vboxdrv #Need to load the kernel module for virtualbox, you may want to load it automatically on boot...
-vagrant up
-```
-
-### Linux (General)
-
-If you get errors related to creating host-only network adapters during vagrant up, run ```sudo vboxreload```.
-It seems that sometimes virtualbox kernel modules are not working correctly after the machine wakes up from sleep.
-
-
-### Windows (Cygwin)
-
-To use Virtualbox make sure you have ```vt-x``` enabled in your BIOS.
-You might need to disable ```hyper-v``` in order to use Virtualbox.
-
-1. [Install Cygwin](https://www.cygwin.com/) and via Cygwin `openssh` and `git`
-2. [Install Vagrant](http://docs.vagrantup.com/v2/installation/)
-3. [Install Virtualbox](https://www.virtualbox.org/wiki/Downloads)
-4. Clone this repo: `git clone https://github.com/Seravo/wordpress ~/wordpress-dev`
-5. Run the installation in terminal:
-```
-cd ~/wordpress-dev
-vagrant plugin install vagrant-hostsupdater vagrant-triggers vagrant-bindfs
-vagrant up
-```
-In theory, Seravo WordPress should work even without Cygwin installed, but we strongly recommend using Cygwin for doing WordPress development on Windows machines.
+> Please see our documentation at https://seravo.com/docs/development/how-to-install/ on how to install Vagrant and its dependencies.
 
 ## Features
 * Includes Nginx, MariaDB, PHP5, PHP7, HHVM, Redis and Git for running WordPress in modern stack.
