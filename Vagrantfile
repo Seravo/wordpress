@@ -2,14 +2,8 @@
 # vi: set ft=ruby :
 
 require 'yaml'
-require 'mkmf'
 require 'fileutils'
 require 'socket'
-
-# Prevent logs from mkmf
-module MakeMakefile::Logging
-  @logfile = File::NULL
-end
 
 DIR = File.dirname(__FILE__)
 
@@ -30,32 +24,21 @@ end
 
 site_config = YAML.load_file(config_file)
 
-# Create private ip address in file
-private_ip_file = File.join(DIR,'.vagrant','private.ip')
-
-unless File.exists?(private_ip_file)
-  private_ip = "192.168.#{rand(255)}.#{rand(2..255)}"
-  File.write(private_ip_file, private_ip)
-else
-  private_ip = File.open(private_ip_file, 'rb') { |file| file.read }
-end
-
-# Multiple public_network mappings need at least 1.7.4
 Vagrant.require_version '>= 1.7.4'
 
 Vagrant.configure('2') do |config|
-
   # Use host-machine ssh-key so we can log into production
   config.ssh.forward_agent = true
 
-  # Minimum box version requirement for this Vagrantfile revision
-  config.vm.box_version = ">= 20160718.15.0122"
-
-  # Use precompiled box
-  config.vm.box = 'seravo/wordpress'
-
   # Use the name of the box as the hostname
   config.vm.hostname = site_config['name']
+
+  # Port forwards
+  #config.vm.network "forwarded_port", guest: 80, host: 8080, host_ip: "127.0.0.1"
+  config.vm.network "forwarded_port", guest: 80, host: 8080, auto_correct: true
+  config.vm.network "forwarded_port", guest: 443, host: 8443, auto_correct: true
+  #config.vm.network "forwarded_port", guest: 22, host: 2222, auto_correct: true
+  config.vm.network "forwarded_port", guest: 3306, host: 13306, auto_correct: true
 
   # Only use avahi if config has this
   # development:
@@ -68,10 +51,6 @@ Vagrant.configure('2') do |config|
       "wlan0"
     ]
   end
-
-  # Use random ip address for box
-  # This is needed for updating the /etc/hosts file
-  config.vm.network :private_network, ip: private_ip
 
   config.vm.define "#{site_config['name']}-box"
 
@@ -121,7 +100,7 @@ Vagrant.configure('2') do |config|
 
       # Install packages with Composer
       # run it locally if possible
-      if find_executable 'composer' and system "composer validate &>/dev/null"
+      if which('composer') and system "composer validate &>/dev/null"
         system "composer install"
       else # run in vagrant
         run_remote "composer install --working-dir=/data/wordpress"
@@ -219,31 +198,31 @@ Vagrant.configure('2') do |config|
   else
     puts 'vagrant-triggers missing, please install the plugin:'
     puts 'vagrant plugin install vagrant-triggers'
-    exit 1
   end
 
-  config.vm.provider 'virtualbox' do |vb|
-    # Give VM access to all cpu cores on the host
-    cpus = case RbConfig::CONFIG['host_os']
-      when /darwin/ then `sysctl -n hw.ncpu`.to_i
-      when /linux/ then `nproc`.to_i
-      else 2
+  config.vm.provider 'docker' do |d|
+    #d.build_dir = '.'
+    d.image = 'seravo/wordpress:vagrant'
+    d.has_ssh = true
+    d.name = site_config['name']
+    #d.expose = [22, 80, 443, 3306]
+    #d.env = {
+    #
+    #}
+    if which('docker').nil?
+      d.force_host_vm = true # for debugging: force boot2docker
     end
-
-    # Customize memory in MB
-    vb.customize ['modifyvm', :id, '--memory', 1536]
-    vb.customize ['modifyvm', :id, '--cpus', cpus]
-
-    # Fix for slow external network connections
-    vb.customize ['modifyvm', :id, '--natdnshostresolver1', 'on']
-    vb.customize ['modifyvm', :id, '--natdnsproxy1', 'on']
+    #d.ports = ["80:80"]
+    #d.email = 'seravo@seravo.fi'
+    #d.password = 'dockerhubpassword'
+    #d.auth_server = 'custom.docker-hub-server.example.com'
   end
-
 end
 
 ##
 # Custom helpers
 ##
+
 def notice(text)
   puts "==> trigger: #{text}"
 end
@@ -349,4 +328,19 @@ def has_internet?
   end
 ensure
   Socket.do_not_reverse_lookup = orig
+end
+
+#
+# Ruby `which` implementation to check if executable exists
+# From <https://stackoverflow.com/a/5471032>
+#
+def which(cmd)
+  exts = ENV['PATHEXT'] ? ENV['PATHEXT'].split(';') : ['']
+  ENV['PATH'].split(File::PATH_SEPARATOR).each do |path|
+    exts.each { |ext|
+      exe = File.join(path, "#{cmd}#{ext}")
+      return exe if File.executable?(exe) && !File.directory?(exe)
+    }
+  end
+  return nil
 end

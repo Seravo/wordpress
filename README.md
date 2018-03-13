@@ -142,6 +142,16 @@ The composer.json contains some plugins and themes that are likely to be useful 
 
 Note that all plugins are installed, but not active by default. To activate them, run `vagrant ssh -c "wp plugin activate --all"`.
 
+## Docker
+Note: work in progress, you need not-yet-published Docker images to use Docker.
+
+    vagrant up --provider=docker
+
+or you may use plain docker:
+
+    docker run -p 80:80 -v $(pwd):/data/wordpress seravo/wordpress:development 
+
+
 ## Credits
 
 Directory layout heavily inspired by [roots/bedrock](https://github.com/roots/bedrock)
