@@ -132,7 +132,7 @@ module WP
 
   def self.disableBotPreventionPlugins
     # Disable the jetpack protect module
-    `wp option get jetpack_active_modules --skip-plugins --skip-themes | grep protect > /dev/null 2>&1`
+    `wp option get jetpack_active_modules --skip-plugins --skip-themes 2> /dev/null | grep protect > /dev/null 2>&1`
     if $?.success?
       #puts "----> Disabling the Jetpack Protect module for the duration of the tests..."
       `wp eval --skip-plugins --skip-themes "update_option('jetpack_active_modules',array_diff(get_option('jetpack_active_modules'),['protect']));" > /dev/null 2>&1`
@@ -140,7 +140,7 @@ module WP
     end
 
     # Disable the jetpack single-sign-on module
-    `wp option get jetpack_active_modules --skip-plugins --skip-themes | grep sso > /dev/null 2>&1`
+    `wp option get jetpack_active_modules --skip-plugins --skip-themes 2> /dev/null | grep sso > /dev/null 2>&1`
     if $?.success?
       #puts "----> Disabling the Jetpack Single Sign-on module for the duration of the tests..."
       `wp eval --skip-plugins --skip-themes "update_option('jetpack_active_modules',array_diff(get_option('jetpack_active_modules'),['sso']));" > /dev/null 2>&1`
