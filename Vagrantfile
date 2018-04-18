@@ -103,7 +103,7 @@ Vagrant.configure('2') do |config|
       if which('composer') and system "composer validate &>/dev/null"
         system "composer install"
       else # run in vagrant
-        run_remote "composer install --working-dir=/data/wordpress"
+        run_remote "sudo -u vagrant HOME=/home/vagrant composer install --working-dir=/data/wordpress"
       end
 
       # Database imports
@@ -117,9 +117,9 @@ Vagrant.configure('2') do |config|
       elsif File.exists?(File.join(DIR,'.vagrant','shutdown-dump.sql'))
         # Return the state where we last left if WordPress isn't currently installed
         # First part in the command prevents overriding existing database
-        run_remote("wp core is-installed --quiet &>/dev/null || wp-vagrant-import-db")
+        run_remote("sudo -u vagrant wp core is-installed --quiet &>/dev/null || wp-vagrant-import-db")
       elsif File.exists?(File.join(DIR,'vagrant-base.sql'))
-        run_remote("wp db import /data/wordpress/vagrant-base.sql")
+        run_remote("sudo -u vagrant wp db import /data/wordpress/vagrant-base.sql")
       else
         # If nothing else was specified just install basic WordPress
         run_remote("wp core install --url=https://#{site_config['name']}.local --title=#{site_config['name'].capitalize}\
@@ -137,7 +137,7 @@ Vagrant.configure('2') do |config|
       unless ( Vagrant::Util::Platform.windows? or File.exists?(File.join(git_hooks_dir,'.activated')) )
         if confirm "Activate git hooks in scripts/hooks?"
           # symlink git on remote
-          run_remote "wp-activate-git-hooks"
+          run_remote "sudo -u vagrant wp-activate-git-hooks"
 
           # create hook folder (if not exists) and symlink git on host machine
           Dir.mkdir git_hooks_dir unless File.exists? git_hooks_dir
@@ -168,10 +168,10 @@ Vagrant.configure('2') do |config|
       end
 
       # Attempt to use the asset proxy for production url defined in config.yml
-      run_remote "wp-use-asset-proxy &> /dev/null"
+      run_remote "sudo -u vagrant wp-use-asset-proxy &> /dev/null"
 
       # Restart nginx because the file system might not have been ready when the certificate was created
-      run_remote "wp-restart-nginx &> /dev/null"
+      run_remote "sudo -u vagrant wp-restart-nginx &> /dev/null"
 
       # Run 'vagrant up' customizer script if it exists
       if File.exist?(File.join(DIR, 'vagrant-up-customizer.sh'))
@@ -234,7 +234,7 @@ def dump_wordpress_database
   if vagrant_running?
     begin
       notice "dumping the database into: .vagrant/shutdown-dump.sql"
-      run_remote "wp-vagrant-dump-db"
+      run_remote "sudo -u vagrant wp-vagrant-dump-db"
     rescue => e
       notice "Couldn't dump database. Skipping..."
     end
