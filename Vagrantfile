@@ -24,6 +24,9 @@ end
 
 site_config = YAML.load_file(config_file)
 
+# Get uid for local user
+local_user = Etc.getpwnam(Etc.getlogin).uid.to_i
+
 Vagrant.require_version '>= 1.7.4'
 
 Vagrant.configure('2') do |config|
@@ -97,6 +100,9 @@ Vagrant.configure('2') do |config|
 
       #Run all system commands inside project root
       Dir.chdir(DIR)
+
+      # Set user id for 'vagrant' to same value as local user
+      run_remote "/usr/local/share/seravo/replace-vagrant-uid #{local_user}"
 
       # Install packages with Composer
       # run it locally if possible
