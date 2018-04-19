@@ -80,7 +80,7 @@ Vagrant.configure('2') do |config|
   # For Self-signed ssl-certificate
   ssl_cert_path = File.join(DIR,'.vagrant','ssl')
   unless File.exists? File.join(ssl_cert_path,'development.crt')
-    config.vm.provision :shell, :inline => "wp-generate-ssl"
+    config.vm.provision :shell, :inline => "sudo -u vagrant wp-generate-ssl"
   end
 
   # Add SSH Public Key from developer home folder into vagrant
@@ -117,7 +117,7 @@ Vagrant.configure('2') do |config|
         # Seravo customers are asked if they want to pull the production database here
 
         # Install WordPress with defaults first
-        run_remote("wp core install --url=https://#{site_config['name']}.local --title=#{site_config['name'].capitalize}\
+        run_remote("sudo -u vagrant wp core install --url=https://#{site_config['name']}.local --title=#{site_config['name'].capitalize}\
          --admin_email=vagrant@#{site_config['name']}.local --admin_user=vagrant --admin_password=vagrant")
         run_remote("wp-pull-production-db")
       elsif File.exists?(File.join(DIR,'.vagrant','shutdown-dump.sql'))
@@ -128,7 +128,7 @@ Vagrant.configure('2') do |config|
         run_remote("sudo -u vagrant wp db import /data/wordpress/vagrant-base.sql")
       else
         # If nothing else was specified just install basic WordPress
-        run_remote("wp core install --url=https://#{site_config['name']}.local --title=#{site_config['name'].capitalize}\
+        run_remote("sudo -u vagrant wp core install --url=https://#{site_config['name']}.local --title=#{site_config['name'].capitalize}\
          --admin_email=vagrant@#{site_config['name']}.local --admin_user=vagrant --admin_password=vagrant")
         notice "Installed default WordPress with user:vagrant password:vagrant"
       end
