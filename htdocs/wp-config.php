@@ -99,10 +99,12 @@ define( 'COOKIEHASH', getenv('CONTAINER') );
 if ( 'production' === getenv('WP_ENV') ) {
   define('WP_DEBUG', false);
   define('WP_DEBUG_DISPLAY', false);
+  define('WP_DEBUG_LOG', false);
   define('SCRIPT_DEBUG', false);
 } else {
   define('WP_DEBUG', true);
   define('WP_DEBUG_DISPLAY', true);
+  define('WP_DEBUG_LOG', true);
   define('SCRIPT_DEBUG', true);
 
   // Disable wp-content/object-cache.php from being active during development
