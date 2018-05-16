@@ -110,7 +110,7 @@ module WP
       system "wp user delete testbotuser --yes --skip-themes --skip-plugins > /dev/null 2>&1"
       username = "seravotest"
       password = rand(36**32).to_s(36)
-      system "wp user create #{username} noreply@seravo.fi --user_pass=#{password} --role=administrator --first_name='#{firstname}' --last_name='#{lastname}' --skip-themes --skip-plugins  > /dev/null 2>&1"
+      system "wp user create #{username} noreply@seravo.com --user_pass=#{password} --role=administrator --first_name='#{firstname}' --last_name='#{lastname}' --skip-themes --skip-plugins  > /dev/null 2>&1"
       unless $?.success?
         system "wp user update #{username} --user_pass=#{password} --role=administrator --skip-themes --skip-plugins --require=#{File.dirname(__FILE__)}/disable-wp-mail.php > /dev/null 2>&1"
       end
