@@ -54,7 +54,7 @@
     "johnpbloch/wordpress-core": "^4.7",
     "composer/installers": "v1.0.12",
     "koodimonni/composer-dropin-installer": ">=0.2.4",
-    "vlucas/phpdotenv": "1.0.9",
+    "vlucas/phpdotenv": "v2.4.0",
 
     "koodimonni-language/fi": "*",
     "koodimonni-language/sv_SE": "*",

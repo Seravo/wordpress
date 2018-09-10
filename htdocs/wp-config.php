@@ -19,8 +19,8 @@ $webroot_dir = $root_dir . '/htdocs';
  * .env file is also heavily used in development
  */
 if (file_exists($root_dir . '/.env')) {
-  Dotenv::makeMutable();
-  Dotenv::load($root_dir);
+  $dotenv = new Dotenv\Dotenv($root_dir);
+  $dotenv->overload();
 }
 
 
