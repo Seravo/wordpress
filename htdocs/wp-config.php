@@ -45,7 +45,7 @@ define('WP_CONTENT_DIR', $webroot_dir . CONTENT_DIR);
 
 // WP_CONTENT_URL can be set to enable relative URLs to /wp-content
 // but if undefined, it simply defaults to absolute URLs.
-define('WP_CONTENT_URL', CONTENT_DIR);
+// define('WP_CONTENT_URL', CONTENT_DIR);
 
 /**
  * Don't allow any other write method than direct
