@@ -31,8 +31,7 @@ if (file_exists($root_dir . '/.env')) {
 define('DB_NAME', getenv('DB_NAME'));
 define('DB_USER', getenv('DB_USER'));
 define('DB_PASSWORD', getenv('DB_PASSWORD'));
-define('DB_PORT', getenv('DB_PORT') ? getenv('DB_PORT') : 3306 );
-define('DB_HOST', getenv('DB_HOST') ? getenv('DB_HOST') . ':' . DB_PORT : '127.0.0.1:3306' );
+define('DB_HOST', getenv('DB_HOST') ? getenv('DB_HOST') : '127.0.0.1:3306' );
 define('DB_CHARSET', getenv('DB_CHARSET') ? getenv('DB_CHARSET') : 'utf8mb4' );
 define('DB_COLLATE', getenv('DB_COLLATE') ? getenv('DB_COLLATE') : 'utf8mb4_swedish_ci' );
 $table_prefix = getenv('DB_PREFIX') ? getenv('DB_PREFIX') : 'wp_';
