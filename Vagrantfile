@@ -132,8 +132,8 @@ Vagrant.configure('2') do |config|
         # Seravo customers are asked if they want to pull the production database here
 
         # Install WordPress with defaults first
-        run_remote("wp core install --url=https://#{site_config['name']}.local --title=#{site_config['name'].capitalize}\
-         --admin_email=vagrant@#{site_config['name']}.local --admin_user=vagrant --admin_password=vagrant")
+        run_remote("wp core install --url=https://#{site_config['name']}.test --title=#{site_config['name'].capitalize}\
+         --admin_email=vagrant@#{site_config['name']}.test --admin_user=vagrant --admin_password=vagrant")
         run_remote("wp-pull-production-db")
       elsif File.exists?(File.join(DIR,'.vagrant','shutdown-dump.sql'))
         # Return the state where we last left if WordPress isn't currently installed
@@ -143,8 +143,8 @@ Vagrant.configure('2') do |config|
         run_remote("wp db import /data/wordpress/vagrant-base.sql")
       else
         # If nothing else was specified just install basic WordPress
-        run_remote("wp core install --url=https://#{site_config['name']}.local --title=#{site_config['name'].capitalize}\
-         --admin_email=vagrant@#{site_config['name']}.local --admin_user=vagrant --admin_password=vagrant")
+        run_remote("wp core install --url=https://#{site_config['name']}.test --title=#{site_config['name'].capitalize}\
+         --admin_email=vagrant@#{site_config['name']}.test --admin_user=vagrant --admin_password=vagrant")
         notice "Installed default WordPress with user:vagrant password:vagrant"
       end
 
@@ -203,7 +203,7 @@ Vagrant.configure('2') do |config|
 
       puts "\n"
       notice "Documentation available at https://seravo.com/docs/"
-      notice "Visit your site: https://#{site_config['name']}.local"
+      notice "Visit your site: https://#{site_config['name']}.test"
     end
 
     config.trigger.before :halt do
@@ -282,13 +282,13 @@ def get_domains(config)
   end
 
   # The main domain
-  domains << config['name']+".local"
+  domains << config['name']+".test"
 
   # Add domain names for included applications for easier usage
   subdomains = %w( www webgrind adminer mailcatcher browsersync info )
 
   subdomains.each do |domain|
-    domains << "#{domain}.#{config['name']}.local"
+    domains << "#{domain}.#{config['name']}.test"
   end
 
   domains.uniq #remove duplicates

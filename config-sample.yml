@@ -10,6 +10,6 @@ name: wordpress
 development:
   # Domains are automatically mapped to Vagrant with /etc/hosts modifications
   domains:
-    - wordpress.local
+    - wordpress.test
   # If you want to use zeroconf (.local domains) in your network you can use this.
   #avahi: true
