@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f2e6c593b8d84586e7b2fbd64b67bc09",
+    "content-hash": "51bdaa0683e14afa95beedc68e76524b",
     "packages": [
         {
             "name": "composer/installers",
@@ -330,10 +330,10 @@
         },
         {
             "name": "koodimonni-plugin-language/woocommerce-fi",
-            "version": "3.4.5",
+            "version": "3.5.1",
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/translation/plugin/woocommerce/3.4.5/fi.zip",
+                "url": "https://downloads.wordpress.org/translation/plugin/woocommerce/3.5.1/fi.zip",
                 "reference": null,
                 "shasum": null
             },
@@ -351,10 +351,10 @@
         },
         {
             "name": "koodimonni-plugin-language/woocommerce-sv_se",
-            "version": "3.4.5",
+            "version": "3.5.1",
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/translation/plugin/woocommerce/3.4.5/sv_SE.zip",
+                "url": "https://downloads.wordpress.org/translation/plugin/woocommerce/3.5.1/sv_SE.zip",
                 "reference": null,
                 "shasum": null
             },
@@ -751,16 +751,16 @@
         },
         {
             "name": "seravo/seravo-plugin",
-            "version": "1.9.2",
+            "version": "1.9.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Seravo/seravo-plugin.git",
-                "reference": "3558ab1a99b80812d567707e084f4919d26a27c2"
+                "reference": "f065e5122913a1cc3e201879aedb7851fee70d6b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Seravo/seravo-plugin/zipball/3558ab1a99b80812d567707e084f4919d26a27c2",
-                "reference": "3558ab1a99b80812d567707e084f4919d26a27c2",
+                "url": "https://api.github.com/repos/Seravo/seravo-plugin/zipball/f065e5122913a1cc3e201879aedb7851fee70d6b",
+                "reference": "f065e5122913a1cc3e201879aedb7851fee70d6b",
                 "shasum": ""
             },
             "require": {
@@ -795,7 +795,7 @@
                 "wp",
                 "wp-palvelu"
             ],
-            "time": "2018-08-28T08:04:15+00:00"
+            "time": "2018-10-08T07:53:33+00:00"
         },
         {
             "name": "vlucas/phpdotenv",
