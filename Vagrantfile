@@ -153,23 +153,9 @@ Vagrant.configure('2') do |config|
         system "git init ."
       end
 
-      # Activate githooks for testing, etc...
-      git_hooks_dir = File.join(DIR,".git","hooks")
-      unless ( Vagrant::Util::Platform.windows? or File.exists?(File.join(git_hooks_dir,'.activated')) )
-        if confirm "Activate git hooks in scripts/hooks?"
-          # symlink git on remote
-          run_remote "wp-activate-git-hooks"
-
-          # create hook folder (if not exists) and symlink git on host machine
-          Dir.mkdir git_hooks_dir unless File.exists? git_hooks_dir
-          Dir.chdir git_hooks_dir
-
-          # Symlink all files from scripts to here
-          system "ln -sf ../../scripts/hooks/* ."
-          FileUtils.chmod_R(0755,File.join(DIR,'scripts','hooks'))
-          # Touch .activated file so that we don't have to do this again
-          touch_file( File.join(git_hooks_dir,'.activated'))
-        end
+      # Don't activate git hooks, just notify them
+      if File.exists?( File.join(DIR,'.git', 'hooks', 'pre-commit') )
+        puts "If you want to use a git pre-commit hook please run 'wp-activate-git-hooks' inside the Vagrant box."
       end
 
       case RbConfig::CONFIG['host_os']
