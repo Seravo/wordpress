@@ -49,7 +49,7 @@ Vagrant.configure('2') do |config|
   config.ssh.forward_agent = true
 
   # Minimum box version requirement for this Vagrantfile revision
-  config.vm.box_version = ">= 20160718.15.0122"
+  config.vm.box_version = ">= 20181112.0.0"
 
   # Use precompiled box
   config.vm.box = 'seravo/wordpress'
@@ -105,11 +105,6 @@ Vagrant.configure('2') do |config|
   if File.exists? File.join(Dir.home, ".ssh", "id_rsa.pub")
     id_rsa_ssh_key_pub = File.read(File.join(Dir.home, ".ssh", "id_rsa.pub"))
     config.vm.provision :shell, :inline => "echo '#{id_rsa_ssh_key_pub }' >> /home/vagrant/.ssh/authorized_keys && chmod 600 /home/vagrant/.ssh/authorized_keys"
-  end
-
-  # Do vagrant specific scripts here
-  unless site_config['name'].nil?
-    config.vm.provision :shell, :inline => "sudo wp-vagrant-activation"
   end
 
   # Some useful triggers for better workflow
