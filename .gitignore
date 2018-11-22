@@ -45,8 +45,10 @@ node_modules
 # Vagrant run-time output, not need to track in git
 bin
 .vagrant
-mkmf.log
 myrecording
+
+# Don't store any logs in version control
+*.log
 
 # OSX Desktop Services Store files.
 .DS_Store
