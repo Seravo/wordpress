@@ -49,9 +49,9 @@
     }
   ],
   "require": {
-    "php": ">=5.3.2",
-    "johnpbloch/wordpress-core-installer": "^0.2.1",
-    "johnpbloch/wordpress-core": "^4.7",
+    "php": ">=5.6",
+    "johnpbloch/wordpress-core-installer": "^1.0",
+    "johnpbloch/wordpress-core": "^5.0",
     "composer/installers": "v1.0.12",
     "koodimonni/composer-dropin-installer": ">=0.2.4",
     "vlucas/phpdotenv": "v2.4.0",
@@ -59,12 +59,12 @@
     "koodimonni-language/fi": "*",
     "koodimonni-language/sv_SE": "*",
 
-    "seravo/seravo-plugin": ">=1.4.0",
+    "seravo/seravo-plugin": ">=1.9.0",
 
     "wpackagist-plugin/auto-post-thumbnail": "*",
     "wpackagist-plugin/google-analytics-dashboard-for-wp": "*",
 
-    "wpackagist-theme/twentyseventeen": "*"
+    "wpackagist-theme/twentynineteen": "*"
   },
   "extra": {
     "installer-paths": {
