@@ -1,7 +1,0 @@
-source 'https://rubygems.org'
-#For testing
-gem 'rspec','3.1.0'
-gem 'rspec-retry'
-gem 'poltergeist'
-gem 'capybara'
-gem 'capybara-screenshot'
