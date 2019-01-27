@@ -4,39 +4,43 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f571f61427731c6a19ca5b99461b53ab",
+    "content-hash": "b71451d4ffa24d1762f766a4bb71134b",
     "packages": [
         {
             "name": "composer/installers",
-            "version": "v1.0.12",
+            "version": "v1.6.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/composer/installers.git",
-                "reference": "4127333b03e8b4c08d081958548aae5419d1a2fa"
+                "reference": "cfcca6b1b60bc4974324efb5783c13dca6932b5b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/composer/installers/zipball/4127333b03e8b4c08d081958548aae5419d1a2fa",
-                "reference": "4127333b03e8b4c08d081958548aae5419d1a2fa",
+                "url": "https://api.github.com/repos/composer/installers/zipball/cfcca6b1b60bc4974324efb5783c13dca6932b5b",
+                "reference": "cfcca6b1b60bc4974324efb5783c13dca6932b5b",
                 "shasum": ""
             },
+            "require": {
+                "composer-plugin-api": "^1.0"
+            },
             "replace": {
+                "roundcube/plugin-installer": "*",
                 "shama/baton": "*"
             },
             "require-dev": {
                 "composer/composer": "1.0.*@dev",
-                "phpunit/phpunit": "3.7.*"
+                "phpunit/phpunit": "^4.8.36"
             },
-            "type": "composer-installer",
+            "type": "composer-plugin",
             "extra": {
-                "class": "Composer\\Installers\\Installer",
+                "class": "Composer\\Installers\\Plugin",
                 "branch-alias": {
                     "dev-master": "1.0-dev"
                 }
             },
             "autoload": {
-                "psr-0": {
-                    "Composer\\Installers\\": "src/"
+                "psr-4": {
+                    "Composer\\Installers\\": "src/Composer/Installers"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -47,68 +51,100 @@
                 {
                     "name": "Kyle Robinson Young",
                     "email": "kyle@dontkry.com",
-                    "homepage": "https://github.com/shama",
-                    "role": "Developer"
+                    "homepage": "https://github.com/shama"
                 }
             ],
             "description": "A multi-framework Composer library installer",
-            "homepage": "http://composer.github.com/installers/",
+            "homepage": "https://composer.github.io/installers/",
             "keywords": [
                 "Craft",
+                "Dolibarr",
+                "Eliasis",
                 "Hurad",
+                "ImageCMS",
+                "Kanboard",
+                "Lan Management System",
                 "MODX Evo",
+                "Mautic",
+                "Maya",
                 "OXID",
+                "Plentymarkets",
+                "Porto",
+                "RadPHP",
+                "SMF",
+                "Thelia",
                 "WolfCMS",
                 "agl",
+                "aimeos",
                 "annotatecms",
+                "attogram",
+                "bitrix",
                 "cakephp",
+                "chef",
+                "cockpit",
                 "codeigniter",
                 "concrete5",
                 "croogo",
+                "dokuwiki",
                 "drupal",
+                "eZ Platform",
                 "elgg",
+                "expressionengine",
                 "fuelphp",
+                "grav",
                 "installer",
+                "itop",
                 "joomla",
                 "kohana",
                 "laravel",
+                "lavalite",
                 "lithium",
                 "magento",
+                "majima",
                 "mako",
                 "mediawiki",
                 "modulework",
+                "modx",
+                "moodle",
+                "osclass",
                 "phpbb",
                 "piwik",
                 "ppi",
+                "puppet",
+                "pxcms",
+                "reindex",
+                "roundcube",
                 "shopware",
                 "silverstripe",
+                "sydes",
                 "symfony",
                 "typo3",
                 "wordpress",
+                "yawik",
                 "zend",
                 "zikula"
             ],
-            "time": "2014-02-24T04:21:34+00:00"
+            "time": "2018-08-27T06:10:37+00:00"
         },
         {
             "name": "johnpbloch/wordpress-core",
-            "version": "5.0.3",
+            "version": "5.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/johnpbloch/wordpress-core.git",
-                "reference": "76c8acab20262adc0eb70d20aace3d36c2f3a16f"
+                "reference": "07c57b738c9967e5643641a44e659b5851c066af"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/johnpbloch/wordpress-core/zipball/76c8acab20262adc0eb70d20aace3d36c2f3a16f",
-                "reference": "76c8acab20262adc0eb70d20aace3d36c2f3a16f",
+                "url": "https://api.github.com/repos/johnpbloch/wordpress-core/zipball/07c57b738c9967e5643641a44e659b5851c066af",
+                "reference": "07c57b738c9967e5643641a44e659b5851c066af",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.2"
             },
             "provide": {
-                "wordpress/core-implementation": "5.0.3"
+                "wordpress/core-implementation": "5.1.0"
             },
             "type": "wordpress-core",
             "notification-url": "https://packagist.org/downloads/",
@@ -128,7 +164,7 @@
                 "cms",
                 "wordpress"
             ],
-            "time": "2019-01-09T18:42:15+00:00"
+            "time": "2019-02-22T18:16:24+00:00"
         },
         {
             "name": "johnpbloch/wordpress-core-installer",
@@ -181,10 +217,10 @@
         },
         {
             "name": "koodimonni-language/fi",
-            "version": "5.0.3",
+            "version": "5.1",
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/translation/core/5.0.3/fi.zip",
+                "url": "https://downloads.wordpress.org/translation/core/5.1/fi.zip",
                 "reference": null,
                 "shasum": null
             },
@@ -214,10 +250,10 @@
         },
         {
             "name": "koodimonni-language/sv_se",
-            "version": "5.0.3",
+            "version": "5.1",
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/translation/core/5.0.3/sv_SE.zip",
+                "url": "https://downloads.wordpress.org/translation/core/5.1/sv_SE.zip",
                 "reference": null,
                 "shasum": null
             },
@@ -268,10 +304,10 @@
         },
         {
             "name": "koodimonni-plugin-language/akismet-sv_se",
-            "version": "4.1",
+            "version": "4.1.1",
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/translation/plugin/akismet/4.1/sv_SE.zip",
+                "url": "https://downloads.wordpress.org/translation/plugin/akismet/4.1.1/sv_SE.zip",
                 "reference": null,
                 "shasum": null
             },
@@ -331,10 +367,10 @@
         },
         {
             "name": "koodimonni-plugin-language/woocommerce-fi",
-            "version": "3.5.4",
+            "version": "3.5.5",
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/translation/plugin/woocommerce/3.5.4/fi.zip",
+                "url": "https://downloads.wordpress.org/translation/plugin/woocommerce/3.5.5/fi.zip",
                 "reference": null,
                 "shasum": null
             },
@@ -352,10 +388,10 @@
         },
         {
             "name": "koodimonni-plugin-language/woocommerce-sv_se",
-            "version": "3.5.4",
+            "version": "3.5.5",
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/translation/plugin/woocommerce/3.5.4/sv_SE.zip",
+                "url": "https://downloads.wordpress.org/translation/plugin/woocommerce/3.5.5/sv_SE.zip",
                 "reference": null,
                 "shasum": null
             },
@@ -436,10 +472,10 @@
         },
         {
             "name": "koodimonni-theme-language/twentyeleven-sv_se",
-            "version": "3.1",
+            "version": "3.2",
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/translation/theme/twentyeleven/3.1/sv_SE.zip",
+                "url": "https://downloads.wordpress.org/translation/theme/twentyeleven/3.2/sv_SE.zip",
                 "reference": null,
                 "shasum": null
             },
@@ -478,10 +514,10 @@
         },
         {
             "name": "koodimonni-theme-language/twentyfifteen-sv_se",
-            "version": "2.3",
+            "version": "2.4",
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/translation/theme/twentyfifteen/2.3/sv_SE.zip",
+                "url": "https://downloads.wordpress.org/translation/theme/twentyfifteen/2.4/sv_SE.zip",
                 "reference": null,
                 "shasum": null
             },
@@ -520,10 +556,10 @@
         },
         {
             "name": "koodimonni-theme-language/twentyfourteen-sv_se",
-            "version": "2.5",
+            "version": "2.6",
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/translation/theme/twentyfourteen/2.5/sv_SE.zip",
+                "url": "https://downloads.wordpress.org/translation/theme/twentyfourteen/2.6/sv_SE.zip",
                 "reference": null,
                 "shasum": null
             },
@@ -562,10 +598,10 @@
         },
         {
             "name": "koodimonni-theme-language/twentysixteen-sv_se",
-            "version": "1.8",
+            "version": "1.9",
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/translation/theme/twentysixteen/1.8/sv_SE.zip",
+                "url": "https://downloads.wordpress.org/translation/theme/twentysixteen/1.9/sv_SE.zip",
                 "reference": null,
                 "shasum": null
             },
@@ -604,10 +640,10 @@
         },
         {
             "name": "koodimonni-theme-language/twentyten-sv_se",
-            "version": "2.7",
+            "version": "2.8",
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/translation/theme/twentyten/2.7/sv_SE.zip",
+                "url": "https://downloads.wordpress.org/translation/theme/twentyten/2.8/sv_SE.zip",
                 "reference": null,
                 "shasum": null
             },
@@ -646,10 +682,10 @@
         },
         {
             "name": "koodimonni-theme-language/twentythirteen-sv_se",
-            "version": "2.7",
+            "version": "2.8",
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/translation/theme/twentythirteen/2.7/sv_SE.zip",
+                "url": "https://downloads.wordpress.org/translation/theme/twentythirteen/2.8/sv_SE.zip",
                 "reference": null,
                 "shasum": null
             },
@@ -688,10 +724,10 @@
         },
         {
             "name": "koodimonni-theme-language/twentytwelve-sv_se",
-            "version": "2.8",
+            "version": "2.9",
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/translation/theme/twentytwelve/2.8/sv_SE.zip",
+                "url": "https://downloads.wordpress.org/translation/theme/twentytwelve/2.9/sv_SE.zip",
                 "reference": null,
                 "shasum": null
             },
@@ -752,20 +788,20 @@
         },
         {
             "name": "seravo/seravo-plugin",
-            "version": "1.9.6",
+            "version": "1.9.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Seravo/seravo-plugin.git",
-                "reference": "5511340dd7853f8081895e7f34b7a0c759691804"
+                "reference": "8cb6d84f5f63b87fbf11d129a3001b0c3360c36c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Seravo/seravo-plugin/zipball/5511340dd7853f8081895e7f34b7a0c759691804",
-                "reference": "5511340dd7853f8081895e7f34b7a0c759691804",
+                "url": "https://api.github.com/repos/Seravo/seravo-plugin/zipball/8cb6d84f5f63b87fbf11d129a3001b0c3360c36c",
+                "reference": "8cb6d84f5f63b87fbf11d129a3001b0c3360c36c",
                 "shasum": ""
             },
             "require": {
-                "composer/installers": "v1.0.12"
+                "composer/installers": "^1.0"
             },
             "type": "wordpress-muplugin",
             "notification-url": "https://packagist.org/downloads/",
@@ -796,32 +832,91 @@
                 "wp",
                 "wp-palvelu"
             ],
-            "time": "2019-01-22T07:57:16+00:00"
+            "time": "2019-02-25T17:30:57+00:00"
         },
         {
-            "name": "vlucas/phpdotenv",
-            "version": "v2.4.0",
+            "name": "symfony/polyfill-ctype",
+            "version": "v1.10.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/vlucas/phpdotenv.git",
-                "reference": "3cc116adbe4b11be5ec557bf1d24dc5e3a21d18c"
+                "url": "https://github.com/symfony/polyfill-ctype.git",
+                "reference": "e3d826245268269cd66f8326bd8bc066687b4a19"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/vlucas/phpdotenv/zipball/3cc116adbe4b11be5ec557bf1d24dc5e3a21d18c",
-                "reference": "3cc116adbe4b11be5ec557bf1d24dc5e3a21d18c",
+                "url": "https://api.github.com/repos/symfony/polyfill-ctype/zipball/e3d826245268269cd66f8326bd8bc066687b4a19",
+                "reference": "e3d826245268269cd66f8326bd8bc066687b4a19",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.3.9"
+                "php": ">=5.3.3"
             },
-            "require-dev": {
-                "phpunit/phpunit": "^4.8 || ^5.0"
+            "suggest": {
+                "ext-ctype": "For best performance"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.4-dev"
+                    "dev-master": "1.9-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Polyfill\\Ctype\\": ""
+                },
+                "files": [
+                    "bootstrap.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                },
+                {
+                    "name": "Gert de Pagter",
+                    "email": "BackEndTea@gmail.com"
+                }
+            ],
+            "description": "Symfony polyfill for ctype functions",
+            "homepage": "https://symfony.com",
+            "keywords": [
+                "compatibility",
+                "ctype",
+                "polyfill",
+                "portable"
+            ],
+            "time": "2018-08-06T14:22:27+00:00"
+        },
+        {
+            "name": "vlucas/phpdotenv",
+            "version": "v2.6.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/vlucas/phpdotenv.git",
+                "reference": "2a7dcf7e3e02dc5e701004e51a6f304b713107d5"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/vlucas/phpdotenv/zipball/2a7dcf7e3e02dc5e701004e51a6f304b713107d5",
+                "reference": "2a7dcf7e3e02dc5e701004e51a6f304b713107d5",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.9",
+                "symfony/polyfill-ctype": "^1.9"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^4.8.35 || ^5.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.6-dev"
                 }
             },
             "autoload": {
@@ -831,7 +926,7 @@
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
-                "BSD-3-Clause-Attribution"
+                "BSD-3-Clause"
             ],
             "authors": [
                 {
@@ -846,7 +941,7 @@
                 "env",
                 "environment"
             ],
-            "time": "2016-09-01T10:05:43+00:00"
+            "time": "2019-01-29T11:11:52+00:00"
         },
         {
             "name": "wpackagist-plugin/auto-post-thumbnail",
@@ -890,15 +985,15 @@
         },
         {
             "name": "wpackagist-theme/twentynineteen",
-            "version": "1.2",
+            "version": "1.3",
             "source": {
                 "type": "svn",
                 "url": "https://themes.svn.wordpress.org/twentynineteen/",
-                "reference": "1.2"
+                "reference": "1.3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/theme/twentynineteen.1.2.zip",
+                "url": "https://downloads.wordpress.org/theme/twentynineteen.1.3.zip",
                 "reference": null,
                 "shasum": null
             },

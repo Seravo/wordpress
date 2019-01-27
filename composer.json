@@ -53,13 +53,13 @@
     "johnpbloch/wordpress-core-installer": "^1.0",
     "johnpbloch/wordpress-core": "^5.0",
     "composer/installers": "^1.0",
-    "koodimonni/composer-dropin-installer": ">=0.2.4",
-    "vlucas/phpdotenv": "v2.4.0",
+    "koodimonni/composer-dropin-installer": "^1.0",
+    "vlucas/phpdotenv": "^2.4",
 
     "koodimonni-language/fi": "*",
     "koodimonni-language/sv_se": "*",
 
-    "seravo/seravo-plugin": ">=1.9.0",
+    "seravo/seravo-plugin": "*",
 
     "wpackagist-plugin/auto-post-thumbnail": "*",
     "wpackagist-plugin/google-analytics-dashboard-for-wp": "*",
