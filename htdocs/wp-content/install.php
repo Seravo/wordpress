@@ -38,11 +38,19 @@ function wp_install( $blog_title, $user_name, $user_email, $public, $deprecated 
   update_option('admin_email', $user_email);
   update_option('blog_public', $public);
 
-  // Seravo: Set a specific site description which typically is blank
-  update_option('blogdescription',__('A fresh WordPress installation by Seravo'));
-
   // Freshness of site - in the future, this could get more specific about actions taken, perhaps.
   update_option( 'fresh_site', 1 );
+
+  // Seravo: Pickup environment defined language
+  $env_wp_lang = getenv('WP_LANG');
+
+  // Seravo: Load the text domain for environment variable
+  if ( ! $language && $env_wp_lang) {
+      $language = $env_wp_lang;
+
+      load_default_textdomain( $env_wp_lang );
+      $GLOBALS['wp_locale'] = new WP_Locale();
+  }
 
   if ( $language ) {
     update_option( 'WPLANG', $language );
@@ -140,77 +148,78 @@ function wp_install_defaults( $user_id ) {
     $wpdb->insert( $wpdb->term_taxonomy, array('term_id' => $cat_id, 'taxonomy' => 'category', 'description' => '', 'parent' => 0, 'count' => 1));
     $cat_tt_id = $wpdb->insert_id;
 
-    // First post
+    // Seravo: Don't create first post and comment to make the install cleaner
+//    // First post
     $now = current_time( 'mysql' );
     $now_gmt = current_time( 'mysql', 1 );
-    $first_post_guid = get_option( 'home' ) . '/?p=1';
-
-    if ( is_multisite() ) {
-        $first_post = get_site_option( 'first_post' );
-
-        if ( ! $first_post ) {
-            $first_post = "<!-- wp:paragraph -->\n<p>" .
-                /* translators: first post content, %s: site link */
-                __( 'Welcome to %s. This is your first post. Edit or delete it, then start writing!' ) .
-                "</p>\n<!-- /wp:paragraph -->";
-        }
-
-        $first_post = sprintf( $first_post,
-            sprintf( '<a href="%s">%s</a>', esc_url( network_home_url() ), get_network()->site_name )
-        );
-
-        // Back-compat for pre-4.4
-        $first_post = str_replace( 'SITE_URL', esc_url( network_home_url() ), $first_post );
-        $first_post = str_replace( 'SITE_NAME', get_network()->site_name, $first_post );
-    } else {
-        $first_post = "<!-- wp:paragraph -->\n<p>" .
-            /* translators: first post content, %s: site link */
-            __( 'Welcome to WordPress. This is your first post. Edit or delete it, then start writing!' ) .
-            "</p>\n<!-- /wp:paragraph -->";
-    }
-
-    $wpdb->insert( $wpdb->posts, array(
-        'post_author' => $user_id,
-        'post_date' => $now,
-        'post_date_gmt' => $now_gmt,
-        'post_content' => $first_post,
-        'post_excerpt' => '',
-        'post_title' => __('Hello world!'),
-        /* translators: Default post slug */
-        'post_name' => sanitize_title( _x('hello-world', 'Default post slug') ),
-        'post_modified' => $now,
-        'post_modified_gmt' => $now_gmt,
-        'guid' => $first_post_guid,
-        'comment_count' => 1,
-        'to_ping' => '',
-        'pinged' => '',
-        'post_content_filtered' => ''
-    ));
-    $wpdb->insert( $wpdb->term_relationships, array('term_taxonomy_id' => $cat_tt_id, 'object_id' => 1) );
-
-    // Default comment
-    if ( is_multisite() ) {
-        $first_comment_author = get_site_option( 'first_comment_author' );
-        $first_comment_email = get_site_option( 'first_comment_email' );
-        $first_comment_url = get_site_option( 'first_comment_url', network_home_url() );
-        $first_comment = get_site_option( 'first_comment' );
-    }
-
-    $first_comment_author = ! empty( $first_comment_author ) ? $first_comment_author : __( 'A WordPress Commenter' );
-    $first_comment_email = ! empty( $first_comment_email ) ? $first_comment_email : 'wapuu@wordpress.example';
-    $first_comment_url = ! empty( $first_comment_url ) ? $first_comment_url : 'https://wordpress.org/';
-    $first_comment = ! empty( $first_comment ) ? $first_comment :  __( 'Hi, this is a comment.
-To get started with moderating, editing, and deleting comments, please visit the Comments screen in the dashboard.
-Commenter avatars come from <a href="https://gravatar.com">Gravatar</a>.' );
-    $wpdb->insert( $wpdb->comments, array(
-        'comment_post_ID' => 1,
-        'comment_author' => $first_comment_author,
-        'comment_author_email' => $first_comment_email,
-        'comment_author_url' => $first_comment_url,
-        'comment_date' => $now,
-        'comment_date_gmt' => $now_gmt,
-        'comment_content' => $first_comment
-    ));
+//    $first_post_guid = get_option( 'home' ) . '/?p=1';
+//
+//    if ( is_multisite() ) {
+//        $first_post = get_site_option( 'first_post' );
+//
+//        if ( ! $first_post ) {
+//            $first_post = "<!-- wp:paragraph -->\n<p>" .
+//                /* translators: first post content, %s: site link */
+//                __( 'Welcome to %s. This is your first post. Edit or delete it, then start writing!' ) .
+//                "</p>\n<!-- /wp:paragraph -->";
+//        }
+//
+//        $first_post = sprintf( $first_post,
+//            sprintf( '<a href="%s">%s</a>', esc_url( network_home_url() ), get_network()->site_name )
+//        );
+//
+//        // Back-compat for pre-4.4
+//        $first_post = str_replace( 'SITE_URL', esc_url( network_home_url() ), $first_post );
+//        $first_post = str_replace( 'SITE_NAME', get_network()->site_name, $first_post );
+//    } else {
+//        $first_post = "<!-- wp:paragraph -->\n<p>" .
+//            /* translators: first post content, %s: site link */
+//            __( 'Welcome to WordPress. This is your first post. Edit or delete it, then start writing!' ) .
+//            "</p>\n<!-- /wp:paragraph -->";
+//    }
+//
+//    $wpdb->insert( $wpdb->posts, array(
+//        'post_author' => $user_id,
+//        'post_date' => $now,
+//        'post_date_gmt' => $now_gmt,
+//        'post_content' => $first_post,
+//        'post_excerpt' => '',
+//        'post_title' => __('Hello world!'),
+//        /* translators: Default post slug */
+//        'post_name' => sanitize_title( _x('hello-world', 'Default post slug') ),
+//        'post_modified' => $now,
+//        'post_modified_gmt' => $now_gmt,
+//        'guid' => $first_post_guid,
+//        'comment_count' => 1,
+//        'to_ping' => '',
+//        'pinged' => '',
+//        'post_content_filtered' => ''
+//    ));
+//    $wpdb->insert( $wpdb->term_relationships, array('term_taxonomy_id' => $cat_tt_id, 'object_id' => 1) );
+//
+//    // Default comment
+//    if ( is_multisite() ) {
+//        $first_comment_author = get_site_option( 'first_comment_author' );
+//        $first_comment_email = get_site_option( 'first_comment_email' );
+//        $first_comment_url = get_site_option( 'first_comment_url', network_home_url() );
+//        $first_comment = get_site_option( 'first_comment' );
+//    }
+//
+//    $first_comment_author = ! empty( $first_comment_author ) ? $first_comment_author : __( 'A WordPress Commenter' );
+//    $first_comment_email = ! empty( $first_comment_email ) ? $first_comment_email : 'wapuu@wordpress.example';
+//    $first_comment_url = ! empty( $first_comment_url ) ? $first_comment_url : 'https://wordpress.org/';
+//    $first_comment = ! empty( $first_comment ) ? $first_comment :  __( 'Hi, this is a comment.
+//To get started with moderating, editing, and deleting comments, please visit the Comments screen in the dashboard.
+//Commenter avatars come from <a href="https://gravatar.com">Gravatar</a>.' );
+//    $wpdb->insert( $wpdb->comments, array(
+//        'comment_post_ID' => 1,
+//        'comment_author' => $first_comment_author,
+//        'comment_author_email' => $first_comment_email,
+//        'comment_author_url' => $first_comment_url,
+//        'comment_date' => $now,
+//        'comment_date_gmt' => $now_gmt,
+//        'comment_content' => $first_comment
+//    ));
 
     // First Page
     if ( is_multisite() )
@@ -246,7 +255,7 @@ Commenter avatars come from <a href="https://gravatar.com">Gravatar</a>.' );
         $first_page .= "</p>\n<!-- /wp:paragraph -->";
     }
 
-    $first_post_guid = get_option('home') . '/?page_id=2';
+    $first_post_guid = get_option('home') . '/?page_id=1';
     $wpdb->insert( $wpdb->posts, array(
         'post_author' => $user_id,
         'post_date' => $now,
@@ -265,7 +274,7 @@ Commenter avatars come from <a href="https://gravatar.com">Gravatar</a>.' );
         'pinged' => '',
         'post_content_filtered' => ''
     ));
-    $wpdb->insert( $wpdb->postmeta, array( 'post_id' => 2, 'meta_key' => '_wp_page_template', 'meta_value' => 'default' ) );
+    $wpdb->insert( $wpdb->postmeta, array( 'post_id' => 1, 'meta_key' => '_wp_page_template', 'meta_value' => 'default' ) );
 
     // Privacy Policy page
     if ( is_multisite() ) {
@@ -280,7 +289,7 @@ Commenter avatars come from <a href="https://gravatar.com">Gravatar</a>.' );
     }
 
     if ( ! empty( $privacy_policy_content ) ) {
-        $privacy_policy_guid = get_option( 'home' ) . '/?page_id=3';
+        $privacy_policy_guid = get_option( 'home' ) . '/?page_id=2';
 
         $wpdb->insert(
             $wpdb->posts, array(
@@ -305,22 +314,23 @@ Commenter avatars come from <a href="https://gravatar.com">Gravatar</a>.' );
         );
         $wpdb->insert(
             $wpdb->postmeta, array(
-                'post_id'    => 3,
+                'post_id'    => 2,
                 'meta_key'   => '_wp_page_template',
                 'meta_value' => 'default',
             )
         );
-        update_option( 'wp_page_for_privacy_policy', 3 );
+        update_option( 'wp_page_for_privacy_policy', 2 );
     }
 
-    // Set up default widgets for default theme.
-    update_option( 'widget_search', array ( 2 => array ( 'title' => '' ), '_multiwidget' => 1 ) );
-    update_option( 'widget_recent-posts', array ( 2 => array ( 'title' => '', 'number' => 5 ), '_multiwidget' => 1 ) );
-    update_option( 'widget_recent-comments', array ( 2 => array ( 'title' => '', 'number' => 5 ), '_multiwidget' => 1 ) );
-    update_option( 'widget_archives', array ( 2 => array ( 'title' => '', 'count' => 0, 'dropdown' => 0 ), '_multiwidget' => 1 ) );
-    update_option( 'widget_categories', array ( 2 => array ( 'title' => '', 'count' => 0, 'hierarchical' => 0, 'dropdown' => 0 ), '_multiwidget' => 1 ) );
-    update_option( 'widget_meta', array ( 2 => array ( 'title' => '' ), '_multiwidget' => 1 ) );
-    update_option( 'sidebars_widgets', array( 'wp_inactive_widgets' => array(), 'sidebar-1' => array( 0 => 'search-2', 1 => 'recent-posts-2', 2 => 'recent-comments-2', 3 => 'archives-2', 4 => 'categories-2', 5 => 'meta-2' ), 'array_version' => 3 ) );
+    // Seravo: Don't setup standard widgets to make the install cleaner
+//    // Set up default widgets for default theme.
+//    update_option( 'widget_search', array ( 2 => array ( 'title' => '' ), '_multiwidget' => 1 ) );
+//    update_option( 'widget_recent-posts', array ( 2 => array ( 'title' => '', 'number' => 5 ), '_multiwidget' => 1 ) );
+//    update_option( 'widget_recent-comments', array ( 2 => array ( 'title' => '', 'number' => 5 ), '_multiwidget' => 1 ) );
+//    update_option( 'widget_archives', array ( 2 => array ( 'title' => '', 'count' => 0, 'dropdown' => 0 ), '_multiwidget' => 1 ) );
+//    update_option( 'widget_categories', array ( 2 => array ( 'title' => '', 'count' => 0, 'hierarchical' => 0, 'dropdown' => 0 ), '_multiwidget' => 1 ) );
+//    update_option( 'widget_meta', array ( 2 => array ( 'title' => '' ), '_multiwidget' => 1 ) );
+//    update_option( 'sidebars_widgets', array( 'wp_inactive_widgets' => array(), 'sidebar-1' => array( 0 => 'search-2', 1 => 'recent-posts-2', 2 => 'recent-comments-2', 3 => 'archives-2', 4 => 'categories-2', 5 => 'meta-2' ), 'array_version' => 3 ) );
     if ( ! is_multisite() )
         update_user_meta( $user_id, 'show_welcome_panel', 1 );
     elseif ( ! is_super_admin( $user_id ) && ! metadata_exists( 'user', $user_id, 'show_welcome_panel' ) )
@@ -348,59 +358,80 @@ Commenter avatars come from <a href="https://gravatar.com">Gravatar</a>.' );
      */
 
     /** @see wp-admin/options-general.php */
+   // Set timezone, date and time format
+    update_option( 'timezone_string', seravo_timezone_string() );
+    update_option( 'date_format', seravo_date_format() );
+    update_option( 'time_format', seravo_time_format() );
 
-    /** Time zone: "Helsinki" */
-    update_option( 'timezone_string', 'Europe/Helsinki' );
+    /** @see wp-admin/options-reading.php */
+    // Set the created page to show on the homepage
+    update_option( 'show_on_front', 'page' );
+    update_option( 'page_on_front', 1 );
 
     /** @see wp-admin/options-discussion.php */
-
-    /** Before a comment appears a comment must be manually approved: true */
-    update_option( 'comment_moderation', 1 );
-
-    /** Before a comment appears the comment author must have a previously approved comment: false */
-    update_option( 'comment_whitelist', 0 );
-
-    /** Allow people to post comments on new articles (this setting may be overridden for individual articles): false */
+    //Allow people to post comments on new articles (this setting may be overridden for individual articles): false
     update_option( 'default_comment_status', 0 );
 
-    /** Allow link notifications from other blogs: false */
-    update_option( 'default_ping_status', 0 );
-
-    /** Attempt to notify any blogs linked to from the article: false */
-    update_option( 'default_pingback_flag', 0 );
-
-    /** @see wp-admin/options-media.php */
-
-    /** Organize my uploads into month- and year-based folders: false */
-    // TODO: this might be better for seo so that links don't suffer from ageism
-    //update_option( 'uploads_use_yearmonth_folders', 0 );
-
     /** @see wp-admin/options-permalink.php */
-
-    /** Permalink custom structure: /%postname% */
+    // Permalink custom structure: /%postname%
     update_option( 'permalink_structure', '/%postname%/' );
 
-    /** @see wp-admin/includes/screen.php */
-
-    /** Show welcome panel: false */
-    update_user_meta( $user_id, 'show_welcome_panel', 0 );
-
-    /** @see wp-includes/user.php */
-
-    /** Disable the visual editor when writing: false */
-    //update_user_meta( $user_id, 'rich_editing', 0 );
-
-    /** Show toolbar when viewing site: false */
-    //update_user_meta( $user_id, 'show_admin_bar_front', 0 );
-
     /** Activate some plugins automatically if they exists */
-    wp_palvelu_install_activate_plugins();
+    seravo_install_activate_plugins();
 }
 
-/*
+/**
+ * Helper functions to return language specific content and options
+ */
+function seravo_timezone_string() {
+
+    $env_wp_lang = getenv('WP_LANG');
+
+    if ( 'fi' == get_locale() || 'fi' == $env_wp_lang ) {
+        $seravo_timezone_string = 'Europe/Helsinki';
+    } elseif ( 'sv_SE' == get_locale() || 'sv_SE' == $env_wp_lang ) {
+        $seravo_timezone_string = 'Europe/Stockholm';
+    } else {
+        $seravo_timezone_string = '';
+    }
+
+    return $seravo_timezone_string;
+}
+
+function seravo_date_format() {
+
+    $env_wp_lang = getenv('WP_LANG');
+
+    if ( 'fi' == get_locale() || 'fi' == $env_wp_lang ) {
+        $seravo_date_format = 'j.n.Y';
+    } elseif ( 'sv_SE' == get_locale() || 'sv_SE' == $env_wp_lang ) {
+        $seravo_date_format = 'Y-m-d';
+    } else {
+        $seravo_date_format = 'F j, Y';
+    }
+
+    return $seravo_date_format;
+}
+
+function seravo_time_format() {
+
+    $env_wp_lang = getenv('WP_LANG');
+
+    if ( 'fi' == get_locale() || 'fi' == $env_wp_lang ) {
+        $seravo_time_format = 'H:i';
+    } elseif ( 'sv_SE' == get_locale() || 'sv_SE' == $env_wp_lang ) {
+        $seravo_time_format = 'H:i';
+    } else {
+        $seravo_time_format = 'H:i';
+    }
+
+    return $seravo_time_format;
+}
+
+/**
  * Helper which activates some useful plugins
  */
-function wp_palvelu_install_activate_plugins() {
+function seravo_install_activate_plugins() {
 
   // Get the list of all installed plugins
   $all_plugins = get_plugins();
@@ -428,4 +459,3 @@ function wp_palvelu_install_activate_plugins() {
     }
   }
 }
-
