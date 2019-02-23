@@ -43,14 +43,11 @@ before_script:
 
   # Install packages for gulp
   - npm install
-  
+
   # Test gulp and compile assets
   - ./node_modules/.bin/gulp
 
-  # Install gems for rspec tests
-  - gem install bundler
-  - bundle install --gemfile=tests/rspec/Gemfile
-
-
 script:
-  - cd tests/rspec && bundle exec rspec *.rb
+  # Syntax check all php files and fail for any error text in STDERR
+  - '! find . -type f -name "*.php" -exec php -d error_reporting=32767 -l {} \; 2>&1 >&- | grep "^"'
+  # @TODO: Run a more extensive test using the above real WordPress installation
