@@ -103,10 +103,8 @@ if ( 'production' === getenv('WP_ENV') ) {
 } else {
   define('WP_DEBUG', true);
   define('WP_DEBUG_DISPLAY', true);
+  define('WP_DEBUG_LOG', '/data/log/wp-debug.log');
   define('SCRIPT_DEBUG', true);
-
-  // Enable this to write the wp-content/debug.log file
-  //define('WP_DEBUG_LOG', true);
 
   // Disable wp-content/object-cache.php from being active during development
   define('WP_REDIS_DISABLED', true);
