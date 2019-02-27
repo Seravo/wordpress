@@ -191,6 +191,7 @@ function wp_install_defaults( $user_id ) {
 
   $first_post_guid = get_option('home') . '/?page_id=1';
   $wpdb->insert( $wpdb->posts, array(
+    'id'                    => 1,
     'post_author'           => $user_id,
     'post_date'             => $now,
     'post_date_gmt'         => $now_gmt,
@@ -233,6 +234,7 @@ function wp_install_defaults( $user_id ) {
     $wpdb->insert(
       $wpdb->posts,
       array(
+        'id'                    => 2,
         'post_author'           => $user_id,
         'post_date'             => $now,
         'post_date_gmt'         => $now_gmt,
