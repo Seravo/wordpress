@@ -35,6 +35,11 @@ function wp_install( $blog_title, $user_name, $user_email, $public, $deprecated 
   populate_options();
   populate_roles();
 
+  // Since the default Vagrant box name is "wordpress", ensure
+  // it is capitalized correctly if used as site tile
+  if ( $blog_title == 'Wordpress' ) {
+    $blog_title = 'WordPress';
+  }
   update_option('blogname', $blog_title);
   update_option('admin_email', $user_email);
   update_option('blog_public', $public);
