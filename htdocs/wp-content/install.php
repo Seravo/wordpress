@@ -2,9 +2,9 @@
 /**
  * WordPress custom install script.
  *
- * Drop-ins are advanced plugins in the wp-content directory that replace WordPress functionality when present.
+ * Drop-ins are advanced plugins in the wp-content directory that replace
+ * WordPress functionality when present.
  *
- * Language: fi
  */
 
 /**
@@ -25,8 +25,9 @@
  * @return array Array keys 'url', 'user_id', 'password', and 'password_message'.
  */
 function wp_install( $blog_title, $user_name, $user_email, $public, $deprecated = '', $user_password = '', $language = '' ) {
-  if ( !empty( $deprecated ) )
+  if ( ! empty( $deprecated ) ) {
     _deprecated_argument( __FUNCTION__, '2.6' );
+  }
 
   wp_check_mysql_version();
   wp_cache_flush();
@@ -45,11 +46,11 @@ function wp_install( $blog_title, $user_name, $user_email, $public, $deprecated 
   $env_wp_lang = getenv('WP_LANG');
 
   // Seravo: Load the text domain for environment variable
-  if ( ! $language && $env_wp_lang) {
-      $language = $env_wp_lang;
+  if ( ! $language && $env_wp_lang ) {
+    $language = $env_wp_lang;
 
-      load_default_textdomain( $env_wp_lang );
-      $GLOBALS['wp_locale'] = new WP_Locale();
+    load_default_textdomain( $env_wp_lang );
+    $GLOBALS['wp_locale'] = new WP_Locale();
   }
 
   if ( $language ) {
@@ -61,8 +62,9 @@ function wp_install( $blog_title, $user_name, $user_email, $public, $deprecated 
   update_option('siteurl', $guessurl);
 
   // If not a public blog, don't ping.
-  if ( ! $public )
+  if ( ! $public ) {
     update_option('default_pingback_flag', 0);
+  }
 
   /*
    * Create default user. If the user already exists, the user tables are
@@ -71,7 +73,7 @@ function wp_install( $blog_title, $user_name, $user_email, $public, $deprecated 
   $user_id = username_exists($user_name);
   $user_password = trim($user_password);
   $email_password = false;
-  if ( !$user_id && empty($user_password) ) {
+  if ( ! $user_id && empty($user_password) ) {
     $user_password = wp_generate_password( 12, false );
     $message = __('<strong><em>Note that password</em></strong> carefully! It is a <em>random</em> password that was generated just for you.');
     $user_id = wp_create_user($user_name, $user_password, $user_email);
@@ -79,7 +81,7 @@ function wp_install( $blog_title, $user_name, $user_email, $public, $deprecated 
     $email_password = true;
   } elseif ( ! $user_id ) {
     // Password has been provided
-    $message = '<em>'.__('Your chosen password.').'</em>';
+    $message = '<em>' . __('Your chosen password.') . '</em>';
     $user_id = wp_create_user($user_name, $user_password, $user_email);
   } else {
     $message = __('User already exists. Password inherited.');
@@ -95,7 +97,7 @@ function wp_install( $blog_title, $user_name, $user_email, $public, $deprecated 
   flush_rewrite_rules();
 
   // Seravo: Don't notify the site admin that the setup is complete
-  //wp_new_blog_notification($blog_title, $guessurl, $user_id, ($email_password ? $user_password : __('The password you chose during the install.') ) );
+  // wp_new_blog_notification($blog_title, $guessurl, $user_id, ($email_password ? $user_password : __('The password you chose during the install.') ) );
 
   wp_cache_flush();
 
@@ -108,7 +110,12 @@ function wp_install( $blog_title, $user_name, $user_email, $public, $deprecated 
    */
   do_action( 'wp_install', $user );
 
-  return array('url' => $guessurl, 'user_id' => $user_id, 'password' => $user_password, 'password_message' => $message);
+  return array(
+    'url'              => $guessurl,
+    'user_id'          => $user_id,
+    'password'         => $user_password,
+    'password_message' => $message,
+  );
 }
 
 /**
@@ -128,162 +135,192 @@ function wp_install( $blog_title, $user_name, $user_email, $public, $deprecated 
 function wp_install_defaults( $user_id ) {
   global $wpdb, $wp_rewrite, $table_prefix;
 
-    // Default category
-    $cat_name = __('Uncategorized');
-    /* translators: Default category slug */
-    $cat_slug = sanitize_title(_x('Uncategorized', 'Default category slug'));
+  // Default category
+  $cat_name = __('Uncategorized');
+  /* translators: Default category slug */
+  $cat_slug = sanitize_title(_x('Uncategorized', 'Default category slug'));
 
-    if ( global_terms_enabled() ) {
-        $cat_id = $wpdb->get_var( $wpdb->prepare( "SELECT cat_ID FROM {$wpdb->sitecategories} WHERE category_nicename = %s", $cat_slug ) );
-        if ( $cat_id == null ) {
-            $wpdb->insert( $wpdb->sitecategories, array('cat_ID' => 0, 'cat_name' => $cat_name, 'category_nicename' => $cat_slug, 'last_updated' => current_time('mysql', true)) );
-            $cat_id = $wpdb->insert_id;
-        }
-        update_option('default_category', $cat_id);
-    } else {
-        $cat_id = 1;
+  if ( global_terms_enabled() ) {
+    $cat_id = $wpdb->get_var( $wpdb->prepare( "SELECT cat_ID FROM {$wpdb->sitecategories} WHERE category_nicename = %s", $cat_slug ) );
+    if ( $cat_id === null ) {
+      $wpdb->insert(
+        $wpdb->sitecategories,
+        array(
+          'cat_ID'            => 0,
+          'cat_name'          => $cat_name,
+          'category_nicename' => $cat_slug,
+          'last_updated'      => current_time('mysql', true),
+        )
+      );
+      $cat_id = $wpdb->insert_id;
+    }
+    update_option('default_category', $cat_id);
+  } else {
+    $cat_id = 1;
+  }
+
+  $wpdb->insert( $wpdb->terms, array(
+    'term_id'    => $cat_id,
+    'name'       => $cat_name,
+    'slug'       => $cat_slug,
+    'term_group' => 0,
+  ) );
+  $wpdb->insert( $wpdb->term_taxonomy, array(
+    'term_id'     => $cat_id,
+    'taxonomy'    => 'category',
+    'description' => '',
+    'parent'      => 0,
+    'count'       => 1,
+  ));
+  $cat_tt_id = $wpdb->insert_id;
+
+  // Seravo: Don't create first post and comment to make the install cleaner
+  // First post
+  $now = current_time( 'mysql' );
+  $now_gmt = current_time( 'mysql', 1 );
+
+  // First Page
+  if ( is_multisite() ) {
+    $first_page = get_site_option( 'first_page' );
+  }
+
+  if ( empty( $first_page ) ) {
+    // Seravo: Get content for first page from helper function
+    $first_page = seravo_first_page();
+  }
+
+  $first_post_guid = get_option('home') . '/?page_id=1';
+  $wpdb->insert( $wpdb->posts, array(
+    'post_author'           => $user_id,
+    'post_date'             => $now,
+    'post_date_gmt'         => $now_gmt,
+    'post_content'          => $first_page,
+    'post_excerpt'          => '',
+    'comment_status'        => 'closed',
+    'post_title'            => seravo_page_title(),
+    /* translators: Default page slug */
+    // Seravo: Set a slug that makes sense and dont interfere with possible other content
+    'post_name'             => __( 'seravo-start' ),
+    'post_modified'         => $now,
+    'post_modified_gmt'     => $now_gmt,
+    'guid'                  => $first_post_guid,
+    'post_type'             => 'page',
+    'to_ping'               => '',
+    'pinged'                => '',
+    'post_content_filtered' => '',
+  ));
+  $wpdb->insert( $wpdb->postmeta, array(
+    'post_id'    => 1,
+    'meta_key'   => '_wp_page_template',
+    'meta_value' => 'default',
+  ) );
+
+  // Privacy Policy page
+  if ( is_multisite() ) {
+    // Disable by default unless the suggested content is provided.
+    $privacy_policy_content = get_site_option( 'default_privacy_policy_content' );
+  } else {
+    if ( ! class_exists( 'WP_Privacy_Policy_Content' ) ) {
+      include_once ABSPATH . 'wp-admin/includes/misc.php';
     }
 
-    $wpdb->insert( $wpdb->terms, array('term_id' => $cat_id, 'name' => $cat_name, 'slug' => $cat_slug, 'term_group' => 0) );
-    $wpdb->insert( $wpdb->term_taxonomy, array('term_id' => $cat_id, 'taxonomy' => 'category', 'description' => '', 'parent' => 0, 'count' => 1));
-    $cat_tt_id = $wpdb->insert_id;
+    $privacy_policy_content = WP_Privacy_Policy_Content::get_default_content();
+  }
 
-    // Seravo: Don't create first post and comment to make the install cleaner
-    // First post
-    $now = current_time( 'mysql' );
-    $now_gmt = current_time( 'mysql', 1 );
+  if ( ! empty( $privacy_policy_content ) ) {
+    $privacy_policy_guid = get_option( 'home' ) . '/?page_id=2';
 
-    // First Page
-    if ( is_multisite() )
-        $first_page = get_site_option( 'first_page' );
+    $wpdb->insert(
+      $wpdb->posts,
+      array(
+        'post_author'           => $user_id,
+        'post_date'             => $now,
+        'post_date_gmt'         => $now_gmt,
+        'post_content'          => $privacy_policy_content,
+        'post_excerpt'          => '',
+        'comment_status'        => 'closed',
+        'post_title'            => __( 'Privacy Policy' ),
+        /* translators: Privacy Policy page slug */
+        'post_name'             => __( 'privacy-policy' ),
+        'post_modified'         => $now,
+        'post_modified_gmt'     => $now_gmt,
+        'guid'                  => $privacy_policy_guid,
+        'post_type'             => 'page',
+        'post_status'           => 'draft',
+        'to_ping'               => '',
+        'pinged'                => '',
+        'post_content_filtered' => '',
+      )
+    );
+    $wpdb->insert(
+      $wpdb->postmeta,
+      array(
+        'post_id'    => 2,
+        'meta_key'   => '_wp_page_template',
+        'meta_value' => 'default',
+      )
+    );
+    update_option( 'wp_page_for_privacy_policy', 2 );
+  }
 
-    if ( empty( $first_page ) ) {
+  // Seravo: Don't setup standard widgets to make the install cleaner
+  // Set up default widgets for default theme.
 
-        // Seravo: Get content for first page from helper function
-        $first_page = seravo_first_page();
+  if ( ! is_multisite() ) {
+    update_user_meta( $user_id, 'show_welcome_panel', 1 );
+  } elseif ( ! is_super_admin( $user_id ) && ! metadata_exists( 'user', $user_id, 'show_welcome_panel' ) ) {
+    update_user_meta( $user_id, 'show_welcome_panel', 2 );
+  }
 
+  if ( is_multisite() ) {
+    // Flush rules to pick up the new page.
+    $wp_rewrite->init();
+    $wp_rewrite->flush_rules();
+
+    $user = new WP_User($user_id);
+    $wpdb->update( $wpdb->options, array( 'option_value' => $user->user_email ), array( 'option_name' => 'admin_email' ) );
+
+    // Remove all perms except for the login user.
+    $wpdb->query( $wpdb->prepare("DELETE FROM $wpdb->usermeta WHERE user_id != %d AND meta_key = %s", $user_id, $table_prefix . 'user_level') );
+    $wpdb->query( $wpdb->prepare("DELETE FROM $wpdb->usermeta WHERE user_id != %d AND meta_key = %s", $user_id, $table_prefix . 'capabilities') );
+
+    // Delete any caps that snuck into the previously active blog. (Hardcoded to blog 1 for now.) TODO: Get previous_blog_id.
+    if ( ! is_super_admin( $user_id ) && $user_id != 1 ) {
+      $wpdb->delete( $wpdb->usermeta, array(
+        'user_id'  => $user_id,
+        'meta_key' => $wpdb->base_prefix . '1_capabilities',
+      ) );
     }
+  }
 
-    $first_post_guid = get_option('home') . '/?page_id=1';
-    $wpdb->insert( $wpdb->posts, array(
-        'post_author' => $user_id,
-        'post_date' => $now,
-        'post_date_gmt' => $now_gmt,
-        'post_content' => $first_page,
-        'post_excerpt' => '',
-        'comment_status' => 'closed',
-        'post_title' => seravo_page_title(),
-        /* translators: Default page slug */
-        // Seravo: Set a slug that makes sense and dont interfere with possible other content
-        'post_name' => __( 'seravo-start' ),
-        'post_modified' => $now,
-        'post_modified_gmt' => $now_gmt,
-        'guid' => $first_post_guid,
-        'post_type' => 'page',
-        'to_ping' => '',
-        'pinged' => '',
-        'post_content_filtered' => ''
-    ));
-    $wpdb->insert( $wpdb->postmeta, array( 'post_id' => 1, 'meta_key' => '_wp_page_template', 'meta_value' => 'default' ) );
+  /**
+   * Seravo specific option changes
+   */
 
-    // Privacy Policy page
-    if ( is_multisite() ) {
-        // Disable by default unless the suggested content is provided.
-        $privacy_policy_content = get_site_option( 'default_privacy_policy_content' );
-    } else {
-        if ( ! class_exists( 'WP_Privacy_Policy_Content' ) ) {
-            include_once( ABSPATH . 'wp-admin/includes/misc.php' );
-        }
+  /** @see wp-admin/options-general.php */
+  // Remove standard blog description
+  update_option( 'blogdescription', '' );
+  // Set timezone, date and time format
+  update_option( 'timezone_string', seravo_timezone_string() );
+  update_option( 'date_format', seravo_date_format() );
+  update_option( 'time_format', seravo_time_format() );
 
-        $privacy_policy_content = WP_Privacy_Policy_Content::get_default_content();
-    }
+  /** @see wp-admin/options-reading.php */
+  // Set the created page to show on the homepage
+  update_option( 'show_on_front', 'page' );
+  update_option( 'page_on_front', 1 );
 
-    if ( ! empty( $privacy_policy_content ) ) {
-        $privacy_policy_guid = get_option( 'home' ) . '/?page_id=2';
+  /** @see wp-admin/options-discussion.php */
+  // Allow people to post comments on new articles (this setting may be
+  // overridden for individual articles): false
+  update_option( 'default_comment_status', 0 );
 
-        $wpdb->insert(
-            $wpdb->posts, array(
-                'post_author'           => $user_id,
-                'post_date'             => $now,
-                'post_date_gmt'         => $now_gmt,
-                'post_content'          => $privacy_policy_content,
-                'post_excerpt'          => '',
-                'comment_status'        => 'closed',
-                'post_title'            => __( 'Privacy Policy' ),
-                /* translators: Privacy Policy page slug */
-                'post_name'             => __( 'privacy-policy' ),
-                'post_modified'         => $now,
-                'post_modified_gmt'     => $now_gmt,
-                'guid'                  => $privacy_policy_guid,
-                'post_type'             => 'page',
-                'post_status'           => 'draft',
-                'to_ping'               => '',
-                'pinged'                => '',
-                'post_content_filtered' => '',
-            )
-        );
-        $wpdb->insert(
-            $wpdb->postmeta, array(
-                'post_id'    => 2,
-                'meta_key'   => '_wp_page_template',
-                'meta_value' => 'default',
-            )
-        );
-        update_option( 'wp_page_for_privacy_policy', 2 );
-    }
+  /** @see wp-admin/options-permalink.php */
+  // Permalink custom structure: /%postname%
+  update_option( 'permalink_structure', '/%postname%/' );
 
-    // Seravo: Don't setup standard widgets to make the install cleaner
-    // Set up default widgets for default theme.
-
-    if ( ! is_multisite() )
-        update_user_meta( $user_id, 'show_welcome_panel', 1 );
-    elseif ( ! is_super_admin( $user_id ) && ! metadata_exists( 'user', $user_id, 'show_welcome_panel' ) )
-        update_user_meta( $user_id, 'show_welcome_panel', 2 );
-
-    if ( is_multisite() ) {
-        // Flush rules to pick up the new page.
-        $wp_rewrite->init();
-        $wp_rewrite->flush_rules();
-
-        $user = new WP_User($user_id);
-        $wpdb->update( $wpdb->options, array('option_value' => $user->user_email), array('option_name' => 'admin_email') );
-
-        // Remove all perms except for the login user.
-        $wpdb->query( $wpdb->prepare("DELETE FROM $wpdb->usermeta WHERE user_id != %d AND meta_key = %s", $user_id, $table_prefix.'user_level') );
-        $wpdb->query( $wpdb->prepare("DELETE FROM $wpdb->usermeta WHERE user_id != %d AND meta_key = %s", $user_id, $table_prefix.'capabilities') );
-
-        // Delete any caps that snuck into the previously active blog. (Hardcoded to blog 1 for now.) TODO: Get previous_blog_id.
-        if ( !is_super_admin( $user_id ) && $user_id != 1 )
-            $wpdb->delete( $wpdb->usermeta, array( 'user_id' => $user_id , 'meta_key' => $wpdb->base_prefix.'1_capabilities' ) );
-    }
-
-    /**
-     * Seravo specific option changes that are typically not part of core WordPress wp_install_defaults function
-     */
-
-    /** @see wp-admin/options-general.php */
-    // Remove standard blog description
-    update_option( 'blogdescription', '' );
-    // Set timezone, date and time format
-    update_option( 'timezone_string', seravo_timezone_string() );
-    update_option( 'date_format', seravo_date_format() );
-    update_option( 'time_format', seravo_time_format() );
-
-    /** @see wp-admin/options-reading.php */
-    // Set the created page to show on the homepage
-    update_option( 'show_on_front', 'page' );
-    update_option( 'page_on_front', 1 );
-
-    /** @see wp-admin/options-discussion.php */
-    //Allow people to post comments on new articles (this setting may be overridden for individual articles): false
-    update_option( 'default_comment_status', 0 );
-
-    /** @see wp-admin/options-permalink.php */
-    // Permalink custom structure: /%postname%
-    update_option( 'permalink_structure', '/%postname%/' );
-
-    /** Activate some plugins automatically if they exists */
-    seravo_install_activate_plugins();
+  /** Activate some plugins automatically if they exists */
+  seravo_install_activate_plugins();
 }
 
 /**
@@ -292,258 +329,257 @@ function wp_install_defaults( $user_id ) {
 
 function seravo_page_title() {
 
-    $env_wp_env = getenv('WP_ENV');
-    $env_wp_lang = getenv('WP_LANG');
+  $env_wp_env = getenv('WP_ENV');
+  $env_wp_lang = getenv('WP_LANG');
 
-    if ( 'production' != $env_wp_env ) {
-        $seravo_page_title = 'Welcome';
-    } elseif ( 'fi' == get_locale() || 'fi' == $env_wp_lang ) {
-        $seravo_page_title = 'Tervetuloa';
-    } elseif ( 'sv_SE' == get_locale() || 'sv_SE' == $env_wp_lang ) {
-        $seravo_page_title = 'Välkommen';
-    } else {
-        $seravo_page_title = 'Welcome';
-    }
+  if ( 'production' != $env_wp_env ) {
+    $seravo_page_title = 'Welcome';
+  } elseif ( 'fi' == get_locale() || 'fi' == $env_wp_lang ) {
+    $seravo_page_title = 'Tervetuloa';
+  } elseif ( 'sv_SE' == get_locale() || 'sv_SE' == $env_wp_lang ) {
+    $seravo_page_title = 'Välkommen';
+  } else {
+    $seravo_page_title = 'Welcome';
+  }
 
-    return $seravo_page_title;
+  return $seravo_page_title;
 }
 
 function seravo_first_page() {
 
-    $env_wp_env = getenv('WP_ENV');
-    $env_wp_lang = getenv('WP_LANG');
+  $env_wp_env = getenv('WP_ENV');
+  $env_wp_lang = getenv('WP_LANG');
 
+  if ( 'production' != $env_wp_env ) {
 
-    if ( 'production' != $env_wp_env ) {
+    ob_start();
+    ?>
+    <!-- wp:image {"align":"right","width":266,"height":266,"linkDestination":"custom"} -->
+    <div class="wp-block-image"><figure class="alignright is-resized"><a href="https://seravo.com" target="_blank" rel="noreferrer noopener"><img src="https://seravo.com/wp-content/themes/seravo/images/seravo_logo.svg" alt="" width="266" height="266"/></a></figure></div>
+    <!-- /wp:image -->
 
-        ob_start();
-        ?>
-        <!-- wp:image {"align":"right","width":266,"height":266,"linkDestination":"custom"} -->
-        <div class="wp-block-image"><figure class="alignright is-resized"><a href="https://seravo.com" target="_blank" rel="noreferrer noopener"><img src="https://seravo.com/wp-content/themes/seravo/images/seravo_logo.svg" alt="" width="266" height="266"/></a></figure></div>
-        <!-- /wp:image -->
+    <!-- wp:paragraph -->
+    <p>Welcome to your brand new WordPress installation powered by the <a href="https://github.com/Seravo/wordpress">Seravo public project layout</a>. Hopefully you have also decided to host your website with us and to take advantage of <a rel="noreferrer noopener" aria-label=" (opens in a new tab)" href="https://seravo.com/features/" target="_blank">all the great features</a> that we provide. We have cleaned up the installation to save you the trouble of removing sample content that you would get with a standard WordPress.</p>
+    <!-- /wp:paragraph -->
 
-        <!-- wp:paragraph -->
-        <p>Welcome to your brand new WordPress installation powered by the <a href="https://github.com/Seravo/wordpress">Seravo public project layout</a>. Hopefully you have also decided to host your website with us and to take advantage of <a rel="noreferrer noopener" aria-label=" (opens in a new tab)" href="https://seravo.com/features/" target="_blank">all the great features</a> that we provide. We have cleaned up the installation to save you the trouble of removing sample content that you would get with a standard WordPress.</p>
-        <!-- /wp:paragraph -->
+    <!-- wp:heading -->
+    <h2>Getting Started</h2>
+    <!-- /wp:heading -->
 
-        <!-- wp:heading -->
-        <h2>Getting Started</h2>
-        <!-- /wp:heading -->
+    <!-- wp:paragraph -->
+    <p>If you already have a site setup with us at Seravo you might want to clone that as described in <a href="https://seravo.com/docs/">our developer docs</a>.</p>
+    <!-- /wp:paragraph -->
 
-        <!-- wp:paragraph -->
-        <p>If you already have a site setup with us at Seravo you might want to clone that as described in <a href="https://seravo.com/docs/">our developer docs</a>.</p>
-        <!-- /wp:paragraph -->
+    <!-- wp:paragraph -->
+    <p>If you are using our layout with our Vagrant box you already have multiple developer tools installed as described in out GitHub readme. We have provided you with many useful <a href="https://seravo.com/docs/get-started/available-commands/">helper commands</a> and <a href="https://seravo.com/docs/development/defaults/">default values</a> that will get you started quickly.</p>
+    <!-- /wp:paragraph -->
 
-        <!-- wp:paragraph -->
-        <p>If you are using our layout with our Vagrant box you already have multiple developer tools installed as described in out GitHub readme. We have provided you with many useful <a href="https://seravo.com/docs/get-started/available-commands/">helper commands</a> and <a href="https://seravo.com/docs/development/defaults/">default values</a> that will get you started quickly.</p>
-        <!-- /wp:paragraph -->
+    <!-- wp:heading -->
+    <h2>Further Questions</h2>
+    <!-- /wp:heading -->
 
-        <!-- wp:heading -->
-        <h2>Further Questions</h2>
-        <!-- /wp:heading -->
+    <!-- wp:paragraph -->
+    <p>If you have any further questions about our services or anything to discuss, don't hesitate to check out the following resources or contact us at:</p>
+    <!-- /wp:paragraph -->
 
-        <!-- wp:paragraph -->
-        <p>If you have any further questions about our services or anything to discuss, don't hesitate to check out the following resources or contact us at:</p>
-        <!-- /wp:paragraph -->
+    <!-- wp:list -->
+    <ul><li>Knowledge Base at <a rel="noreferrer noopener" aria-label=" (opens in a new tab)" href="https://help.seravo.com/en" target="_blank">help.seravo.com</a>, when you’re looking for a quick answer to a question about your site hosted at Seravo.</li><li>Developer Docs at <a rel="noreferrer noopener" aria-label=" (opens in a new tab)" href="https://seravo.com/docs/" target="_blank">seravo.com/docs</a>, when you’re looking for expert guidance in WordPress development.</li></ul>
+    <!-- /wp:list -->
 
-        <!-- wp:list -->
-        <ul><li>Knowledge Base at <a rel="noreferrer noopener" aria-label=" (opens in a new tab)" href="https://help.seravo.com/en" target="_blank">help.seravo.com</a>, when you’re looking for a quick answer to a question about your site hosted at Seravo.</li><li>Developer Docs at <a rel="noreferrer noopener" aria-label=" (opens in a new tab)" href="https://seravo.com/docs/" target="_blank">seravo.com/docs</a>, when you’re looking for expert guidance in WordPress development.</li></ul>
-        <!-- /wp:list -->
+    <!-- wp:paragraph -->
+    <p>Oh, and if there is anything you would like to improve with this installation process please open a issue on <a href="https://github.com/Seravo/wordpress" target="_blank" rel="noreferrer noopener" aria-label=" (opens in a new tab)">https://github.com/Seravo/wordpress</a> –&nbsp;or why not submit a pull request straight away. ;) .</p>
+    <!-- /wp:paragraph -->
+    <?php
+    $first_page = ob_get_clean();
 
-        <!-- wp:paragraph -->
-        <p>Oh, and if there is anything you would like to improve with this installation process please open a issue on <a href="https://github.com/Seravo/wordpress" target="_blank" rel="noreferrer noopener" aria-label=" (opens in a new tab)">https://github.com/Seravo/wordpress</a> –&nbsp;or why not submit a pull request straight away. ;) .</p>
-        <!-- /wp:paragraph -->
-        <?php
-        $first_page = ob_get_clean();
+  } elseif ( 'fi' == get_locale() || 'fi' == $env_wp_lang ) {
 
-    } elseif ( 'fi' == get_locale() || 'fi' == $env_wp_lang ) {
+    ob_start();
+    ?>
+    <!-- wp:image {"align":"right","width":266,"height":266,"linkDestination":"custom"} -->
+    <div class="wp-block-image"><figure class="alignright is-resized"><a href="https://wp-palvelu.fi/" target="_blank" rel="noreferrer noopener"><img src="https://seravo.com/wp-content/themes/seravo/images/seravo_logo.svg" alt="" width="266" height="266"/></a></figure></div>
+    <!-- /wp:image -->
 
-        ob_start();
-        ?>
-        <!-- wp:image {"align":"right","width":266,"height":266,"linkDestination":"custom"} -->
-        <div class="wp-block-image"><figure class="alignright is-resized"><a href="https://wp-palvelu.fi/" target="_blank" rel="noreferrer noopener"><img src="https://seravo.com/wp-content/themes/seravo/images/seravo_logo.svg" alt="" width="266" height="266"/></a></figure></div>
-        <!-- /wp:image -->
+    <!-- wp:paragraph -->
+    <p>Tervetuloa uudelle WordPress-sivustollenne Seravon WP-palvelussa. Olemme erittäin iloisia siitä, että olette päättäneet luottaa sivustonne meidän hallintaamme, sekä ottamaan käyttöön ylläpitopalvelumme <a href="https://wp-palvelu.fi/ominaisuudet/" target="_blank" rel="noreferrer noopener" aria-label=" (avautuu uuteen väliehteen)">kattavat ominaisuudet</a>. Nopeuttaaksemme sivuston käyttöönottoa olemme siivonneet asennuksestanne pois koko joukon WordPressin mukana tavallisesti toimitettua esimerkkisisältöä.</p>
+    <!-- /wp:paragraph -->
 
-        <!-- wp:paragraph -->
-        <p>Tervetuloa uudelle WordPress-sivustollenne Seravon WP-palvelussa. Olemme erittäin iloisia siitä, että olette päättäneet luottaa sivustonne meidän hallintaamme, sekä ottamaan käyttöön ylläpitopalvelumme <a href="https://wp-palvelu.fi/ominaisuudet/" target="_blank" rel="noreferrer noopener" aria-label=" (avautuu uuteen väliehteen)">kattavat ominaisuudet</a>. Nopeuttaaksemme sivuston käyttöönottoa olemme siivonneet asennuksestanne pois koko joukon WordPressin mukana tavallisesti toimitettua esimerkkisisältöä.</p>
-        <!-- /wp:paragraph -->
+    <!-- wp:heading -->
+    <h2>Kuinka päästä alkuun</h2>
+    <!-- /wp:heading -->
 
-        <!-- wp:heading -->
-        <h2>Kuinka päästä alkuun</h2>
-        <!-- /wp:heading -->
+    <!-- wp:paragraph -->
+    <p>Olkaa hyvät ja tarkistakaa sen henkilön sähköpostilaatikko, jonka merkitsitte tilauksen yhteydessä yhteyshenkilöksi. Sieltä löydätte tarvittavat tunnukset sekä <a href="<?php echo get_option('home') . '/wp-login.php'; ?>" target="_blank" rel="noreferrer noopener" aria-label=" (avautuu uuteen väliehteen)">WordPressin hallitaan</a> että <a href="https://help.seravo.com/fi/knowledgebase/11/docs/76-configuring-ssh-sftp" target="_blank" rel="noreferrer noopener" aria-label=" (avautuu uuteen väliehteen)">SSH/SFTP-yhteyksien muodostamiseen</a>.</p>
+    <!-- /wp:paragraph -->
 
-        <!-- wp:paragraph -->
-        <p>Olkaa hyvät ja tarkistakaa sen henkilön sähköpostilaatikko, jonka merkitsitte tilauksen yhteydessä yhteyshenkilöksi. Sieltä löydätte tarvittavat tunnukset sekä <a href="<?php echo get_option('home') . '/wp-login.php' ?>" target="_blank" rel="noreferrer noopener" aria-label=" (avautuu uuteen väliehteen)">WordPressin hallitaan</a> että <a href="https://help.seravo.com/fi/knowledgebase/11/docs/76-configuring-ssh-sftp" target="_blank" rel="noreferrer noopener" aria-label=" (avautuu uuteen väliehteen)">SSH/SFTP-yhteyksien muodostamiseen</a>.</p>
-        <!-- /wp:paragraph -->
+    <!-- wp:paragraph -->
+    <p>Mikäli teillä on jo <strong>olemassa oleva sivusto</strong> jossain muualla, voitte tutustua <a href="https://help.seravo.com/fi/knowledgebase/15-site-migration" target="_blank" rel="noreferrer noopener" aria-label=" (avautuu uuteen väliehteen)">sivustojen siirtoa käsitteleviä ohjeitamme</a> tutustuaksenne lähemmin vaihtoehtoisiin tapoihin siirtää sivustonne palveluumme.</p>
+    <!-- /wp:paragraph -->
 
-        <!-- wp:paragraph -->
-        <p>Mikäli teillä on jo <strong>olemassa oleva sivusto</strong> jossain muualla, voitte tutustua <a href="https://help.seravo.com/fi/knowledgebase/15-site-migration" target="_blank" rel="noreferrer noopener" aria-label=" (avautuu uuteen väliehteen)">sivustojen siirtoa käsitteleviä ohjeitamme</a> tutustuaksenne lähemmin vaihtoehtoisiin tapoihin siirtää sivustonne palveluumme.</p>
-        <!-- /wp:paragraph -->
+    <!-- wp:paragraph -->
+    <p>Mikäli olette perustamassa täysin <strong>uutta sivustoa</strong>, teidän ei tarvitse kuin aloittaa sen rakentaminen. Mikäli aiotte rakentaa sivustoa paikallisessa kehitysympäristössä, suosittelemme tutustumaan projektipohjaamme <a href="https://github.com/Seravo/wordpress" target="_blank" rel="noreferrer noopener" aria-label=" (avautuu uuteen väliehteen)">GitHubissa</a>.</p>
+    <!-- /wp:paragraph -->
 
-        <!-- wp:paragraph -->
-        <p>Mikäli olette perustamassa täysin <strong>uutta sivustoa</strong>, teidän ei tarvitse kuin aloittaa sen rakentaminen. Mikäli aiotte rakentaa sivustoa paikallisessa kehitysympäristössä, suosittelemme tutustumaan projektipohjaamme <a href="https://github.com/Seravo/wordpress" target="_blank" rel="noreferrer noopener" aria-label=" (avautuu uuteen väliehteen)">GitHubissa</a>.</p>
-        <!-- /wp:paragraph -->
+    <!-- wp:heading -->
+    <h2>Kysyttävää?</h2>
+    <!-- /wp:heading -->
 
-        <!-- wp:heading -->
-        <h2>Kysyttävää?</h2>
-        <!-- /wp:heading -->
+    <!-- wp:paragraph -->
+    <p>Jos teitä askarruttaa jokin palveluidemme suhteen tai teillä on muuta kysyttävää, ottakaa yhteyttä tai tutustukaa seuraavaan materiaaliin:</p>
+    <!-- /wp:paragraph -->
 
-        <!-- wp:paragraph -->
-        <p>Jos teitä askarruttaa jokin palveluidemme suhteen tai teillä on muuta kysyttävää, ottakaa yhteyttä tai tutustukaa seuraavaan materiaaliin:</p>
-        <!-- /wp:paragraph -->
+    <!-- wp:list -->
+    <ul><li>Tietopankki osoitteessa <a href="https://help.seravo.com/fi" target="_blank" rel="noreferrer noopener" aria-label=" (avautuu uuteen väliehteen)">help.seravo.com</a>, Kun haluat nopean vastauksen sivustoosi liittyvään kysymykseen.</li><li>Kehittäjädokumentaatio osoitteessa <a rel="noreferrer noopener" aria-label=" (avautuu uuteen väliehteen)" href="https://seravo.com/docs/" target="_blank">seravo.com/docs</a>, kun etsit asiantuntija-apua WordPress-kehitykseen liittyvissä asioissa.</li><li>Asiakaspalvelu sähköpostiosoitteessa <a rel="noreferrer noopener" aria-label="help@seravo.com (avautuu uuteen väliehteen)" href="mailto:help@seravo.com" target="_blank">help@seravo.com</a>, kun haluat keskustella sivustoosi liittyvästä ongelmasta.</li></ul>
+    <!-- /wp:list -->
 
-        <!-- wp:list -->
-        <ul><li>Tietopankki osoitteessa <a href="https://help.seravo.com/fi" target="_blank" rel="noreferrer noopener" aria-label=" (avautuu uuteen väliehteen)">help.seravo.com</a>, Kun haluat nopean vastauksen sivustoosi liittyvään kysymykseen.</li><li>Kehittäjädokumentaatio osoitteessa <a rel="noreferrer noopener" aria-label=" (avautuu uuteen väliehteen)" href="https://seravo.com/docs/" target="_blank">seravo.com/docs</a>, kun etsit asiantuntija-apua WordPress-kehitykseen liittyvissä asioissa.</li><li>Asiakaspalvelu sähköpostiosoitteessa <a rel="noreferrer noopener" aria-label="help@seravo.com (avautuu uuteen väliehteen)" href="mailto:help@seravo.com" target="_blank">help@seravo.com</a>, kun haluat keskustella sivustoosi liittyvästä ongelmasta.</li></ul>
-        <!-- /wp:list -->
+    <!-- wp:paragraph -->
+    <p>Mikäli sinulla on kehitysideoita tämän asennusprosessin suhteen, otamme niitä mielellämme vastaan tämän projektipohjan <a href="https://github.com/Seravo/wordpress" target="_blank" rel="noreferrer noopener" aria-label=" (avautuu uuteen väliehteen)">GitHubissa</a>. Voit toki myös lähettää meille suoraan pull requestin tekemästäsi parannuksesta. ;) .</p>
+    <!-- /wp:paragraph -->
+    <?php
+    $first_page = ob_get_clean();
 
-        <!-- wp:paragraph -->
-        <p>Mikäli sinulla on kehitysideoita tämän asennusprosessin suhteen, otamme niitä mielellämme vastaan tämän projektipohjan <a href="https://github.com/Seravo/wordpress" target="_blank" rel="noreferrer noopener" aria-label=" (avautuu uuteen väliehteen)">GitHubissa</a>. Voit toki myös lähettää meille suoraan pull requestin tekemästäsi parannuksesta. ;) .</p>
-        <!-- /wp:paragraph -->
-        <?php
-        $first_page = ob_get_clean();
+  } elseif ( 'sv_SE' == get_locale() || 'sv_SE' == $env_wp_lang ) {
 
-    } elseif ( 'sv_SE' == get_locale() || 'sv_SE' == $env_wp_lang ) {
+    ob_start();
+    ?>
+    <!-- wp:image {"align":"right","width":266,"height":266,"linkDestination":"custom"} -->
+    <div class="wp-block-image"><figure class="alignright is-resized"><a href="https://seravo.se" target="_blank" rel="noreferrer noopener"><img src="https://seravo.com/wp-content/themes/seravo/images/seravo_logo.svg" alt="" width="266" height="266"/></a></figure></div>
+    <!-- /wp:image -->
 
-        ob_start();
-        ?>
-        <!-- wp:image {"align":"right","width":266,"height":266,"linkDestination":"custom"} -->
-        <div class="wp-block-image"><figure class="alignright is-resized"><a href="https://seravo.se" target="_blank" rel="noreferrer noopener"><img src="https://seravo.com/wp-content/themes/seravo/images/seravo_logo.svg" alt="" width="266" height="266"/></a></figure></div>
-        <!-- /wp:image -->
+    <!-- wp:paragraph -->
+    <p>Välkommen till din helt nya WordPress-installation hos Seravo. Vi är mycket glada att du har bestämt dig för att låta oss drifta er webbplats och att dra nytta av <a href = "https://seravo.se/egenskaper/" target ="_ blank" rel = "noreferrer noopener" aria-label=" (öppnas i en ny flik) "> alla de fördelarna</a> som vi kan erbjuda. Vi har redan rensat upp installationen med det standard-innehåll som annars skulle ingått efter en vanlig installation.</p>
+    <!-- /wp:paragraph -->
 
-        <!-- wp:paragraph -->
-        <p>Välkommen till din helt nya WordPress-installation hos Seravo. Vi är mycket glada att du har bestämt dig för att låta oss drifta er webbplats och att dra nytta av <a href = "https://seravo.se/egenskaper/" target ="_ blank" rel = "noreferrer noopener" aria-label=" (öppnas i en ny flik) "> alla de fördelarna</a> som vi kan erbjuda. Vi har redan rensat upp installationen med det standard-innehåll som annars skulle ingått efter en vanlig installation.</p>
-        <!-- /wp:paragraph -->
+    <!-- wp:heading -->
+    <h2>Kom igång</h2>
+    <!-- /wp:heading -->
 
-        <!-- wp:heading -->
-        <h2>Kom igång</h2>
-        <!-- /wp:heading -->
+    <!-- wp:paragraph -->
+    <p>Vi har mailat kontaktpersonen som angavs när la beställningen. Där hittar ni fullständiga inloggningsuppgifter för både <a href="<?php echo get_option('home'); ?>/wp-login.php" target="_ blank" rel="noreferrer noopener" aria-label=" (öppnas i en ny flik)">wp-admin</a> och <a href="https://help.seravo.com/en/knowledgebase/11/docs/76-configuring-ssh-sftp" target="_ blank" rel="noreferrer noopener" aria-label=" (öppnas i en ny flik) ">SSH / SFTP</a> till denna webbplats.</p>
+    <!-- /wp:paragraph -->
 
-        <!-- wp:paragraph -->
-        <p>Vi har mailat kontaktpersonen som angavs när la beställningen. Där hittar ni fullständiga inloggningsuppgifter för både <a href="<?php echo get_option('home') ?>/wp-login.php" target="_ blank" rel="noreferrer noopener" aria-label=" (öppnas i en ny flik)">wp-admin</a> och <a href="https://help.seravo.com/en/knowledgebase/11/docs/76-configuring-ssh-sftp" target="_ blank" rel="noreferrer noopener" aria-label=" (öppnas i en ny flik) ">SSH / SFTP</a> till denna webbplats.</p>
-        <!-- /wp:paragraph -->
+    <!-- wp:paragraph -->
+    <p>Om ni redan har en <strong>befintlig webbplats</strong> någon annanstans, använd vår <a href="https://help.seravo.com/en/knowledgebase/15-site-migration" target="_blank" rel ="noreferrer noopener" aria-label=" (öppnas i en ny flik) ">dokumentation kring migrering</a> för ytterligare information om olika migrationsmetoder.</p>
+    <!-- /wp:paragraph -->
 
-        <!-- wp:paragraph -->
-        <p>Om ni redan har en <strong>befintlig webbplats</strong> någon annanstans, använd vår <a href="https://help.seravo.com/en/knowledgebase/15-site-migration" target="_blank" rel ="noreferrer noopener" aria-label=" (öppnas i en ny flik) ">dokumentation kring migrering</a> för ytterligare information om olika migrationsmetoder.</p>
-        <!-- /wp:paragraph -->
+    <!-- wp:paragraph -->
+    <p>Om det här däremot är början på en helt <strong>ny webbplats</strong> så kanske ni vill kolla in vår projektlayout på <a href="https://github.com/Seravo/wordpress" target="_ blank" rel="noreferrer noopener" aria-label=" (öppnas i en ny flik) ">GitHub</a> för att förenkla lokal utveckling av webbplatsen.</p>
+    <!-- /wp:paragraph -->
 
-        <!-- wp:paragraph -->
-        <p>Om det här däremot är början på en helt <strong>ny webbplats</strong> så kanske ni vill kolla in vår projektlayout på <a href="https://github.com/Seravo/wordpress" target="_ blank" rel="noreferrer noopener" aria-label=" (öppnas i en ny flik) ">GitHub</a> för att förenkla lokal utveckling av webbplatsen.</p>
-        <!-- /wp:paragraph -->
+    <!-- wp:heading -->
+    <h2>Ytterligare frågor</h2>
+    <!-- /wp:heading -->
 
-        <!-- wp:heading -->
-        <h2>Ytterligare frågor</h2>
-        <!-- /wp:heading -->
+    <!-- wp:paragraph -->
+    <p>Om du har några frågor om våra tjänster eller något att diskutera, tveka inte att kolla in följande resurser eller kontakta oss på:</p>
+    <!-- /wp:paragraph -->
 
-        <!-- wp:paragraph -->
-        <p>Om du har några frågor om våra tjänster eller något att diskutera, tveka inte att kolla in följande resurser eller kontakta oss på:</p>
-        <!-- /wp:paragraph -->
+    <!-- wp:list -->
+    <ul><li>Kunskapsbank via <a href="https://help.seravo.com/en" target="_blank" rel="noreferrer noopener" aria-label=" (öppnas i en ny flik) ">help.seravo.com</a>, när ni vill hitta ett snabbt svar på frågor eller funderingar om er WordPress webbplats hos oss.</li><li>Utvecklardokumentation via <a rel="noreferrer noopener" aria-label=" (öppnas i en ny flik) " href="https://seravo.com/docs/" target="_blank">seravo.com/docs</a>, när ni som utvecklare behöver lösa ett specifikt problem som gäller WordPress på vår plattform.</li><li>Kundsupport via <a rel="noreferrer noopener" aria-label="help@seravo.com (öppnas i en ny flik) " href="mailto:help@seravo.com" target="_blank ">help@seravo.com</a>, när ni behöver hjälp från en riktig människa för frågor kopplat till er webbplats hos oss.</li></ul>
+    <!-- /wp:list -->
 
-        <!-- wp:list -->
-        <ul><li>Kunskapsbank via <a href="https://help.seravo.com/en" target="_blank" rel="noreferrer noopener" aria-label=" (öppnas i en ny flik) ">help.seravo.com</a>, när ni vill hitta ett snabbt svar på frågor eller funderingar om er WordPress webbplats hos oss.</li><li>Utvecklardokumentation via <a rel="noreferrer noopener" aria-label=" (öppnas i en ny flik) " href="https://seravo.com/docs/" target="_blank">seravo.com/docs</a>, när ni som utvecklare behöver lösa ett specifikt problem som gäller WordPress på vår plattform.</li><li>Kundsupport via <a rel="noreferrer noopener" aria-label="help@seravo.com (öppnas i en ny flik) " href="mailto:help@seravo.com" target="_blank ">help@seravo.com</a>, när ni behöver hjälp från en riktig människa för frågor kopplat till er webbplats hos oss.</li></ul>
-        <!-- /wp:list -->
+    <!-- wp:paragraph -->
+    <p>Just det, och om det finns något du vill förbättra med den här installationsprocessen, vänligen öppna ett ärende på <a href="https://github.com/Seravo/wordpress" target="_blank" rel="noreferrer noopener" aria -label=" (öppnas i en ny flik) ">https://github.com/Seravo/wordpress</a> eller varför inte skicka in en PR direkt. ;).</p>
+    <!-- /wp:paragraph -->
+    <?php
+    $first_page = ob_get_clean();
 
-        <!-- wp:paragraph -->
-        <p>Just det, och om det finns något du vill förbättra med den här installationsprocessen, vänligen öppna ett ärende på <a href="https://github.com/Seravo/wordpress" target="_blank" rel="noreferrer noopener" aria -label=" (öppnas i en ny flik) ">https://github.com/Seravo/wordpress</a> eller varför inte skicka in en PR direkt. ;).</p>
-        <!-- /wp:paragraph -->
-        <?php
-        $first_page = ob_get_clean();
+  } else {
 
-    } else {
+    ob_start();
+    ?>
+    <!-- wp:image {"align":"right","width":266,"height":266,"linkDestination":"custom"} -->
+    <div class="wp-block-image"><figure class="alignright is-resized"><a href="https://seravo.com" target="_blank" rel="noreferrer noopener"><img src="https://seravo.com/wp-content/themes/seravo/images/seravo_logo.svg" alt="" width="266" height="266"/></a></figure></div>
+    <!-- /wp:image -->
 
-        ob_start();
-        ?>
-        <!-- wp:image {"align":"right","width":266,"height":266,"linkDestination":"custom"} -->
-        <div class="wp-block-image"><figure class="alignright is-resized"><a href="https://seravo.com" target="_blank" rel="noreferrer noopener"><img src="https://seravo.com/wp-content/themes/seravo/images/seravo_logo.svg" alt="" width="266" height="266"/></a></figure></div>
-        <!-- /wp:image -->
+    <!-- wp:paragraph -->
+    <p>Welcome to your brand new WordPress installation hosted by Seravo. We are very happy that you have decided to trust us with your website, and to take advantage of <a href="https://seravo.com/features/" target="_blank" rel="noreferrer noopener" aria-label=" (opens in a new tab)">all the great features</a> that we provide. We have cleaned up the installation to save you the trouble of removing sample content that you would get with a standard WordPress.</p>
+    <!-- /wp:paragraph -->
 
-        <!-- wp:paragraph -->
-        <p>Welcome to your brand new WordPress installation hosted by Seravo. We are very happy that you have decided to trust us with your website, and to take advantage of <a href="https://seravo.com/features/" target="_blank" rel="noreferrer noopener" aria-label=" (opens in a new tab)">all the great features</a> that we provide. We have cleaned up the installation to save you the trouble of removing sample content that you would get with a standard WordPress.</p>
-        <!-- /wp:paragraph -->
+    <!-- wp:heading -->
+    <h2>Getting Started</h2>
+    <!-- /wp:heading -->
 
-        <!-- wp:heading -->
-        <h2>Getting Started</h2>
-        <!-- /wp:heading -->
+    <!-- wp:paragraph -->
+    <p>Please check the email inbox of the contact person that was given when submitting the order. There you will find the full login details for both this WordPress site <a href="<?php echo get_option('home') . '/wp-login.php'; ?>" target="_blank" rel="noreferrer noopener" aria-label=" (opens in a new tab)">wp-admin</a> and <a href="https://help.seravo.com/en/knowledgebase/11/docs/76-configuring-ssh-sftp" target="_blank" rel="noreferrer noopener" aria-label=" (opens in a new tab)">SSH/SFTP</a>.</p>
+    <!-- /wp:paragraph -->
 
-        <!-- wp:paragraph -->
-        <p>Please check the email inbox of the contact person that was given when submitting the order. There you will find the full login details for both this WordPress site <a href="<?php echo get_option('home') . '/wp-login.php' ?>" target="_blank" rel="noreferrer noopener" aria-label=" (opens in a new tab)">wp-admin</a> and <a href="https://help.seravo.com/en/knowledgebase/11/docs/76-configuring-ssh-sftp" target="_blank" rel="noreferrer noopener" aria-label=" (opens in a new tab)">SSH/SFTP</a>.</p>
-        <!-- /wp:paragraph -->
+    <!-- wp:paragraph -->
+    <p>If you already have an <strong>existing site</strong> somewhere else, please make use of our <a href="https://help.seravo.com/en/knowledgebase/15-site-migration" target="_blank" rel="noreferrer noopener" aria-label=" (opens in a new tab)">documentation on site migration</a> for further details on various migration methods.</p>
+    <!-- /wp:paragraph -->
 
-        <!-- wp:paragraph -->
-        <p>If you already have an <strong>existing site</strong> somewhere else, please make use of our <a href="https://help.seravo.com/en/knowledgebase/15-site-migration" target="_blank" rel="noreferrer noopener" aria-label=" (opens in a new tab)">documentation on site migration</a> for further details on various migration methods.</p>
-        <!-- /wp:paragraph -->
+    <!-- wp:paragraph -->
+    <p>If this is the beginning of an entirely <strong>new site</strong> you are all set to go. You might want to check out our project layout on <a href="https://github.com/Seravo/wordpress" target="_blank" rel="noreferrer noopener" aria-label=" (opens in a new tab)">GitHub</a> to simplify your development efforts locally.</p>
+    <!-- /wp:paragraph -->
 
-        <!-- wp:paragraph -->
-        <p>If this is the beginning of an entirely <strong>new site</strong> you are all set to go. You might want to check out our project layout on <a href="https://github.com/Seravo/wordpress" target="_blank" rel="noreferrer noopener" aria-label=" (opens in a new tab)">GitHub</a> to simplify your development efforts locally.</p>
-        <!-- /wp:paragraph -->
+    <!-- wp:heading -->
+    <h2>Further Questions</h2>
+    <!-- /wp:heading -->
 
-        <!-- wp:heading -->
-        <h2>Further Questions</h2>
-        <!-- /wp:heading -->
+    <!-- wp:paragraph -->
+    <p>If you have any further questions about our services or anything to discuss, don't hesitate to check out the following resources or contact us at:</p>
+    <!-- /wp:paragraph -->
 
-        <!-- wp:paragraph -->
-        <p>If you have any further questions about our services or anything to discuss, don't hesitate to check out the following resources or contact us at:</p>
-        <!-- /wp:paragraph -->
+    <!-- wp:list -->
+    <ul><li>Knowledge Base at <a href="https://help.seravo.com/en" target="_blank" rel="noreferrer noopener" aria-label=" (opens in a new tab)">help.seravo.com</a>, when you’re looking for a quick answer to a question about your site.</li><li>Developer Docs at <a rel="noreferrer noopener" aria-label=" (opens in a new tab)" href="https://seravo.com/docs/" target="_blank">seravo.com/docs</a>, when you’re looking for expert guidance in WordPress development.</li><li>Customer Support from <a rel="noreferrer noopener" aria-label="help@seravo.com (opens in a new tab)" href="mailto:help@seravo.com" target="_blank">help@seravo.com</a>, when you need a human to help you out with a problem on your site.</li></ul>
+    <!-- /wp:list -->
 
-        <!-- wp:list -->
-        <ul><li>Knowledge Base at <a href="https://help.seravo.com/en" target="_blank" rel="noreferrer noopener" aria-label=" (opens in a new tab)">help.seravo.com</a>, when you’re looking for a quick answer to a question about your site.</li><li>Developer Docs at <a rel="noreferrer noopener" aria-label=" (opens in a new tab)" href="https://seravo.com/docs/" target="_blank">seravo.com/docs</a>, when you’re looking for expert guidance in WordPress development.</li><li>Customer Support from <a rel="noreferrer noopener" aria-label="help@seravo.com (opens in a new tab)" href="mailto:help@seravo.com" target="_blank">help@seravo.com</a>, when you need a human to help you out with a problem on your site.</li></ul>
-        <!-- /wp:list -->
+    <!-- wp:paragraph -->
+    <p>Oh, and if there is anything you would like to improve with this installation process please open a issue on <a href="https://github.com/Seravo/wordpress" target="_blank" rel="noreferrer noopener" aria-label=" (opens in a new tab)">https://github.com/Seravo/wordpress</a> – or why not submit a pull request straight away. ;) .</p>
+    <!-- /wp:paragraph -->
+    <?php
+    $first_page = ob_get_clean();
+  }
 
-        <!-- wp:paragraph -->
-        <p>Oh, and if there is anything you would like to improve with this installation process please open a issue on <a href="https://github.com/Seravo/wordpress" target="_blank" rel="noreferrer noopener" aria-label=" (opens in a new tab)">https://github.com/Seravo/wordpress</a> – or why not submit a pull request straight away. ;) .</p>
-        <!-- /wp:paragraph -->
-        <?php
-        $first_page = ob_get_clean();
-    }
-
-    return $first_page;
+  return $first_page;
 }
 
 function seravo_timezone_string() {
 
-    $env_wp_lang = getenv('WP_LANG');
+  $env_wp_lang = getenv('WP_LANG');
 
-    if ( 'fi' == get_locale() || 'fi' == $env_wp_lang ) {
-        $seravo_timezone_string = 'Europe/Helsinki';
-    } elseif ( 'sv_SE' == get_locale() || 'sv_SE' == $env_wp_lang ) {
-        $seravo_timezone_string = 'Europe/Stockholm';
-    } else {
-        $seravo_timezone_string = '';
-    }
+  if ( 'fi' == get_locale() || 'fi' == $env_wp_lang ) {
+    $seravo_timezone_string = 'Europe/Helsinki';
+  } elseif ( 'sv_SE' == get_locale() || 'sv_SE' == $env_wp_lang ) {
+    $seravo_timezone_string = 'Europe/Stockholm';
+  } else {
+    $seravo_timezone_string = '';
+  }
 
-    return $seravo_timezone_string;
+  return $seravo_timezone_string;
 }
 
 function seravo_date_format() {
 
-    $env_wp_lang = getenv('WP_LANG');
+  $env_wp_lang = getenv('WP_LANG');
 
-    if ( 'fi' == get_locale() || 'fi' == $env_wp_lang ) {
-        $seravo_date_format = 'j.n.Y';
-    } elseif ( 'sv_SE' == get_locale() || 'sv_SE' == $env_wp_lang ) {
-        $seravo_date_format = 'Y-m-d';
-    } else {
-        $seravo_date_format = 'F j, Y';
-    }
+  if ( 'fi' == get_locale() || 'fi' == $env_wp_lang ) {
+    $seravo_date_format = 'j.n.Y';
+  } elseif ( 'sv_SE' == get_locale() || 'sv_SE' == $env_wp_lang ) {
+    $seravo_date_format = 'Y-m-d';
+  } else {
+    $seravo_date_format = 'F j, Y';
+  }
 
-    return $seravo_date_format;
+  return $seravo_date_format;
 }
 
 function seravo_time_format() {
 
-    $env_wp_lang = getenv('WP_LANG');
+  $env_wp_lang = getenv('WP_LANG');
 
-    if ( 'fi' == get_locale() || 'fi' == $env_wp_lang ) {
-        $seravo_time_format = 'H:i';
-    } elseif ( 'sv_SE' == get_locale() || 'sv_SE' == $env_wp_lang ) {
-        $seravo_time_format = 'H:i';
-    } else {
-        $seravo_time_format = 'H:i';
-    }
+  if ( 'fi' == get_locale() || 'fi' == $env_wp_lang ) {
+    $seravo_time_format = 'H:i';
+  } elseif ( 'sv_SE' == get_locale() || 'sv_SE' == $env_wp_lang ) {
+    $seravo_time_format = 'H:i';
+  } else {
+    $seravo_time_format = 'H:i';
+  }
 
-    return $seravo_time_format;
+  return $seravo_time_format;
 }
 
-/**
+/*
  * Helper which activates some useful plugins
  */
 function seravo_install_activate_plugins() {
