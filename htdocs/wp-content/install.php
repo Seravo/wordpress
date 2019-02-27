@@ -329,12 +329,9 @@ function wp_install_defaults( $user_id ) {
 
 function seravo_page_title() {
 
-  $env_wp_env = getenv('WP_ENV');
   $env_wp_lang = getenv('WP_LANG');
 
-  if ( 'production' != $env_wp_env ) {
-    $seravo_page_title = 'Welcome';
-  } elseif ( 'fi' == get_locale() || 'fi' == $env_wp_lang ) {
+  if ( 'fi' == get_locale() || 'fi' == $env_wp_lang ) {
     $seravo_page_title = 'Tervetuloa';
   } elseif ( 'sv_SE' == get_locale() || 'sv_SE' == $env_wp_lang ) {
     $seravo_page_title = 'Välkommen';
@@ -347,52 +344,9 @@ function seravo_page_title() {
 
 function seravo_first_page() {
 
-  $env_wp_env = getenv('WP_ENV');
   $env_wp_lang = getenv('WP_LANG');
 
-  if ( 'production' != $env_wp_env ) {
-
-    ob_start();
-    ?>
-    <!-- wp:image {"align":"right","width":266,"height":266,"linkDestination":"custom"} -->
-    <div class="wp-block-image"><figure class="alignright is-resized"><a href="https://seravo.com" target="_blank" rel="noreferrer noopener"><img src="https://seravo.com/wp-content/themes/seravo/images/seravo_logo.svg" alt="" width="266" height="266"/></a></figure></div>
-    <!-- /wp:image -->
-
-    <!-- wp:paragraph -->
-    <p>Welcome to your brand new WordPress installation powered by the <a href="https://github.com/Seravo/wordpress">Seravo public project layout</a>. Hopefully you have also decided to host your website with us and to take advantage of <a rel="noreferrer noopener" aria-label=" (opens in a new tab)" href="https://seravo.com/features/" target="_blank">all the great features</a> that we provide. We have cleaned up the installation to save you the trouble of removing sample content that you would get with a standard WordPress.</p>
-    <!-- /wp:paragraph -->
-
-    <!-- wp:heading -->
-    <h2>Getting Started</h2>
-    <!-- /wp:heading -->
-
-    <!-- wp:paragraph -->
-    <p>If you already have a site setup with us at Seravo you might want to clone that as described in <a href="https://seravo.com/docs/">our developer docs</a>.</p>
-    <!-- /wp:paragraph -->
-
-    <!-- wp:paragraph -->
-    <p>If you are using our layout with our Vagrant box you already have multiple developer tools installed as described in out GitHub readme. We have provided you with many useful <a href="https://seravo.com/docs/get-started/available-commands/">helper commands</a> and <a href="https://seravo.com/docs/development/defaults/">default values</a> that will get you started quickly.</p>
-    <!-- /wp:paragraph -->
-
-    <!-- wp:heading -->
-    <h2>Further Questions</h2>
-    <!-- /wp:heading -->
-
-    <!-- wp:paragraph -->
-    <p>If you have any further questions about our services or anything to discuss, don't hesitate to check out the following resources or contact us at:</p>
-    <!-- /wp:paragraph -->
-
-    <!-- wp:list -->
-    <ul><li>Knowledge Base at <a rel="noreferrer noopener" aria-label=" (opens in a new tab)" href="https://help.seravo.com/en" target="_blank">help.seravo.com</a>, when you’re looking for a quick answer to a question about your site hosted at Seravo.</li><li>Developer Docs at <a rel="noreferrer noopener" aria-label=" (opens in a new tab)" href="https://seravo.com/docs/" target="_blank">seravo.com/docs</a>, when you’re looking for expert guidance in WordPress development.</li></ul>
-    <!-- /wp:list -->
-
-    <!-- wp:paragraph -->
-    <p>Oh, and if there is anything you would like to improve with this installation process please open a issue on <a href="https://github.com/Seravo/wordpress" target="_blank" rel="noreferrer noopener" aria-label=" (opens in a new tab)">https://github.com/Seravo/wordpress</a> –&nbsp;or why not submit a pull request straight away. ;) .</p>
-    <!-- /wp:paragraph -->
-    <?php
-    $first_page = ob_get_clean();
-
-  } elseif ( 'fi' == get_locale() || 'fi' == $env_wp_lang ) {
+  if ( 'fi' === get_locale() || 'fi' === $env_wp_lang ) {
 
     ob_start();
     ?>
@@ -413,7 +367,7 @@ function seravo_first_page() {
     <!-- /wp:paragraph -->
 
     <!-- wp:paragraph -->
-    <p>Mikäli teillä on jo <strong>olemassa oleva sivusto</strong> jossain muualla, voitte tutustua <a href="https://help.seravo.com/fi/knowledgebase/15-site-migration" target="_blank" rel="noreferrer noopener" aria-label=" (avautuu uuteen väliehteen)">sivustojen siirtoa käsitteleviä ohjeitamme</a> tutustuaksenne lähemmin vaihtoehtoisiin tapoihin siirtää sivustonne palveluumme.</p>
+    <p>Mikäli teillä on jo <strong>olemassa oleva sivusto</strong> jossain muualla, voitte tutustua <a href="https://help.seravo.com/fi/knowledgebase/15-site-migration" target="_blank" rel="noreferrer noopener" aria-label=" (avautuu uuteen väliehteen)">sivustojen siirtoa käsitteleviin ohjeisiimme</a> tutustuaksenne lähemmin vaihtoehtoisiin tapoihin siirtää sivustonne palveluumme.</p>
     <!-- /wp:paragraph -->
 
     <!-- wp:paragraph -->
@@ -429,16 +383,20 @@ function seravo_first_page() {
     <!-- /wp:paragraph -->
 
     <!-- wp:list -->
-    <ul><li>Tietopankki osoitteessa <a href="https://help.seravo.com/fi" target="_blank" rel="noreferrer noopener" aria-label=" (avautuu uuteen väliehteen)">help.seravo.com</a>, Kun haluat nopean vastauksen sivustoosi liittyvään kysymykseen.</li><li>Kehittäjädokumentaatio osoitteessa <a rel="noreferrer noopener" aria-label=" (avautuu uuteen väliehteen)" href="https://seravo.com/docs/" target="_blank">seravo.com/docs</a>, kun etsit asiantuntija-apua WordPress-kehitykseen liittyvissä asioissa.</li><li>Asiakaspalvelu sähköpostiosoitteessa <a rel="noreferrer noopener" aria-label="help@seravo.com (avautuu uuteen väliehteen)" href="mailto:help@seravo.com" target="_blank">help@seravo.com</a>, kun haluat keskustella sivustoosi liittyvästä ongelmasta.</li></ul>
+    <ul>
+      <li>Tietopankki osoitteessa <a href="https://help.seravo.com/fi" target="_blank" rel="noreferrer noopener" aria-label=" (avautuu uuteen väliehteen)">help.seravo.com</a>, Kun haluat nopean vastauksen sivustoosi liittyvään kysymykseen.</li>
+      <li>Kehittäjädokumentaatio osoitteessa <a rel="noreferrer noopener" aria-label=" (avautuu uuteen väliehteen)" href="https://seravo.com/docs/" target="_blank">seravo.com/docs</a>, kun etsit asiantuntija-apua WordPress-kehitykseen liittyvissä asioissa.</li>
+      <li>Asiakaspalvelu sähköpostiosoitteessa <a rel="noreferrer noopener" aria-label="help@seravo.com (avautuu uuteen väliehteen)" href="mailto:help@seravo.com" target="_blank">help@seravo.com</a>, kun haluat keskustella sivustoosi liittyvästä ongelmasta.</li>
+    </ul>
     <!-- /wp:list -->
 
     <!-- wp:paragraph -->
-    <p>Mikäli sinulla on kehitysideoita tämän asennusprosessin suhteen, otamme niitä mielellämme vastaan tämän projektipohjan <a href="https://github.com/Seravo/wordpress" target="_blank" rel="noreferrer noopener" aria-label=" (avautuu uuteen väliehteen)">GitHubissa</a>. Voit toki myös lähettää meille suoraan pull requestin tekemästäsi parannuksesta. ;) .</p>
+    <p>Mikäli sinulla on kehitysideoita tämän asennusprosessin suhteen, otamme niitä mielellämme vastaan tämän projektipohjan <a href="https://github.com/Seravo/wordpress" target="_blank" rel="noreferrer noopener" aria-label=" (avautuu uuteen väliehteen)">GitHubissa</a>. Voit toki myös lähettää meille suoraan pull requestin tekemästäsi parannuksesta <a href="https://wp-palvelu.fi/avoin-lahdekoodi/" target="_blank" rel="noreferrer noopener" aria-label=" (avautuu uuteen väliehteen)">avoimen lähdekoodin</a> hengessä! ;)</p>
     <!-- /wp:paragraph -->
     <?php
     $first_page = ob_get_clean();
 
-  } elseif ( 'sv_SE' == get_locale() || 'sv_SE' == $env_wp_lang ) {
+  } elseif ( 'sv_SE' === get_locale() || 'sv_SE' === $env_wp_lang ) {
 
     ob_start();
     ?>
@@ -475,11 +433,15 @@ function seravo_first_page() {
     <!-- /wp:paragraph -->
 
     <!-- wp:list -->
-    <ul><li>Kunskapsbank via <a href="https://help.seravo.com/en" target="_blank" rel="noreferrer noopener" aria-label=" (öppnas i en ny flik) ">help.seravo.com</a>, när ni vill hitta ett snabbt svar på frågor eller funderingar om er WordPress webbplats hos oss.</li><li>Utvecklardokumentation via <a rel="noreferrer noopener" aria-label=" (öppnas i en ny flik) " href="https://seravo.com/docs/" target="_blank">seravo.com/docs</a>, när ni som utvecklare behöver lösa ett specifikt problem som gäller WordPress på vår plattform.</li><li>Kundsupport via <a rel="noreferrer noopener" aria-label="help@seravo.com (öppnas i en ny flik) " href="mailto:help@seravo.com" target="_blank ">help@seravo.com</a>, när ni behöver hjälp från en riktig människa för frågor kopplat till er webbplats hos oss.</li></ul>
+    <ul>
+      <li>Kunskapsbank via <a href="https://help.seravo.com/en" target="_blank" rel="noreferrer noopener" aria-label=" (öppnas i en ny flik) ">help.seravo.com</a>, när ni vill hitta ett snabbt svar på frågor eller funderingar om er WordPress webbplats hos oss.</li>
+      <li>Utvecklardokumentation via <a rel="noreferrer noopener" aria-label=" (öppnas i en ny flik) " href="https://seravo.com/docs/" target="_blank">seravo.com/docs</a>, när ni som utvecklare behöver lösa ett specifikt problem som gäller WordPress på vår plattform.</li>
+      <li>Kundsupport via <a rel="noreferrer noopener" aria-label="help@seravo.com (öppnas i en ny flik) " href="mailto:help@seravo.com" target="_blank ">help@seravo.com</a>, när ni behöver hjälp från en riktig människa för frågor kopplat till er webbplats hos oss.</li>
+    </ul>
     <!-- /wp:list -->
 
     <!-- wp:paragraph -->
-    <p>Just det, och om det finns något du vill förbättra med den här installationsprocessen, vänligen öppna ett ärende på <a href="https://github.com/Seravo/wordpress" target="_blank" rel="noreferrer noopener" aria -label=" (öppnas i en ny flik) ">https://github.com/Seravo/wordpress</a> eller varför inte skicka in en PR direkt. ;).</p>
+    <p>Just det, och om det finns något du vill förbättra med den här installationsprocessen, vänligen öppna ett ärende på <a href="https://github.com/Seravo/wordpress" target="_blank" rel="noreferrer noopener" aria -label=" (öppnas i en ny flik) ">https://github.com/Seravo/wordpress</a> eller varför inte skicka in en pull request direkt! ;)</p>
     <!-- /wp:paragraph -->
     <?php
     $first_page = ob_get_clean();
@@ -493,7 +455,7 @@ function seravo_first_page() {
     <!-- /wp:image -->
 
     <!-- wp:paragraph -->
-    <p>Welcome to your brand new WordPress installation hosted by Seravo. We are very happy that you have decided to trust us with your website, and to take advantage of <a href="https://seravo.com/features/" target="_blank" rel="noreferrer noopener" aria-label=" (opens in a new tab)">all the great features</a> that we provide. We have cleaned up the installation to save you the trouble of removing sample content that you would get with a standard WordPress.</p>
+    <p>Welcome to your brand new WordPress installation powered by the <a href="https://github.com/Seravo/wordpress">Seravo WordPress project layout</a>. Hopefully you have also decided to host your website with us and to take advantage of <a rel="noreferrer noopener" aria-label=" (opens in a new tab)" href="https://seravo.com/features/" target="_blank">all the great features</a> that we provide. We have cleaned up the installation to save you the trouble of removing sample content that you would get with a standard WordPress.</p>
     <!-- /wp:paragraph -->
 
     <!-- wp:heading -->
@@ -501,15 +463,11 @@ function seravo_first_page() {
     <!-- /wp:heading -->
 
     <!-- wp:paragraph -->
-    <p>Please check the email inbox of the contact person that was given when submitting the order. There you will find the full login details for both this WordPress site <a href="<?php echo get_option('home') . '/wp-login.php'; ?>" target="_blank" rel="noreferrer noopener" aria-label=" (opens in a new tab)">wp-admin</a> and <a href="https://help.seravo.com/en/knowledgebase/11/docs/76-configuring-ssh-sftp" target="_blank" rel="noreferrer noopener" aria-label=" (opens in a new tab)">SSH/SFTP</a>.</p>
+    <p>If you already have a site setup with us at Seravo you might want to clone that as described in <a href="https://seravo.com/docs/">our developer docs</a>.</p>
     <!-- /wp:paragraph -->
 
     <!-- wp:paragraph -->
-    <p>If you already have an <strong>existing site</strong> somewhere else, please make use of our <a href="https://help.seravo.com/en/knowledgebase/15-site-migration" target="_blank" rel="noreferrer noopener" aria-label=" (opens in a new tab)">documentation on site migration</a> for further details on various migration methods.</p>
-    <!-- /wp:paragraph -->
-
-    <!-- wp:paragraph -->
-    <p>If this is the beginning of an entirely <strong>new site</strong> you are all set to go. You might want to check out our project layout on <a href="https://github.com/Seravo/wordpress" target="_blank" rel="noreferrer noopener" aria-label=" (opens in a new tab)">GitHub</a> to simplify your development efforts locally.</p>
+    <p>If you are using our layout with our Vagrant box you already have multiple developer tools installed as described in our GitHub readme. We have provided you with many useful <a href="https://seravo.com/docs/get-started/available-commands/">helper commands</a> and <a href="https://seravo.com/docs/development/defaults/">default values</a> that will get you started quickly.</p>
     <!-- /wp:paragraph -->
 
     <!-- wp:heading -->
@@ -521,14 +479,19 @@ function seravo_first_page() {
     <!-- /wp:paragraph -->
 
     <!-- wp:list -->
-    <ul><li>Knowledge Base at <a href="https://help.seravo.com/en" target="_blank" rel="noreferrer noopener" aria-label=" (opens in a new tab)">help.seravo.com</a>, when you’re looking for a quick answer to a question about your site.</li><li>Developer Docs at <a rel="noreferrer noopener" aria-label=" (opens in a new tab)" href="https://seravo.com/docs/" target="_blank">seravo.com/docs</a>, when you’re looking for expert guidance in WordPress development.</li><li>Customer Support from <a rel="noreferrer noopener" aria-label="help@seravo.com (opens in a new tab)" href="mailto:help@seravo.com" target="_blank">help@seravo.com</a>, when you need a human to help you out with a problem on your site.</li></ul>
+    <ul>
+      <li>Knowledge Base at <a rel="noreferrer noopener" aria-label=" (opens in a new tab)" href="https://help.seravo.com/en" target="_blank">help.seravo.com</a>, when you’re looking for a quick answer to a question about your site hosted at Seravo.</li>
+      <li>Developer Docs at <a rel="noreferrer noopener" aria-label=" (opens in a new tab)" href="https://seravo.com/docs/" target="_blank">seravo.com/docs</a>, when you’re looking for expert guidance in WordPress development.</li>
+      <!-- @TODO: Add customer support bullet later -->
+    </ul>
     <!-- /wp:list -->
 
     <!-- wp:paragraph -->
-    <p>Oh, and if there is anything you would like to improve with this installation process please open a issue on <a href="https://github.com/Seravo/wordpress" target="_blank" rel="noreferrer noopener" aria-label=" (opens in a new tab)">https://github.com/Seravo/wordpress</a> – or why not submit a pull request straight away. ;) .</p>
+    <p>Oh, and if there is anything you would like to improve with this installation process please open a issue on <a href="https://github.com/Seravo/wordpress" target="_blank" rel="noreferrer noopener" aria-label=" (opens in a new tab)">https://github.com/Seravo/wordpress</a> –&nbsp;or why not submit a pull request straight away in the spirit of <a href="https://seravo.com/opensource/" target="_blank" rel="noreferrer noopener" aria-label=" (opens in a new tab)">open source software</a>! ;)</p>
     <!-- /wp:paragraph -->
     <?php
     $first_page = ob_get_clean();
+
   }
 
   return $first_page;
