@@ -357,7 +357,7 @@ function seravo_first_page() {
     <!-- /wp:image -->
 
     <!-- wp:paragraph -->
-    <p>Tervetuloa uudelle WordPress-sivustollenne Seravon WP-palvelussa. Olemme erittäin iloisia siitä, että olette päättäneet luottaa sivustonne meidän hallintaamme, sekä ottamaan käyttöön ylläpitopalvelumme <a href="https://wp-palvelu.fi/ominaisuudet/" target="_blank" rel="noreferrer noopener" aria-label=" (avautuu uuteen väliehteen)">kattavat ominaisuudet</a>. Nopeuttaaksemme sivuston käyttöönottoa olemme siivonneet asennuksestanne pois koko joukon WordPressin mukana tavallisesti toimitettua esimerkkisisältöä.</p>
+    <p>Tervetuloa uudelle WordPress-sivustollenne Seravon WP-palvelussa. Olemme erittäin iloisia siitä, että olette päättäneet luottaa sivustonne meidän hallintaamme, sekä ottamaan käyttöön ylläpitopalvelumme <a href="https://wp-palvelu.fi/ominaisuudet/" target="_blank" rel="noreferrer noopener" aria-label=" (avautuu uuteen välilehteen)">kattavat ominaisuudet</a>. Nopeuttaaksemme sivuston käyttöönottoa olemme siivonneet asennuksestanne pois koko joukon WordPressin mukana tavallisesti toimitettua esimerkkisisältöä.</p>
     <!-- /wp:paragraph -->
 
     <!-- wp:heading -->
@@ -365,15 +365,15 @@ function seravo_first_page() {
     <!-- /wp:heading -->
 
     <!-- wp:paragraph -->
-    <p>Olkaa hyvät ja tarkistakaa sen henkilön sähköpostilaatikko, jonka merkitsitte tilauksen yhteydessä yhteyshenkilöksi. Sieltä löydätte tarvittavat tunnukset sekä <a href="<?php echo get_option('home') . '/wp-login.php'; ?>" target="_blank" rel="noreferrer noopener" aria-label=" (avautuu uuteen väliehteen)">WordPressin hallitaan</a> että <a href="https://help.seravo.com/fi/knowledgebase/11/docs/76-configuring-ssh-sftp" target="_blank" rel="noreferrer noopener" aria-label=" (avautuu uuteen väliehteen)">SSH/SFTP-yhteyksien muodostamiseen</a>.</p>
+    <p>Olkaa hyvät ja tarkistakaa sen henkilön sähköpostilaatikko, jonka merkitsitte tilauksen yhteydessä yhteyshenkilöksi. Sieltä löydätte tarvittavat tunnukset sekä <a href="<?php echo get_option('home') . '/wp-login.php'; ?>" target="_blank" rel="noreferrer noopener" aria-label=" (avautuu uuteen välilehteen)">WordPressin hallitaan</a> että <a href="https://help.seravo.com/fi/knowledgebase/11/docs/76-configuring-ssh-sftp" target="_blank" rel="noreferrer noopener" aria-label=" (avautuu uuteen välilehteen)">SSH/SFTP-yhteyksien muodostamiseen</a>.</p>
     <!-- /wp:paragraph -->
 
     <!-- wp:paragraph -->
-    <p>Mikäli teillä on jo <strong>olemassa oleva sivusto</strong> jossain muualla, voitte tutustua <a href="https://help.seravo.com/fi/knowledgebase/15-site-migration" target="_blank" rel="noreferrer noopener" aria-label=" (avautuu uuteen väliehteen)">sivustojen siirtoa käsitteleviin ohjeisiimme</a> tutustuaksenne lähemmin vaihtoehtoisiin tapoihin siirtää sivustonne palveluumme.</p>
+    <p>Mikäli teillä on jo <strong>olemassa oleva sivusto</strong> jossain muualla, voitte tutustua <a href="https://help.seravo.com/fi/knowledgebase/15-site-migration" target="_blank" rel="noreferrer noopener" aria-label=" (avautuu uuteen välilehteen)">sivustojen siirtoa käsitteleviin ohjeisiimme</a> tutustuaksenne lähemmin vaihtoehtoisiin tapoihin siirtää sivustonne palveluumme.</p>
     <!-- /wp:paragraph -->
 
     <!-- wp:paragraph -->
-    <p>Mikäli olette perustamassa täysin <strong>uutta sivustoa</strong>, teidän ei tarvitse kuin aloittaa sen rakentaminen. Mikäli aiotte rakentaa sivustoa paikallisessa kehitysympäristössä, suosittelemme tutustumaan projektipohjaamme <a href="https://github.com/Seravo/wordpress" target="_blank" rel="noreferrer noopener" aria-label=" (avautuu uuteen väliehteen)">GitHubissa</a>.</p>
+    <p>Mikäli olette perustamassa täysin <strong>uutta sivustoa</strong>, teidän ei tarvitse kuin aloittaa sen rakentaminen. Mikäli aiotte rakentaa sivustoa paikallisessa kehitysympäristössä, suosittelemme tutustumaan projektipohjaamme <a href="https://github.com/Seravo/wordpress" target="_blank" rel="noreferrer noopener" aria-label=" (avautuu uuteen välilehteen)">GitHubissa</a>.</p>
     <!-- /wp:paragraph -->
 
     <!-- wp:heading -->
@@ -386,14 +386,14 @@ function seravo_first_page() {
 
     <!-- wp:list -->
     <ul>
-      <li>Tietopankki osoitteessa <a href="https://help.seravo.com/fi" target="_blank" rel="noreferrer noopener" aria-label=" (avautuu uuteen väliehteen)">help.seravo.com</a>, Kun haluat nopean vastauksen sivustoosi liittyvään kysymykseen.</li>
-      <li>Kehittäjädokumentaatio osoitteessa <a rel="noreferrer noopener" aria-label=" (avautuu uuteen väliehteen)" href="https://seravo.com/docs/" target="_blank">seravo.com/docs</a>, kun etsit asiantuntija-apua WordPress-kehitykseen liittyvissä asioissa.</li>
-      <li>Asiakaspalvelu sähköpostiosoitteessa <a rel="noreferrer noopener" aria-label="help@seravo.com (avautuu uuteen väliehteen)" href="mailto:help@seravo.com" target="_blank">help@seravo.com</a>, kun haluat keskustella sivustoosi liittyvästä ongelmasta.</li>
+      <li>Tietopankki osoitteessa <a href="https://help.seravo.com/fi" target="_blank" rel="noreferrer noopener" aria-label=" (avautuu uuteen välilehteen)">help.seravo.com</a>, Kun haluat nopean vastauksen sivustoosi liittyvään kysymykseen.</li>
+      <li>Kehittäjädokumentaatio osoitteessa <a rel="noreferrer noopener" aria-label=" (avautuu uuteen välilehteen)" href="https://seravo.com/docs/" target="_blank">seravo.com/docs</a>, kun etsit asiantuntija-apua WordPress-kehitykseen liittyvissä asioissa.</li>
+      <li>Asiakaspalvelu sähköpostiosoitteessa <a rel="noreferrer noopener" aria-label="help@seravo.com (avautuu uuteen välilehteen)" href="mailto:help@seravo.com" target="_blank">help@seravo.com</a>, kun haluat keskustella sivustoosi liittyvästä ongelmasta.</li>
     </ul>
     <!-- /wp:list -->
 
     <!-- wp:paragraph -->
-    <p>Mikäli sinulla on kehitysideoita tämän asennusprosessin suhteen, otamme niitä mielellämme vastaan tämän projektipohjan <a href="https://github.com/Seravo/wordpress" target="_blank" rel="noreferrer noopener" aria-label=" (avautuu uuteen väliehteen)">GitHubissa</a>. Voit toki myös lähettää meille suoraan pull requestin tekemästäsi parannuksesta <a href="https://wp-palvelu.fi/avoin-lahdekoodi/" target="_blank" rel="noreferrer noopener" aria-label=" (avautuu uuteen väliehteen)">avoimen lähdekoodin</a> hengessä! ;)</p>
+    <p>Mikäli sinulla on kehitysideoita tämän asennusprosessin suhteen, otamme niitä mielellämme vastaan tämän projektipohjan <a href="https://github.com/Seravo/wordpress" target="_blank" rel="noreferrer noopener" aria-label=" (avautuu uuteen välilehteen)">GitHubissa</a>. Voit toki myös lähettää meille suoraan pull requestin tekemästäsi parannuksesta <a href="https://wp-palvelu.fi/avoin-lahdekoodi/" target="_blank" rel="noreferrer noopener" aria-label=" (avautuu uuteen välilehteen)">avoimen lähdekoodin</a> hengessä! ;)</p>
     <!-- /wp:paragraph -->
     <?php
     $first_page = ob_get_clean();
