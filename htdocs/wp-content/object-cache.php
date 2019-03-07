@@ -3,7 +3,7 @@
 Plugin Name: Redis Object Cache Drop-In
 Plugin URI: http://wordpress.org/plugins/redis-cache/
 Description: A persistent object cache backend powered by Redis. Supports Predis, PhpRedis, HHVM, replication, clustering and WP-CLI.
-Version: 1.3.8
+Version: 1.4.2
 Author: Till Krüss
 Author URI: https://till.im/
 License: GPLv3
@@ -385,6 +385,7 @@ class WP_Object_Cache
 
         foreach (array( 'scheme', 'host', 'port', 'path', 'password', 'database' ) as $setting) {
             $constant = sprintf('WP_REDIS_%s', strtoupper($setting));
+
             if (defined($constant)) {
                 $parameters[ $setting ] = constant($constant);
             }
@@ -490,8 +491,11 @@ class WP_Object_Cache
                 $this->redis_client .= sprintf(' (v%s)', Predis\Client::VERSION);
             }
 
-            // Throws exception if Redis is unavailable
-            $this->redis->ping();
+            if (defined('WP_REDIS_CLUSTER')) {
+                $this->redis->ping(current(array_values(WP_REDIS_CLUSTER)));
+            } else {
+                $this->redis->ping();
+            }
 
             $this->redis_connected = true;
         } catch (Exception $exception) {
@@ -581,6 +585,14 @@ class WP_Object_Cache
      */
     protected function add_or_replace($add, $key, $value, $group = 'default', $expiration = 0)
     {
+        $cache_addition_suspended = function_exists('wp_suspend_cache_addition')
+            ? wp_suspend_cache_addition()
+            : false;
+
+        if ( $add && $cache_addition_suspended ) {
+            return false;
+        }
+
         $result = true;
         $derived_key = $this->build_key($key, $group);
 
@@ -592,7 +604,7 @@ class WP_Object_Cache
                 return false;
             }
 
-            $expiration = $this->validate_expiration($expiration);
+            $expiration = apply_filters('redis_cache_expiration', $this->validate_expiration($expiration), $key, $group);
 
             if ($expiration) {
                 $result = $this->parse_redis_response($this->redis->setex($derived_key, $expiration, $this->maybe_serialize($value)));
@@ -657,7 +669,7 @@ class WP_Object_Cache
             sleep($delay);
         }
 
-        $result = false;
+        $results = [];
         $this->cache = array();
 
         if ($this->redis_status()) {
@@ -674,20 +686,47 @@ class WP_Object_Cache
                     return i
                 ";
 
-                $result = $this->parse_redis_response($this->redis->eval(
-                    $script,
-                    $this->redis instanceof Predis\Client ? 0 : []
-                ));
+                if (defined('WP_REDIS_CLUSTER')) {
+                    foreach($this->redis->_masters() as $master) {
+                        $redis = new Redis;
+                        $redis->connect($master[0], $master[1]);
+                        $results[] = $this->parse_redis_response($this->redis->eval($script));
+                        unset($redis);
+                    }
+                } else {
+                    $results[] = $this->parse_redis_response(
+                        $this->redis->eval(
+                            $script,
+                            $this->redis instanceof Predis\Client ? 0 : []
+                        )
+                    );
+                }
             } else {
-                $result = $this->parse_redis_response($this->redis->flushdb());
+                if (defined('WP_REDIS_CLUSTER')) {
+                    foreach ($this->redis->_masters() as $master) {
+                        $results[] = $this->parse_redis_response($this->redis->flushdb($master));
+                    }
+                } else {
+                    $results[] = $this->parse_redis_response($this->redis->flushdb());
+                }
             }
 
             if (function_exists('do_action')) {
-                do_action('redis_object_cache_flush', $result, $delay, $selective, $salt);
+                do_action('redis_object_cache_flush', $results, $delay, $selective, $salt);
             }
         }
 
-        return $result;
+        if (empty($results)) {
+            return false;
+        }
+
+        foreach ($results as $result) {
+            if (! $result) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     /**
@@ -741,8 +780,8 @@ class WP_Object_Cache
         }
 
         if (function_exists('apply_filters') && function_exists('has_filter')) {
-            if (has_filter('redis_object_cache_get')) {
-                return apply_filters('redis_object_cache_get', $value, $key, $group, $force, $found);
+            if (has_filter('redis_object_cache_get_value')) {
+                return apply_filters('redis_object_cache_get_value', $value, $key, $group, $force, $found);
             }
         }
 
@@ -830,7 +869,7 @@ class WP_Object_Cache
 
         // save if group not excluded from redis and redis is up
         if (! in_array($group, $this->ignored_groups) && $this->redis_status()) {
-            $expiration = $this->validate_expiration($expiration);
+            $expiration = apply_filters('redis_cache_expiration', $this->validate_expiration($expiration), $key, $group);
 
             if ($expiration) {
                 $result = $this->parse_redis_response($this->redis->setex($derived_key, $expiration, $this->maybe_serialize($value)));
@@ -964,7 +1003,7 @@ class WP_Object_Cache
         $salt = defined('WP_CACHE_KEY_SALT') ? trim(WP_CACHE_KEY_SALT) : '';
         $prefix = in_array($group, $this->global_groups) ? $this->global_prefix : $this->blog_prefix;
 
-        return "{$salt}{$prefix}:{$group}:{$key}";
+        return "{{$salt}{$prefix}}:{$group}:{$key}";
     }
 
     /**
@@ -1111,6 +1150,10 @@ class WP_Object_Cache
      */
     protected function maybe_unserialize($original)
     {
+        if (defined('WP_REDIS_IGBINARY') && WP_REDIS_IGBINARY) {
+            return igbinary_unserialize($original);
+        }
+
         // don't attempt to unserialize data that wasn't serialized going in
         if ($this->is_serialized($original)) {
             return @unserialize($original);
@@ -1126,6 +1169,10 @@ class WP_Object_Cache
      */
     protected function maybe_serialize($data)
     {
+        if (defined('WP_REDIS_IGBINARY') && WP_REDIS_IGBINARY) {
+            return igbinary_serialize($data);
+        }
+
         if (is_array($data) || is_object($data)) {
             return serialize($data);
         }
