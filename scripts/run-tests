@@ -1,0 +1,24 @@
+#!/bin/bash
+##
+# Run any bash script as a test
+#
+# This script is typically referenced from package.json or git pre-commit hook.
+#
+# NOTE! Just like the previous version of this script, it is designed to be run
+# in production, in a shadow instance or inside Vagrant and expects a running
+# site and commands like wp-cli and wp-test-ng to be available.
+##
+
+##
+# This script can be called from any path so it's good to be relative to project
+##
+DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
+
+if wp core is-installed --quiet &> /dev/null || [ -n "$WP_TEST_URL" ]; then
+
+  wp-test --debug --fail-fast
+
+else
+  echo "To run tests you need to have Vagrant, WP-CLI or set WP_TEST_URL"
+  exit 1
+fi

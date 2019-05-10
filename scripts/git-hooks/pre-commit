@@ -1,0 +1,146 @@
+#!/bin/bash
+##
+# Automatically run tests when commiting and prevent committing if tests fail.
+# Intended for installation into local .git/hooks folder so it runs on the
+# developers machine. Some tests can be fully local, while others require a
+# running Vagrant machine so that the tests can execute inside Vagrant.
+#
+# $ cd .git/hooks; ln -s ../../scripts/git-hooks/pre-commit .
+##
+
+HOSTNAME=$(hostname)
+echo "==> Running pre-commit git hook on $HOSTNAME"
+
+##
+# This script can be called from any path so it's good to be in the correct location.
+# This can also be called in .git/hooks dir and we need to get into project root.
+##
+cd "$( dirname "${BASH_SOURCE[0]}" )"/../..
+
+# git diff --name only gives project root relative paths
+# we use this for making creating absolute paths
+REPO_DIR=$(git rev-parse --show-toplevel)
+# Don't use GIT_DIR, as the git binary expects it to point to the .git directory
+
+# Check if binary exists
+function command_available {
+  type "$1" &> /dev/null
+  return $?
+}
+
+# If Vagrant is available and running, execute this test inside Vagrant.
+# Otherwise bail out with an error code.
+if [ "$USER" != "vagrant" ]
+then
+  echo "==> Use 'git commit -n' if you want to skip tests."
+
+  # Warn if there are unstaged changes in tracked files or untracked files present.
+  # Such extra files might influence the integration tests to show a false result
+  # compared to what the to-be-committed git head would have in a clean working
+  # directory.
+  # This needs to run on host as it would otherwise just list a bunch of false
+  # positives that stem only from the Vagrant mount chattr changes that are not real.
+  NONSTAGED=$(git status --porcelain | grep -E '^( M|MM|\?\?)')
+  if [[ $NONSTAGED != '' ]]; then
+    echo "==> Non-committed extra files present at commit time - integration test results might be false!"
+    echo "$NONSTAGED"
+  fi
+
+  if command_available vagrant
+  then
+    if vagrant status --machine-readable | grep state,running --quiet
+    then
+      echo "==> Running tests in Vagrant..."
+      vagrant ssh -c "sc shell -q /data/wordpress/scripts/git-hooks/pre-commit"
+      exit $?
+    else
+      echo "==> Vagrant not running, cannot proceed with tests in Vagrant..."
+      exit 1
+    fi
+  else
+    echo "==> Could not find a WordPress environment to run tests in, aborting..."
+    exit 1
+  fi
+fi
+
+# Save all errors in array
+errors=()
+
+# Loop all files that are about to be committed (diff of git head and staged)
+echo "==> Checking for syntax errors..."
+for FILE in $(git diff --cached --name-only)
+do
+  resource="$REPO_DIR/$FILE"
+
+  ##
+  # Test PHP syntax for all changed *.php and *.module files
+  ##
+  if [[ "$FILE" =~ \.php$ ]]
+  then
+    if [[ -f $resource ]]; then
+      if ! php -l "$resource" 1> /dev/null
+      then
+        errors+=("PHP syntax error: $FILE")
+      fi
+    fi
+  fi
+
+  ##
+  # Check that nginx configs (*.conf) work with (nginx -t) before commiting
+  # Maybe nginx should be updated here to really know impact to later tests
+  # @TODO: Clean up this crappy shell syntax
+  # - When running 'git commit -a' test all diffed files, not only '--cached'
+  # - ensure 'nginx -t' works both in Vagrant and in production
+  ##
+  if [[ "$FILE" =~ ^nginx.+(conf)$ ]]
+  then
+    if [[ -f $resource ]]
+    then
+      if ! wp-reload-nginx # This exits with error code if nginx -t fails
+      then
+        errors+=("Nginx config error: $FILE")
+      fi
+    fi
+  fi
+done
+
+##
+# Display all errors
+##
+if [ ${#errors[@]} -ne 0 ]
+then
+  for i in "${errors[@]}"
+  do
+    echo "==> $i"
+  done
+  exit 1
+fi
+
+
+# Slower PHP syntax check which only runs if the basics above passed
+echo "==> Checking PHP code style..."
+for FILE in $(git diff --cached --name-only)
+do
+  if [[ "$FILE" =~ \.php$ ]]
+  then
+    if ! phpcs -q "$FILE"
+    then
+      echo "==> PHPCS did not pass: code violates coding standards." >&2
+      exit 1
+    fi
+  fi
+done
+
+
+##
+# Run integration tests
+#
+# Block commit if tests fail.
+##
+if ! /usr/local/bin/wp-test-ng --debug --fail-fast
+then
+  echo "==> Tests failed! Git commit denied."
+  exit 1
+else
+  echo "==> Tests passed!"
+fi
