@@ -1,0 +1,45 @@
+#!/bin/bash
+##
+# Automatically run asset builds and server restarts after a successful push.
+# Intended for installation into production .git/hooks folder so it automates
+# actions when doing a 'git push production'.
+#
+# $ cd .git/hooks; ln -s ../../scripts/git-hooks/post-receive .
+##
+
+# This file prepends output with "Seravo:" so that people running 'git push'
+# who see their git and SSH output would understand that these lines came from
+# something special on the server.
+echo "Seravo: running post-receive git hook"
+
+##
+# This script can be called from any path so it's good to be in the correct location.
+# This can also be called in .git/hooks dir and we need to get into project root.
+##
+cd "$( dirname "${BASH_SOURCE[0]}" )"/../..
+
+# Hack: Somehow this script won't understand that git is in current directory
+GIT_DIR="$(pwd)/.git"
+
+# Loop through all changed files
+changed_files=$(git diff --name-only --diff-filter=ACM HEAD HEAD^)
+
+# Check files which have triggers
+while read -r line; do
+    if [ "$line" = "composer.json" ] || [ "$line" = "composer.lock" ]; then
+      COMPOSER_CHANGED=true
+    elif [ "$line" = "nginx/*.conf" ]; then
+      NGINX_CHANGED=true
+    fi
+done <<< "$changed_files"
+
+# Do stuff with the triggers
+if $COMPOSER_CHANGED; then
+  echo "Seravo: composer.json was updated, installing..."
+  composer install --no-dev
+fi
+
+if $NGINX_CHANGED; then
+  echo "Seravo: Nginx configs were changed, reloading nginx..."
+  wp-restart-nginx
+fi

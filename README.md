@@ -20,7 +20,7 @@ Please see our documentation at https://seravo.com/docs/ on general information 
 ## Features
 * Includes Nginx, MariaDB, PHP5, PHP7, HHVM, Redis and Git for running WordPress in modern stack.
 * Git hooks to test your code to make sure that only high quality code is committed into git
-* Advanced WordPress acceptance tests with Rspec and PhantomJS
+* Advanced WordPress acceptance tests with Codeception and headless Chrome
 * [PHP Codesniffer](https://github.com/squizlabs/PHP_CodeSniffer) code style and quality analyser
 * Includes self-signed certs (and trust them automatically in OS X) to test https:// locally
 * [Xdebug](http://xdebug.org/) and [Webgrind](https://code.google.com/p/webgrind/) for debugging and profiling your application
@@ -102,9 +102,6 @@ The root of this repository equals the contents of the directory ```/data/wordpr
 ├── Vagrantfile # Advanced vagrant environment and scripts packaged in Vagrantfile
 │
 ├── tests # Here you can include tests for your WordPress instance
-│   └── rspec
-│       └── baseline.rb # Our baseline tests use rspec/poltergeist/phantomjs since we have found them very effective.
-│       └── anything.rb # Your own test suite files can be named anything *.rb.
 │
 ├── nginx # Here you can have your custom modifications to Nginx which are also used in production
 │   └── examples.conf # Some examples to get started

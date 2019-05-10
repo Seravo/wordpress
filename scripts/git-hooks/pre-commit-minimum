@@ -1,0 +1,40 @@
+#!/bin/bash
+##
+# Automatically run tests when commiting and prevent committing if tests fail.
+# Intended for installation into local .git/hooks folder so it runs on the
+# developers machine. Tests are run locally and expect the developer's machine
+# to have PHP and PHPCS installed. Designed to run very quickly.
+#
+# $ cd .git/hooks; ln -s ../../scripts/git-hooks/pre-commit-minimum pre-commit
+##
+
+HOSTNAME=$(hostname)
+echo "==> Running pre-commit git hook on $HOSTNAME"
+
+# Really fast check if syntax is at all parseable
+for FILE in $(git diff --cached --name-only)
+do
+  if [[ "$FILE" =~ \.php$ ]]
+  then
+    if ! php -l "$FILE" 1> /dev/null # Show only error output, otherwise keep quiet
+    then
+      echo -e "\e[1;33mAborting commit: PHP code contains syntax errors\e[0m" >&2
+      exit 1
+    fi
+  fi
+done
+
+# Slower test if file follows WordPress coding standards (core + extra)
+# https://github.com/WordPress-Coding-Standards/WordPress-Coding-Standards
+# Use -q to hide progress, not relevant to show in a git hook output.
+for FILE in $(git diff --cached --name-only)
+do
+  if [[ "$FILE" =~ \.php$ ]]
+  then
+    if ! phpcs -q "$FILE"
+    then
+      echo -e "\e[1;33mAborting commit: PHP code violates coding standards\e[0m" >&2
+      exit 1
+    fi
+  fi
+done
