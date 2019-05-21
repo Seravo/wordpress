@@ -48,6 +48,8 @@ before_script:
   - ./node_modules/.bin/gulp
 
 script:
+  # Remove one file to avoid false positive __autoload() detection by php -l later on
+  - rm htdocs/wordpress/wp-includes/spl-autoload-compat.php
   # Syntax check all php files and fail for any error text in STDERR
   - '! find . -type f -name "*.php" -exec php -d error_reporting=32767 -l {} \; 2>&1 >&- | grep "^"'
   # @TODO: Run a more extensive test using the above real WordPress installation
