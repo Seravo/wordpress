@@ -124,12 +124,13 @@ Vagrant.configure('2') do |config|
       end
 
       # Database imports
-      if site_config['production'] != nil && site_config['production']['ssh_port'] != nil and confirm("Pull database from production?",false)
+      if site_config['production'] != nil && site_config['production']['ssh_port'] != nil && site_config['development']['pull_production_db'] != 'never' && (site_config['development']['pull_production_db'] == 'always' or confirm("Pull database from production?", false))
         # Seravo customers are asked if they want to pull the production database here
 
-        # Install WordPress with defaults first
+        # Install WordPress with defaults first so the database is not empty. Will automatically skip if WP was already installed.
         run_remote("wp core install --url=https://#{site_config['name']}.local --title=#{site_config['name'].capitalize}\
          --admin_email=vagrant@#{site_config['name']}.local --admin_user=vagrant --admin_password=vagrant")
+        # Pull production DB
         run_remote("wp-pull-production-db")
       elsif File.exists?(File.join(DIR,'.vagrant','shutdown-dump.sql'))
         # Return the state where we last left if WordPress isn't currently installed
