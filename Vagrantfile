@@ -50,7 +50,7 @@ Vagrant.configure('2') do |config|
   config.ssh.forward_agent = true
 
   # Minimum box version requirement for this Vagrantfile revision
-  config.vm.box_version = ">= 20181112.0.0"
+  config.vm.box_version = ">= 20190513.0.0"
 
   # Use precompiled box
   config.vm.box = 'seravo/wordpress'
@@ -121,6 +121,16 @@ Vagrant.configure('2') do |config|
         system "composer install"
       else # run in vagrant
         run_remote "composer install --working-dir=/data/wordpress"
+      end
+
+      # Sync plugin files from production is so configured to do
+      if site_config['production'] != nil && site_config['production']['ssh_port'] != nil and site_config['development']['pull_production_plugins'] == 'always'
+        run_remote("wp-pull-production-plugins")
+      end
+
+      # Sync theme files from production is so configured to do
+      if site_config['production'] != nil && site_config['production']['ssh_port'] != nil and site_config['development']['pull_production_themes'] == 'always'
+        run_remote("wp-pull-production-themes")
       end
 
       # Database imports
