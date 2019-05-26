@@ -43,3 +43,24 @@ if $NGINX_CHANGED; then
   echo "Seravo: Nginx configs were changed, reloading nginx..."
   wp-restart-nginx
 fi
+
+
+# If there is a Tideways key set, use it to trigger a release event
+if [ -f /data/wordpress/.tideways.key ] && [ ! -z "$(cat /data/wordpress/.tideways.key)" ]
+then
+  APIKEY=$(cat /data/wordpress/.tideways.key)
+  echo "Found Tideways API key: $APIKEY"
+
+  COMMIT_ID=$(git log -n 1 --oneline | cut -d ' ' -f 1)
+
+  PAYLOAD='{"apiKey": "'$APIKEY'", "name": "'$COMMIT_ID'", "type": "release", "environment": "'$WP_ENV'", "service": "web", "compareAfterMinutes":90}'
+  echo $PAYLOAD
+
+  TIDEWAYS_API_RESULT=$(curl -d "$PAYLOAD"  -X POST https://app.tideways.io/api/events)
+  if echo $TIDEWAYS_API_RESULT | grep '"ok":true'
+  then
+    echo "==> Tideways event registered successfully!"
+  else
+    echo "==> Tideways event registeration failed!"
+  fi
+fi
