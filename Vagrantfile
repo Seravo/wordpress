@@ -50,7 +50,7 @@ Vagrant.configure('2') do |config|
   config.ssh.forward_agent = true
 
   # Minimum box version requirement for this Vagrantfile revision
-  config.vm.box_version = ">= 20181112.0.0"
+  config.vm.box_version = ">= 20190513.0.0"
 
   # Use precompiled box
   config.vm.box = 'seravo/wordpress'
@@ -123,13 +123,24 @@ Vagrant.configure('2') do |config|
         run_remote "composer install --working-dir=/data/wordpress"
       end
 
+      # Sync plugin files from production is so configured to do
+      if site_config['production'] != nil && site_config['production']['ssh_port'] != nil and site_config['development']['pull_production_plugins'] == 'always'
+        run_remote("wp-pull-production-plugins")
+      end
+
+      # Sync theme files from production is so configured to do
+      if site_config['production'] != nil && site_config['production']['ssh_port'] != nil and site_config['development']['pull_production_themes'] == 'always'
+        run_remote("wp-pull-production-themes")
+      end
+
       # Database imports
-      if site_config['production'] != nil && site_config['production']['ssh_port'] != nil and confirm("Pull database from production?",false)
+      if site_config['production'] != nil && site_config['production']['ssh_port'] != nil && site_config['development']['pull_production_db'] != 'never' && (site_config['development']['pull_production_db'] == 'always' or confirm("Pull database from production?", false))
         # Seravo customers are asked if they want to pull the production database here
 
-        # Install WordPress with defaults first
+        # Install WordPress with defaults first so the database is not empty. Will automatically skip if WP was already installed.
         run_remote("wp core install --url=https://#{site_config['name']}.local --title=#{site_config['name'].capitalize}\
          --admin_email=vagrant@#{site_config['name']}.local --admin_user=vagrant --admin_password=vagrant")
+        # Pull production DB
         run_remote("wp-pull-production-db")
       elsif File.exists?(File.join(DIR,'.vagrant','shutdown-dump.sql'))
         # Return the state where we last left if WordPress isn't currently installed
@@ -171,10 +182,10 @@ Vagrant.configure('2') do |config|
       end
 
       # Attempt to use the asset proxy for production url defined in config.yml
-      run_remote "wp-use-asset-proxy &> /dev/null"
+      run_remote "wp-use-asset-proxy"
 
       # Restart nginx because the file system might not have been ready when the certificate was created
-      run_remote "wp-restart-nginx &> /dev/null"
+      run_remote "wp-restart-nginx"
 
       # Run 'vagrant up' customizer script if it exists
       if File.exist?(File.join(DIR, 'vagrant-up-customizer.sh'))
