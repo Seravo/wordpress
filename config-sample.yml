@@ -13,3 +13,8 @@ development:
     - wordpress.local
   # If you want to use zeroconf (.local domains) in your network you can use this.
   #avahi: true
+  # If you want to automatically pull stuff from production use 'always' or set
+  # to 'never' to just silience the 'yes/no' question during 'vagrant up'.
+  #pull_production_db: always
+  #pull_production_plugins: always
+  #pull_production_themes: always
