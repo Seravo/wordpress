@@ -25,6 +25,8 @@ GIT_DIR="$(pwd)/.git"
 changed_files=$(git diff --name-only --diff-filter=ACM HEAD HEAD^)
 
 # Check files which have triggers
+COMPOSER_CHANGED=false
+NGINX_CHANGED=false
 while read -r line; do
     if [ "$line" = "composer.json" ] || [ "$line" = "composer.lock" ]; then
       COMPOSER_CHANGED=true
