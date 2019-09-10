@@ -3,7 +3,7 @@
   "version": "1.3.0",
   "author": "Seravo Oy",
   "homepage": "https://github.com/seravo/wordpress/",
-  "contributors" : [
+  "contributors": [
     {
       "name": "Antti Kuosmanen",
       "email": "antti@seravo.fi",
@@ -15,8 +15,8 @@
       "url": "https://github.com/ottok"
     },
     {
-      "name" : "Onni Hakala",
-      "email" : "onni@seravo.fi",
+      "name": "Onni Hakala",
+      "email": "onni@seravo.fi",
       "url": "https://github.com/onnimonni"
     }
   ],
@@ -43,8 +43,8 @@
     "npm": ">=2.1.5"
   },
   "devDependencies": {
-    "browser-sync": "^2.7.1",
-    "gulp": "^3.8.11",
-    "gulp-sass": "^2.0.0"
+    "browser-sync": "^2.26.7",
+    "gulp": "^4.0.2",
+    "gulp-sass": "^4.0.2"
   }
 }
