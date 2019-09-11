@@ -93,7 +93,7 @@ Vagrant.configure('2') do |config|
 
   # Sync the folders
   # We have tried using NFS but it's super slow compared to synced_folder
-  config.vm.synced_folder DIR, '/data/wordpress/', owner: 'vagrant', group: 'vagrant', mount_options: ['dmode=776', 'fmode=775']
+  config.vm.synced_folder DIR, '/data/wordpress/', owner: 'vagrant', group: 'vagrant', mount_options: ['dmode=775', 'fmode=775']
 
 
   # For Self-signed ssl-certificate
