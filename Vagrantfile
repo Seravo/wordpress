@@ -95,13 +95,6 @@ Vagrant.configure('2') do |config|
   # We have tried using NFS but it's super slow compared to synced_folder
   config.vm.synced_folder DIR, '/data/wordpress/', owner: 'vagrant', group: 'vagrant', mount_options: ['dmode=775', 'fmode=775']
 
-
-  # For Self-signed ssl-certificate
-  ssl_cert_path = File.join(DIR,'.vagrant','ssl')
-  unless File.exists? File.join(ssl_cert_path,'development.crt')
-    config.vm.provision :shell, :inline => "wp-generate-ssl"
-  end
-
   # Add SSH Public Key from developer home folder into vagrant
   if File.exists? File.join(Dir.home, ".ssh", "id_rsa.pub")
     id_rsa_ssh_key_pub = File.read(File.join(Dir.home, ".ssh", "id_rsa.pub"))
@@ -115,13 +108,6 @@ Vagrant.configure('2') do |config|
       #Run all system commands inside project root
       Dir.chdir(DIR)
 
-      # Install packages with Composer
-      # run it locally if possible
-      if find_executable 'composer' and system "composer validate &>/dev/null"
-        system "composer install"
-      else # run in vagrant
-        run_remote "composer install --working-dir=/data/wordpress"
-      end
 
       # Sync plugin files from production is so configured to do
       if site_config['production'] != nil && site_config['production']['ssh_port'] != nil and site_config['development']['pull_production_plugins'] == 'always'
@@ -136,11 +122,6 @@ Vagrant.configure('2') do |config|
       # Database imports
       if site_config['production'] != nil && site_config['production']['ssh_port'] != nil && site_config['development']['pull_production_db'] != 'never' && (site_config['development']['pull_production_db'] == 'always' or confirm("Pull database from production?", false))
         # Seravo customers are asked if they want to pull the production database here
-
-        # Install WordPress with defaults first so the database is not empty. Will automatically skip if WP was already installed.
-        run_remote("wp core install --url=https://#{site_config['name']}.local --title=#{site_config['name'].capitalize}\
-         --admin_email=vagrant@#{site_config['name']}.local --admin_user=vagrant --admin_password=vagrant")
-        # Pull production DB
         run_remote("wp-pull-production-db")
       elsif File.exists?(File.join(DIR,'.vagrant','shutdown-dump.sql'))
         # Return the state where we last left if WordPress isn't currently installed
@@ -149,9 +130,7 @@ Vagrant.configure('2') do |config|
       elsif File.exists?(File.join(DIR,'vagrant-base.sql'))
         run_remote("wp db import /data/wordpress/vagrant-base.sql")
       else
-        # If nothing else was specified just install basic WordPress
-        run_remote("wp core install --url=https://#{site_config['name']}.local --title=#{site_config['name'].capitalize}\
-         --admin_email=vagrant@#{site_config['name']}.local --admin_user=vagrant --admin_password=vagrant")
+        # If nothing else was specified bootstap just installed basic WordPress
         notice "Installed default WordPress with user:vagrant password:vagrant"
       end
 
@@ -175,12 +154,6 @@ Vagrant.configure('2') do |config|
       when /linux/
         # Do linux specific things
       end
-
-      # Attempt to use the asset proxy for production url defined in config.yml
-      run_remote "wp-use-asset-proxy"
-
-      # Restart nginx because the file system might not have been ready when the certificate was created
-      run_remote "wp-restart-nginx"
 
       # Run 'vagrant up' customizer script if it exists
       if File.exist?(File.join(DIR, 'vagrant-up-customizer.sh'))
