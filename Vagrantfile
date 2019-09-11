@@ -155,11 +155,6 @@ Vagrant.configure('2') do |config|
         notice "Installed default WordPress with user:vagrant password:vagrant"
       end
 
-      # Init git if it doesn't exist
-      if not File.exists?( File.join(DIR,".git") ) and confirm "There's no git repository. Should we create one?"
-        system "git init ."
-      end
-
       # Don't activate git hooks, just notify them
       if File.exists?( File.join(DIR,'.git', 'hooks', 'pre-commit') )
         puts "If you want to use a git pre-commit hook please run 'wp-activate-git-hooks' inside the Vagrant box."
