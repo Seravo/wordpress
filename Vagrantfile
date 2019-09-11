@@ -76,18 +76,6 @@ Vagrant.configure('2') do |config|
 
   config.vm.define "#{site_config['name']}-box"
 
-  if Vagrant.has_plugin? 'vagrant-hostsupdater'
-    # Remove hosts when suspending too
-    config.hostsupdater.remove_on_suspend = true
-
-    domains = get_domains(site_config)
-    config.hostsupdater.aliases = domains - [config.vm.hostname]
-  else
-    puts 'vagrant-hostsupdater missing, please install the plugin:'
-    puts 'vagrant plugin install vagrant-hostsupdater'
-    exit 1
-  end
-
   # Disable default vagrant share
   config.vm.synced_folder ".", "/vagrant", disabled: true
 
@@ -228,31 +216,6 @@ end
 ##
 def touch_file(path)
   File.open(path, "w") {}
-end
-
-##
-# Generate /etc/hosts domain additions
-##
-def get_domains(config)
-
-  unless config['development'].nil?
-    domains = config['development']['domains'] || []
-    domains << config['development']['domain'] unless config['development']['domain'].nil?
-  else
-    domains = []
-  end
-
-  # The main domain
-  domains << config['name']+".local"
-
-  # Add domain names for included applications for easier usage
-  subdomains = %w( www webgrind adminer mailcatcher browsersync info )
-
-  subdomains.each do |domain|
-    domains << "#{domain}.#{config['name']}.local"
-  end
-
-  domains.uniq #remove duplicates
 end
 
 ##
