@@ -50,10 +50,10 @@ Vagrant.configure('2') do |config|
   config.ssh.forward_agent = true
 
   # Minimum box version requirement for this Vagrantfile revision
-  config.vm.box_version = ">= 20190513.0.0"
+  config.vm.box_version = "<= 1.0.0"
 
   # Use precompiled box
-  config.vm.box = 'seravo/wordpress'
+  config.vm.box = 'seravo/wordpress-beta'
 
   # Use the name of the box as the hostname
   config.vm.hostname = site_config['name']
@@ -96,6 +96,14 @@ Vagrant.configure('2') do |config|
       #Run all system commands inside project root
       Dir.chdir(DIR)
 
+      # vagrant shell provisioner does nto support interactive mode..
+      # run_remote('wp-development-up')
+
+      # Use system call as that is the only way to get an interactive session
+      # where the developer can respond to the wp-development-up prompts
+      # @TODO: try running this always, not just on trigger?
+      system("vagrant ssh --tty --command 'wp-development-up'")
+      #system("vagrant ssh --tty --command 'sc shell wp-development-up'") # circumvent wp-wrapper
 
       # Sync plugin files from production is so configured to do
       if site_config['production'] != nil && site_config['production']['ssh_port'] != nil and site_config['development']['pull_production_plugins'] == 'always'
@@ -119,6 +127,7 @@ Vagrant.configure('2') do |config|
         run_remote("wp db import /data/wordpress/vagrant-base.sql")
       else
         # If nothing else was specified bootstap just installed basic WordPress
+        # @TODO run this only if installation ran, not on every Vagrant up
         notice "Installed default WordPress with user:vagrant password:vagrant"
       end
 
@@ -156,8 +165,8 @@ Vagrant.configure('2') do |config|
     end
 
   else
-    puts 'vagrant-triggers missing, please install the plugin:'
-    puts 'vagrant plugin install vagrant-triggers'
+    puts 'vagrant-triggers plugin missing, using native triggers..'
+    system("vagrant ssh --tty --command 'wp-development-up'")
     exit 1
   end
 
