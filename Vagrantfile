@@ -155,16 +155,6 @@ Vagrant.configure('2') do |config|
       notice "Visit your site: https://#{site_config['name']}.local"
     end
 
-    config.trigger.before :halt do
-      # dump database when closing vagrant
-      dump_wordpress_database
-    end
-
-    config.trigger.before :destroy do
-      # dump database when destroying vagrant
-      dump_wordpress_database
-    end
-
   else
     puts 'vagrant-triggers missing, please install the plugin:'
     puts 'vagrant plugin install vagrant-triggers'
@@ -195,20 +185,6 @@ end
 ##
 def notice(text)
   puts "==> trigger: #{text}"
-end
-
-##
-# Dump database into file in vagrant
-##
-def dump_wordpress_database
-  if vagrant_running?
-    begin
-      notice "dumping the database into: .vagrant/shutdown-dump.sql"
-      run_remote "wp-vagrant-dump-db"
-    rescue => e
-      notice "Couldn't dump database. Skipping..."
-    end
-  end
 end
 
 ##
