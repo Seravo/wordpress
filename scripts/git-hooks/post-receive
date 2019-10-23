@@ -21,8 +21,15 @@ cd "$( dirname "${BASH_SOURCE[0]}" )"/../..
 # Hack: Somehow this script won't understand that git is in current directory
 GIT_DIR="$(pwd)/.git"
 
-# Loop through all changed files
-changed_files=$(git diff --name-only --diff-filter=ACM HEAD HEAD^)
+# Loop through all changed files, only take pushes to master into consideration.
+# If you use some other branch for production, change "refs/heads/master" to
+# something else like "refs/heads/yourbranch".
+changed_files=""
+while read oldrev newrev refname; do
+  if [ "$refname" = "refs/heads/master" ]; then
+    changed_files=$(git diff-tree --name-only -r $oldrev $newrev)
+  fi
+done
 
 # Check files which have triggers
 COMPOSER_CHANGED=false
