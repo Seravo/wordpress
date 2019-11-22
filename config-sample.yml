@@ -1,5 +1,5 @@
 ###
-# Configuration for Vagrant
+# Configuration for development environment (Vagrant and Docker)
 ###
 name: wordpress
 #production:
@@ -8,10 +8,10 @@ name: wordpress
   #ssh_port: 12345
   #url: https://example.seravo.com
 development:
-  # Domains are automatically mapped to Vagrant with /etc/hosts modifications
+  # Domains are automatically mapped to Vagrant with /etc/hosts modifications or Avahi
   domains:
     - wordpress.local
-  # If you want to use zeroconf (.local domains) in your network you can use this.
+  # Allow Vagrant to expose .local domains on the local network (outside of laptop)
   #avahi: true
   # If you want to automatically pull stuff from production use 'always' or set
   # to 'never' to just silence the 'yes/no' question during 'vagrant up'.

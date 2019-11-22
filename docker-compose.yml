@@ -2,15 +2,23 @@
 #
 # Start:
 #   echo "SITE=testsite" > .env
-#   docker-compose run --service-ports --rm wordpress
+#   docker-compose run -e WP_USER_UID=$UID --service-ports --rm wordpress
+# Or:
+#   docker-compose up
 #
 # Access:
 #   ssh vagrant@wordpress.local -o ForwardAgent=yes
 #
 # Clean up:
-#   docker-compose down
-#   docker volume rm wordpress_wordpress
+#   docker-compose down -v --remove-orphans
 #   rm -rf .vagrant
+#
+# If container is not visible on your network, expose it with port
+# bindings like:
+#   - 80:80
+#   - 443:443
+#   - 22:22
+# ...
 #
 version: '3'
 
@@ -37,4 +45,3 @@ services:
 
 volumes:
   wordpress:
-
