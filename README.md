@@ -50,12 +50,12 @@ The layout of this repo is designed in a way which allows you to open source you
 
 All plugins are handled by composer so they are ignored by git. If you create custom plugins, force add them to git so that they are tracked or add new lines into .gitignore to not ignore.
 
-Example of not ignore line in .gitignore: ```!htdocs/wp-content/plugins/your-plugin/```
+Example of not ignore line in `.gitignore`: `!htdocs/wp-content/plugins/your-plugin/`
 
 If you create custom themes, they are automatically tracked in git.
 
 Best way to develop custom plugins and themes is to add them into their own repositories and install them by composer.
-You can do this by adding ```composer.json``` for your plugin/theme and then requiring them in your project like:
+You can do this by adding `composer.json` for your plugin/theme and then requiring them in your project like:
 
 ```json
 "repositories": [
@@ -92,7 +92,7 @@ See `config-sample.yml` for more
 
 ## The Layout
 
-The root of this repository equals the contents of the directory ```/data/wordpress``` in the Seravo.com instance.
+The root of this repository equals the contents of the directory `/data/wordpress` in the Seravo.com instance.
 
 ```
 ├── config.yml # See about Configuration above
@@ -113,7 +113,7 @@ The root of this repository equals the contents of the directory ```/data/wordpr
 │   │   └──
 │   │
 │   ├── WordPress
-│   │   └── Installer.php #Additional composer scripts
+│   │   └── Installer.php # Additional composer scripts
 │   │
 │   └── run-tests # Bash-script as an interface for your tests in Seravo's production and development environments
 │

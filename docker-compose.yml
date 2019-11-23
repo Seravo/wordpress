@@ -1,7 +1,7 @@
 # Docker Compose for Seravo WordPress project template
 #
 # Start:
-#   echo "SITE=testsite" > .env
+#   echo "SITE=wordpress" > .env
 #   docker-compose run -e WP_USER_UID=$UID --service-ports --rm wordpress
 # Or:
 #   docker-compose up
@@ -27,8 +27,6 @@ services:
     container_name: ${SITE:-wordpress}
     hostname: ${SITE:-wordpress}
     image: seravo/wordpress:development
-    stdin_open: true
-    tty: true
     ports:
     - 80
     - 443
