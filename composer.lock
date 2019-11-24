@@ -8,16 +8,16 @@
     "packages": [
         {
             "name": "composer/installers",
-            "version": "v1.6.0",
+            "version": "v1.7.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/composer/installers.git",
-                "reference": "cfcca6b1b60bc4974324efb5783c13dca6932b5b"
+                "reference": "141b272484481432cda342727a427dc1e206bfa0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/composer/installers/zipball/cfcca6b1b60bc4974324efb5783c13dca6932b5b",
-                "reference": "cfcca6b1b60bc4974324efb5783c13dca6932b5b",
+                "url": "https://api.github.com/repos/composer/installers/zipball/141b272484481432cda342727a427dc1e206bfa0",
+                "reference": "141b272484481432cda342727a427dc1e206bfa0",
                 "shasum": ""
             },
             "require": {
@@ -73,6 +73,7 @@
                 "RadPHP",
                 "SMF",
                 "Thelia",
+                "Whmcs",
                 "WolfCMS",
                 "agl",
                 "aimeos",
@@ -95,6 +96,7 @@
                 "installer",
                 "itop",
                 "joomla",
+                "known",
                 "kohana",
                 "laravel",
                 "lavalite",
@@ -124,27 +126,27 @@
                 "zend",
                 "zikula"
             ],
-            "time": "2018-08-27T06:10:37+00:00"
+            "time": "2019-08-12T15:00:31+00:00"
         },
         {
             "name": "johnpbloch/wordpress-core",
-            "version": "5.2.0",
+            "version": "5.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/johnpbloch/wordpress-core.git",
-                "reference": "9d9c5f36166e7d31f1c90784e71dad3996d28a95"
+                "reference": "17ddddaf049e82655c6d3831ca787350807b0566"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/johnpbloch/wordpress-core/zipball/9d9c5f36166e7d31f1c90784e71dad3996d28a95",
-                "reference": "9d9c5f36166e7d31f1c90784e71dad3996d28a95",
+                "url": "https://api.github.com/repos/johnpbloch/wordpress-core/zipball/17ddddaf049e82655c6d3831ca787350807b0566",
+                "reference": "17ddddaf049e82655c6d3831ca787350807b0566",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.3.2"
+                "php": ">=5.6.20"
             },
             "provide": {
-                "wordpress/core-implementation": "5.2.0"
+                "wordpress/core-implementation": "5.3.0"
             },
             "type": "wordpress-core",
             "notification-url": "https://packagist.org/downloads/",
@@ -164,7 +166,7 @@
                 "cms",
                 "wordpress"
             ],
-            "time": "2019-05-07T20:42:17+00:00"
+            "time": "2019-11-12T20:45:53+00:00"
         },
         {
             "name": "johnpbloch/wordpress-core-installer",
@@ -217,10 +219,10 @@
         },
         {
             "name": "koodimonni-language/fi",
-            "version": "5.2",
+            "version": "5.3",
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/translation/core/5.2/fi.zip"
+                "url": "https://downloads.wordpress.org/translation/core/5.3/fi.zip"
             },
             "require": {
                 "koodimonni-plugin-language/akismet-fi": "*",
@@ -248,10 +250,10 @@
         },
         {
             "name": "koodimonni-language/sv_se",
-            "version": "5.2",
+            "version": "5.3",
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/translation/core/5.2/sv_SE.zip"
+                "url": "https://downloads.wordpress.org/translation/core/5.3/sv_SE.zip"
             },
             "require": {
                 "koodimonni-plugin-language/akismet-sv_se": "*",
@@ -298,10 +300,10 @@
         },
         {
             "name": "koodimonni-plugin-language/akismet-sv_se",
-            "version": "4.1.2",
+            "version": "4.1.3",
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/translation/plugin/akismet/4.1.2/sv_SE.zip"
+                "url": "https://downloads.wordpress.org/translation/plugin/akismet/4.1.3/sv_SE.zip"
             },
             "require": {
                 "koodimonni/composer-dropin-installer": ">=0.2.3"
@@ -336,10 +338,10 @@
         },
         {
             "name": "koodimonni-plugin-language/bbpress-sv_se",
-            "version": "2.5.14",
+            "version": "2.6.2",
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/translation/plugin/bbpress/2.5.14/sv_SE.zip"
+                "url": "https://downloads.wordpress.org/translation/plugin/bbpress/2.6.2/sv_SE.zip"
             },
             "require": {
                 "koodimonni/composer-dropin-installer": ">=0.2.3"
@@ -355,10 +357,10 @@
         },
         {
             "name": "koodimonni-plugin-language/woocommerce-fi",
-            "version": "3.6.3",
+            "version": "3.6.5",
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/translation/plugin/woocommerce/3.6.3/fi.zip"
+                "url": "https://downloads.wordpress.org/translation/plugin/woocommerce/3.6.5/fi.zip"
             },
             "require": {
                 "koodimonni/composer-dropin-installer": ">=0.2.3"
@@ -374,10 +376,10 @@
         },
         {
             "name": "koodimonni-plugin-language/woocommerce-sv_se",
-            "version": "3.6.3",
+            "version": "3.8.0",
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/translation/plugin/woocommerce/3.6.3/sv_SE.zip"
+                "url": "https://downloads.wordpress.org/translation/plugin/woocommerce/3.8.0/sv_SE.zip"
             },
             "require": {
                 "koodimonni/composer-dropin-installer": ">=0.2.3"
@@ -740,16 +742,16 @@
         },
         {
             "name": "seravo/seravo-plugin",
-            "version": "1.9.8",
+            "version": "1.9.13",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Seravo/seravo-plugin.git",
-                "reference": "1bc8a1753ce51fa6dde7f0769f20125324ec406b"
+                "reference": "6f13a3b116af06166cb6e248e5bd6c3ba7511db4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Seravo/seravo-plugin/zipball/1bc8a1753ce51fa6dde7f0769f20125324ec406b",
-                "reference": "1bc8a1753ce51fa6dde7f0769f20125324ec406b",
+                "url": "https://api.github.com/repos/Seravo/seravo-plugin/zipball/6f13a3b116af06166cb6e248e5bd6c3ba7511db4",
+                "reference": "6f13a3b116af06166cb6e248e5bd6c3ba7511db4",
                 "shasum": ""
             },
             "require": {
@@ -784,20 +786,20 @@
                 "wp",
                 "wp-palvelu"
             ],
-            "time": "2019-03-19T11:30:36+00:00"
+            "time": "2019-10-21T16:38:52+00:00"
         },
         {
             "name": "symfony/polyfill-ctype",
-            "version": "v1.11.0",
+            "version": "v1.12.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-ctype.git",
-                "reference": "82ebae02209c21113908c229e9883c419720738a"
+                "reference": "550ebaac289296ce228a706d0867afc34687e3f4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-ctype/zipball/82ebae02209c21113908c229e9883c419720738a",
-                "reference": "82ebae02209c21113908c229e9883c419720738a",
+                "url": "https://api.github.com/repos/symfony/polyfill-ctype/zipball/550ebaac289296ce228a706d0867afc34687e3f4",
+                "reference": "550ebaac289296ce228a706d0867afc34687e3f4",
                 "shasum": ""
             },
             "require": {
@@ -809,7 +811,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.11-dev"
+                    "dev-master": "1.12-dev"
                 }
             },
             "autoload": {
@@ -826,12 +828,12 @@
             ],
             "authors": [
                 {
-                    "name": "Symfony Community",
-                    "homepage": "https://symfony.com/contributors"
-                },
-                {
                     "name": "Gert de Pagter",
                     "email": "BackEndTea@gmail.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
                 }
             ],
             "description": "Symfony polyfill for ctype functions",
@@ -842,7 +844,7 @@
                 "polyfill",
                 "portable"
             ],
-            "time": "2019-02-06T07:57:58+00:00"
+            "time": "2019-08-06T08:03:45+00:00"
         },
         {
             "name": "vlucas/phpdotenv",
@@ -897,15 +899,15 @@
         },
         {
             "name": "wpackagist-plugin/auto-post-thumbnail",
-            "version": "3.4.1",
+            "version": "3.6.0",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/auto-post-thumbnail/",
-                "reference": "tags/3.4.1"
+                "reference": "trunk"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/auto-post-thumbnail.3.4.1.zip"
+                "url": "https://downloads.wordpress.org/plugin/auto-post-thumbnail.zip?timestamp=1571492044"
             },
             "require": {
                 "composer/installers": "~1.0"
@@ -915,15 +917,15 @@
         },
         {
             "name": "wpackagist-plugin/google-analytics-dashboard-for-wp",
-            "version": "5.3.8",
+            "version": "5.3.9",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/google-analytics-dashboard-for-wp/",
-                "reference": "tags/5.3.8"
+                "reference": "tags/5.3.9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/google-analytics-dashboard-for-wp.5.3.8.zip"
+                "url": "https://downloads.wordpress.org/plugin/google-analytics-dashboard-for-wp.5.3.9.zip"
             },
             "require": {
                 "composer/installers": "~1.0"
