@@ -78,7 +78,7 @@ Vagrant.configure('2') do |config|
   config.ssh.forward_agent = true
 
   # Minimum box version requirement for this Vagrantfile revision
-  config.vm.box_version = ">= 20190513.0.0"
+  config.vm.box_version = ">= 20200130.0.0"
 
   # Use precompiled box
   config.vm.box = 'seravo/wordpress'
