@@ -61,8 +61,8 @@
 
     "seravo/seravo-plugin": "*",
 
-    "wpackagist-plugin/auto-post-thumbnail": "*",
-    "wpackagist-plugin/google-analytics-dashboard-for-wp": "*",
+    "wpackagist-plugin/native-lazyload": "*",
+    "wpackagist-plugin/google-site-kit": "*",
 
     "wpackagist-theme/twentynineteen": "*"
   },
