@@ -73,3 +73,7 @@ then
     echo "==> Tideways event registeration failed!"
   fi
 fi
+
+# On every git push, always flush caches so the server will serve fresh contents
+echo "Seravo: Flushing all caches..."
+/usr/local/bin/wp-purge-cache
