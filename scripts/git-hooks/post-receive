@@ -16,18 +16,15 @@ echo "Seravo: running post-receive git hook"
 # This script can be called from any path so it's good to be in the correct location.
 # This can also be called in .git/hooks dir and we need to get into project root.
 ##
-cd "$( dirname "${BASH_SOURCE[0]}" )"/../..
-
-# Hack: Somehow this script won't understand that git is in current directory
-GIT_DIR="$(pwd)/.git"
+cd "$( dirname "${BASH_SOURCE[0]}" )"/../.. || exit
 
 # Loop through all changed files, only take pushes to master into consideration.
 # If you use some other branch for production, change "refs/heads/master" to
 # something else like "refs/heads/yourbranch".
 changed_files=""
-while read oldrev newrev refname; do
+while read -r oldrev newrev refname; do
   if [ "$refname" = "refs/heads/master" ]; then
-    changed_files=$(git diff-tree --name-only -r $oldrev $newrev)
+    changed_files=$(git diff-tree --name-only -r "$oldrev" "$newrev")
   fi
 done
 
@@ -63,14 +60,14 @@ then
   COMMIT_ID=$(git log -n 1 --oneline | cut -d ' ' -f 1)
 
   PAYLOAD='{"apiKey": "'$APIKEY'", "name": "'$COMMIT_ID'", "type": "release", "environment": "'$WP_ENV'", "service": "web", "compareAfterMinutes":90}'
-  echo $PAYLOAD
+  echo "$PAYLOAD"
 
   TIDEWAYS_API_RESULT=$(curl --silent -d "$PAYLOAD"  -X POST https://app.tideways.io/api/events)
-  if echo $TIDEWAYS_API_RESULT | grep '"ok":true'
+  if echo "$TIDEWAYS_API_RESULT" | grep --quiet '"ok":true'
   then
     echo "==> Tideways event registered successfully!"
   else
-    echo "==> Tideways event registeration failed!"
+    echo "==> Tideways event registration failed!"
   fi
 fi
 
