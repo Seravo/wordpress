@@ -65,7 +65,7 @@ then
   PAYLOAD='{"apiKey": "'$APIKEY'", "name": "'$COMMIT_ID'", "type": "release", "environment": "'$WP_ENV'", "service": "web", "compareAfterMinutes":90}'
   echo $PAYLOAD
 
-  TIDEWAYS_API_RESULT=$(curl -d "$PAYLOAD"  -X POST https://app.tideways.io/api/events)
+  TIDEWAYS_API_RESULT=$(curl --silent -d "$PAYLOAD"  -X POST https://app.tideways.io/api/events)
   if echo $TIDEWAYS_API_RESULT | grep '"ok":true'
   then
     echo "==> Tideways event registered successfully!"
