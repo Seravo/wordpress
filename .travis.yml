@@ -1,30 +1,29 @@
-# This uses newer and faster docker based build system
-sudo: false
-
 language: php
+os: linux
 
 services: mysql
 
-notifications:
-  on_success: never
-  on_failure: change
-
 php:
-  - nightly
   - 7.2
   - 7.3
+  - nightly
 
 env:
   - WP_TEST_URL=http://localhost:12000 WP_TEST_USER=test WP_TEST_USER_PASS=test DB_USER=root DB_PASSWORD='' DB_NAME=test
 
-matrix:
+jobs:
+  include:
+    - name: Gnitpick
+      language: python
+      services: # none
+      install:
+      - curl -O https://raw.githubusercontent.com/Seravo/gnitpick/master/gnitpick.py
+      script:
+      - python3 ./gnitpick.py
   allow_failures:
     - php: nightly
 
-before_install:
-  - rvm install 2.2.5
-
-before_script:
+install:
   # Install composer packages before trying to activate themes or plugins
   - composer install
   # Create database
@@ -52,6 +51,7 @@ before_script:
 script:
   # Remove one file to avoid false positive __autoload() detection by php -l later on
   - rm htdocs/wordpress/wp-includes/spl-autoload-compat.php
+
   # Syntax check all php files and fail for any error text in STDERR
   - '! find . -type f -name "*.php" -exec php -d error_reporting=32767 -l {} \; 2>&1 >&- | grep "^"'
   # @TODO: Run a more extensive test using the above real WordPress installation
