@@ -18,6 +18,10 @@ echo "Seravo: running post-receive git hook"
 ##
 cd "$( dirname "${BASH_SOURCE[0]}" )"/../.. || exit
 
+# Git uses GIT_DIR instead of PWD by default.
+# This is still needed in addition to previous 'cd' when pushing to remote.
+GIT_DIR="$(pwd)/.git"
+
 # Loop through all changed files, only take pushes to master into consideration.
 # If you use some other branch for production, change "refs/heads/master" to
 # something else like "refs/heads/yourbranch".
