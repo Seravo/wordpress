@@ -6,8 +6,8 @@
 ##### https://seravo.com/docs/development/configure-vagrant-box/#using-dotenv    #####
 ######################################################################################
 
-#Load composer libraries
-require_once(dirname(__DIR__) . '/vendor/autoload.php');
+# Load composer libraries
+require_once dirname(__DIR__) . '/vendor/autoload.php';
 
 $root_dir = dirname(__DIR__);
 $webroot_dir = $root_dir . '/htdocs';
@@ -18,7 +18,7 @@ $webroot_dir = $root_dir . '/htdocs';
  * If you want to have more envs put them into .env file
  * .env file is also heavily used in development
  */
-if (file_exists($root_dir . '/.env')) {
+if ( file_exists($root_dir . '/.env') ) {
   $dotenv = new Dotenv\Dotenv($root_dir);
   $dotenv->overload();
 }
@@ -31,9 +31,9 @@ if (file_exists($root_dir . '/.env')) {
 define('DB_NAME', getenv('DB_NAME'));
 define('DB_USER', getenv('DB_USER'));
 define('DB_PASSWORD', getenv('DB_PASSWORD'));
-define('DB_HOST', getenv('DB_HOST') ? getenv('DB_HOST') : '127.0.0.1:3306' );
-define('DB_CHARSET', getenv('DB_CHARSET') ? getenv('DB_CHARSET') : 'utf8mb4' );
-define('DB_COLLATE', getenv('DB_COLLATE') ? getenv('DB_COLLATE') : 'utf8mb4_swedish_ci' );
+define('DB_HOST', getenv('DB_HOST') ? getenv('DB_HOST') : '127.0.0.1:3306');
+define('DB_CHARSET', getenv('DB_CHARSET') ? getenv('DB_CHARSET') : 'utf8mb4');
+define('DB_COLLATE', getenv('DB_COLLATE') ? getenv('DB_COLLATE') : 'utf8mb4_swedish_ci');
 $table_prefix = getenv('DB_PREFIX') ? getenv('DB_PREFIX') : 'wp_';
 
 /**
@@ -49,7 +49,7 @@ define('WP_CONTENT_DIR', $webroot_dir . CONTENT_DIR);
 /**
  * Don't allow any other write method than direct
  */
-define( 'FS_METHOD', 'direct' );
+define('FS_METHOD', 'direct');
 
 /**
  * Authentication Unique Keys and Salts
@@ -65,24 +65,23 @@ define('LOGGED_IN_SALT',   getenv('LOGGED_IN_SALT'));
 define('NONCE_SALT',       getenv('NONCE_SALT'));
 
 /**
- * SSL ADMIN
- * Allow overriding it in dev environment so we can use phantomjs to test logging in.
+ * Always enforce https when accessing the login and wp-admin pages
  */
-defined('FORCE_SSL_ADMIN') or define('FORCE_SSL_ADMIN', true);
+define('FORCE_SSL_ADMIN', true);
 
 /**
  * Custom Settings
  */
 define('AUTOMATIC_UPDATER_DISABLED', true); /* automatic updates are handled by wordpress-palvelu */
-define('DISALLOW_FILE_EDIT', true); /* this disables the theme/plugin file editor */
-define('PLL_COOKIE', false); /* this allows caching sites with polylang, disable if weird issues occur */
+define('DISALLOW_FILE_EDIT', true); /* disable the theme/plugin file editor */
+define('PLL_COOKIE', false); /* allow caching sites with polylang, disable if weird issues occur */
 
 /**
  * Only keep the last 30 revisions of a post. Having hundreds of revisions of
  * each post might cause sites to slow down, sometimes significantly due to a
  * massive, and usually unecessary bloating the wp_posts and wp_postmeta tables.
  */
-define( 'WP_POST_REVISIONS', 30 );
+define('WP_POST_REVISIONS', 30);
 
 /**
  * Namespace session cookies so that overlapping cookie names would not result
@@ -90,7 +89,7 @@ define( 'WP_POST_REVISIONS', 30 );
  * instances. Using a clear-text container name does no harm. The default value
  * is a fully remote predictable md5 hash of the siteurl.
  */
-define( 'COOKIEHASH', getenv('CONTAINER') );
+define('COOKIEHASH', getenv('CONTAINER'));
 
 /**
  * For developers: show verbose debugging output if not in production.
@@ -105,9 +104,6 @@ if ( 'production' === getenv('WP_ENV') ) {
   define('WP_DEBUG_DISPLAY', true);
   define('WP_DEBUG_LOG', '/data/log/php-error.log');
   define('SCRIPT_DEBUG', true);
-
-  // Disable wp-content/object-cache.php from being active during development
-  define('WP_REDIS_DISABLED', true);
 }
 
 /**
@@ -118,8 +114,8 @@ ini_set('log_errors', 'On');
 /* That's all, stop editing! Happy blogging. */
 
 /** Absolute path to the WordPress directory. */
-if (!defined('ABSPATH')) {
+if ( ! defined('ABSPATH') ) {
   define('ABSPATH', $webroot_dir . '/wordpress/');
 }
 
-require_once(ABSPATH . 'wp-settings.php');
+require_once ABSPATH . 'wp-settings.php';
