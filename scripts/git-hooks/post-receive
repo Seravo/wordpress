@@ -54,6 +54,11 @@ if $NGINX_CHANGED; then
   wp-restart-nginx
 fi
 
+# @TODO gulp build ?
+# Install dependencies and run build scripts
+npm ci
+npm run gulp
+
 
 # If there is a Tideways key set, use it to trigger a release event
 if [ -f /data/wordpress/.tideways.key ] && [ ! -z "$(cat /data/wordpress/.tideways.key)" ]
