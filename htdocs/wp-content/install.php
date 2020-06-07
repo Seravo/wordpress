@@ -164,19 +164,25 @@ function wp_install_defaults( $user_id ) {
     $cat_id = 1;
   }
 
-  $wpdb->insert( $wpdb->terms, array(
-    'term_id'    => $cat_id,
-    'name'       => $cat_name,
-    'slug'       => $cat_slug,
-    'term_group' => 0,
-  ) );
-  $wpdb->insert( $wpdb->term_taxonomy, array(
-    'term_id'     => $cat_id,
-    'taxonomy'    => 'category',
-    'description' => '',
-    'parent'      => 0,
-    'count'       => 1,
-  ));
+  $wpdb->insert(
+    $wpdb->terms,
+    array(
+      'term_id'    => $cat_id,
+      'name'       => $cat_name,
+      'slug'       => $cat_slug,
+      'term_group' => 0,
+    )
+  );
+  $wpdb->insert(
+    $wpdb->term_taxonomy,
+    array(
+      'term_id'     => $cat_id,
+      'taxonomy'    => 'category',
+      'description' => '',
+      'parent'      => 0,
+      'count'       => 1,
+    )
+  );
   $cat_tt_id = $wpdb->insert_id;
 
   // Seravo: Don't create first post and comment to make the install cleaner
@@ -195,31 +201,37 @@ function wp_install_defaults( $user_id ) {
   }
 
   $first_post_guid = get_option('home') . '/?page_id=1';
-  $wpdb->insert( $wpdb->posts, array(
-    'id'                    => 1,
-    'post_author'           => $user_id,
-    'post_date'             => $now,
-    'post_date_gmt'         => $now_gmt,
-    'post_content'          => $first_page,
-    'post_excerpt'          => '',
-    'comment_status'        => 'closed',
-    'post_title'            => seravo_page_title(),
-    /* translators: Default page slug */
-    // Seravo: Set a slug that makes sense and dont interfere with possible other content
-    'post_name'             => __( 'seravo-start' ),
-    'post_modified'         => $now,
-    'post_modified_gmt'     => $now_gmt,
-    'guid'                  => $first_post_guid,
-    'post_type'             => 'page',
-    'to_ping'               => '',
-    'pinged'                => '',
-    'post_content_filtered' => '',
-  ));
-  $wpdb->insert( $wpdb->postmeta, array(
-    'post_id'    => 1,
-    'meta_key'   => '_wp_page_template',
-    'meta_value' => 'default',
-  ) );
+  $wpdb->insert(
+    $wpdb->posts,
+    array(
+      'id'                    => 1,
+      'post_author'           => $user_id,
+      'post_date'             => $now,
+      'post_date_gmt'         => $now_gmt,
+      'post_content'          => $first_page,
+      'post_excerpt'          => '',
+      'comment_status'        => 'closed',
+      'post_title'            => seravo_page_title(),
+      /* translators: Default page slug */
+      // Seravo: Set a slug that makes sense and dont interfere with possible other content
+      'post_name'             => __( 'seravo-start' ),
+      'post_modified'         => $now,
+      'post_modified_gmt'     => $now_gmt,
+      'guid'                  => $first_post_guid,
+      'post_type'             => 'page',
+      'to_ping'               => '',
+      'pinged'                => '',
+      'post_content_filtered' => '',
+    )
+  );
+  $wpdb->insert(
+    $wpdb->postmeta,
+    array(
+      'post_id'    => 1,
+      'meta_key'   => '_wp_page_template',
+      'meta_value' => 'default',
+    )
+  );
 
   // Privacy Policy page
   if ( is_multisite() ) {
@@ -293,10 +305,13 @@ function wp_install_defaults( $user_id ) {
 
     // Delete any caps that snuck into the previously active blog. (Hardcoded to blog 1 for now.) TODO: Get previous_blog_id.
     if ( ! is_super_admin( $user_id ) && $user_id != 1 ) {
-      $wpdb->delete( $wpdb->usermeta, array(
-        'user_id'  => $user_id,
-        'meta_key' => $wpdb->base_prefix . '1_capabilities',
-      ) );
+      $wpdb->delete(
+        $wpdb->usermeta,
+        array(
+          'user_id'  => $user_id,
+          'meta_key' => $wpdb->base_prefix . '1_capabilities',
+        )
+      );
     }
   }
 
@@ -569,9 +584,9 @@ function seravo_install_activate_plugins() {
   }
 
   // Activate plugins if they can be found from installed plugins
-  foreach ($all_plugins as $plugin_path => $data) {
-    $plugin_name = explode('/',$plugin_path)[0]; // get the folder name from plugin
-    if (in_array($plugin_name,$plugins)) { // If plugin is installed activate it
+  foreach ( $all_plugins as $plugin_path => $data ) {
+    $plugin_name = explode('/', $plugin_path)[0]; // get the folder name from plugin
+    if ( in_array($plugin_name, $plugins) ) { // If plugin is installed activate it
       // Do the activation
       include_once(WP_PLUGIN_DIR . '/' . $plugin_path);
       do_action('activate_plugin', $plugin_path);

@@ -20,7 +20,7 @@ class Installer {
     if ( ! is_link($wp_core_content_folder) ) {
       if ( file_exists($wp_core_content_folder) ) {
         self::rrmdir($wp_core_content_folder);
-        if ( self::isWindows() ) {
+        if ( self::is_windows() ) {
           $io->write('Windows: Removed wp-content from core');
         } else {
           // Symlink shouldn't be necessary
@@ -64,7 +64,7 @@ class Installer {
    *
    * @return bool
    */
-  private static function isWindows() {
+  private static function is_windows() {
     if ( strtoupper(substr(PHP_OS, 0, 3)) === 'WIN' ) {
       return true;
     } else {

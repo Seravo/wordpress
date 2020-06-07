@@ -1,0 +1,216 @@
+<?xml version="1.0"?>
+<ruleset name="Seravo">
+  <description>
+    Seravo coding standards definition. Mostly WordPress coding standards, but
+    relaxed a bit to be easier on developers. This is provided as an example on
+    howto use phpcs.xml in this project template. Modify this to suit your own
+    preferences. Read more at https://seravo.com/tag/phpcs/
+  </description>
+
+  <!-- Show sniff progress -->
+  <arg value="p"/>
+
+  <!-- All files should be UTF-8 encoded. -->
+  <arg name="encoding" value="utf-8"/>
+
+  <!-- check current and all subfolders if no file parameter given. -->
+  <file>.</file>
+
+  <!-- Don't check our installation script -->
+  <exclude-pattern>/wp-content/install.php</exclude-pattern>
+  <exclude-pattern>/scripts/WordPress/Installer.php</exclude-pattern>
+
+  <!-- Don't check composer dependencies and extras -->
+  <exclude-pattern>/vendor/</exclude-pattern>
+
+  <!-- Don't check WP core or project template files -->
+  <exclude-pattern>/htdocs/index.php</exclude-pattern>
+  <exclude-pattern>/htdocs/wp-load.php</exclude-pattern>
+  <exclude-pattern>/htdocs/wp-config.php</exclude-pattern>
+  <exclude-pattern>/htdocs/wp-content/object-cache.php</exclude-pattern>
+  <exclude-pattern>/htdocs/wp-content/object-cache.php.off</exclude-pattern>
+  <exclude-pattern>/htdocs/wp-content/mu-plugins/bedrock-autoloader.php</exclude-pattern>
+  <exclude-pattern>/htdocs/wp-content/mu-plugins/register-theme-directory.php</exclude-pattern>
+
+  <!--
+    Exclude all but plugins that are developed in this branch. PHPCS does not
+    support exclude+include so we need this list.
+  -->
+  <exclude-pattern>/htdocs/wp-content/plugins/google-site-kit</exclude-pattern>
+  <exclude-pattern>/htdocs/wp-content/plugins/maintenance</exclude-pattern>
+  <exclude-pattern>/htdocs/wp-content/plugins/two-factor</exclude-pattern>
+  <exclude-pattern>/htdocs/wp-content/plugins/wp-recaptcha-integration</exclude-pattern>
+
+  <!-- Exclude Node.js modules -->
+  <exclude-pattern>/node_modules/</exclude-pattern>
+
+  <!--
+    Exclude CodeCeption tests to prevent errors: "Variable "$I" is not in
+    valid snake_case format, try "$i"".
+  -->
+  <exclude-pattern>/codeception/</exclude-pattern>
+
+  <!-- Exclude uploads where some plugins stores PHP files (unfortunately) -->
+  <exclude-pattern>/htdocs/wp-content/uploads/</exclude-pattern>
+
+  <!-- Don't check dependencies which are named as "libraries" -->
+  <exclude-pattern>/libraries/</exclude-pattern>
+
+  <!-- Don't check minified assets -->
+  <exclude-pattern>*.min.js</exclude-pattern>
+  <exclude-pattern>*.min.css</exclude-pattern>
+
+  <!-- Not excluded: wp-content/themes -->
+
+  <!-- Extend the exclude patterns to match your .gitignore -->
+
+
+  <!--
+    Include WordPress Coding Standards with some exclusions. WordPress-Extra contains an extended
+    ruleset for recommended best practices, see
+    https://github.com/WordPress-Coding-Standards/WordPress-Coding-Standards#rulesets for details
+    about different WordPress subsets.
+  -->
+  <rule ref="WordPress-Extra">
+
+    <!-- Allow spaces in indentation -->
+    <exclude name="Generic.WhiteSpace.DisallowSpaceIndent.SpacesUsed" />
+
+    <!-- Don't use precision alignment -->
+    <exclude name="WordPress.WhiteSpace.PrecisionAlignment" />
+
+    <!--
+      The generic exact whitespace sniff does not work very well with inline HTML, so ignore it.
+    -->
+    <exclude name="Generic.WhiteSpace.ScopeIndent.IncorrectExact" />
+
+    <!--
+      Exclude WordPress array indent as it causes false positivies, is not very customizable
+      and we already use Generic.Arrays.ArrayIndent.
+    -->
+    <exclude name="WordPress.Arrays.ArrayIndentation.ItemNotAligned" />
+
+
+    <!--
+      Causes false errors "Multi-line array item not aligned correctly" when indenting with
+      2 spaces instead of 4.
+    -->
+    <exclude name="WordPress.Arrays.ArrayIndentation.MultiLineArrayItemNotAligned" />
+
+    <!-- There is no need to align equals signs or array keys -->
+    <exclude name="Generic.Formatting.MultipleStatementAlignment" />
+    <exclude name="WordPress.Arrays.MultipleStatementAlignment.DoubleArrowNotAligned" />
+
+    <!--
+      Don't enforce the usage of excessive amounts of whitespace around opening/closing
+      brackets and around variables as array keys.
+    -->
+    <exclude name="PEAR.Functions.FunctionCallSignature.SpaceAfterOpenBracket" />
+    <exclude name="PEAR.Functions.FunctionCallSignature.SpaceBeforeCloseBracket" />
+    <exclude name="WordPress.Arrays.ArrayKeySpacingRestrictions" />
+
+    <!-- Yoda Condition checks reduce code readability with very little benefit -->
+    <exclude name="WordPress.PHP.YodaConditions.NotYoda" />
+
+    <!-- Don't enforce the usage of class files with name "class-*.php". -->
+    <exclude name="WordPress.Files.FileName.InvalidClassFileName" />
+
+    <!-- We need to use PHP system calls to provide grahpical wrappers for CLI commands. -->
+    <exclude name="WordPress.PHP.DiscouragedPHPFunctions.system_calls_exec" />
+
+    <!--
+      Don't enforce the usage of escaped output in every situation, the security risks should be
+      assessed separately. Also we can't always use nonces e.g. for APIs...
+    -->
+    <exclude name="WordPress.Security.EscapeOutput.UnsafePrintingFunction" />
+    <exclude name="WordPress.Security.EscapeOutput.OutputNotEscaped" />
+    <exclude name="WordPress.CSRF.NonceVerification.NoNonceVerification" />
+    <exclude name="WordPress.Security.NonceVerification" />
+
+    <!-- We have valid use cases for localized dates, so ingore this -->
+    <exclude name="WordPress.DateTime.RestrictedFunctions.date_date" />
+
+    <!-- Alone line with 'function($) {' is fully OK -->
+    <exclude name="PEAR.Functions.FunctionCallSignature.FirstArgumentPosition" />
+  </rule>
+
+
+  <!-- Include Security sniffs -->
+  <rule ref="Security">
+    <!--
+      Ignore the ErrMiscIncludeMismatchNoExt sniff because it causes
+      unnecessary errors on dynamically reated require paths, e.g.
+      >>> require_once 'something-' . $somevar . '.php';
+    -->
+    <exclude name="PHPCS_Security.Misc.IncludeMismatch.ErrMiscIncludeMismatchNoExt" />
+  </rule>
+
+
+  <!-- Include PHP compatibility sniffs -->
+  <rule ref="PHPCompatibility" />
+
+
+  <!--
+    Add some custom sniff rules in this section below. See
+    https://github.com/squizlabs/PHP_CodeSniffer/wiki/Customisable-Sniff-Properties and
+    https://github.com/WordPress/WordPress-Coding-Standards/wiki/Customizable-sniff-properties
+    for available sniffs and their properties.
+  -->
+
+  <!-- Set 2 spaces indentation for function call signature -->
+  <rule ref="PEAR.Functions.FunctionCallSignature">
+    <properties>
+      <property name="indent" value="2" />
+      <property name="requiredSpacesAfterOpen" value="0"/>
+      <property name="requiredSpacesBeforeClose" value="0"/>
+      <property name="allowMultipleArguments" value="false"/>
+    </properties>
+  </rule>
+
+  <!--
+    Indent using two (2) spaces instead of tabs. Otherwise, use the same settings as WP Core
+    sniffs use.
+  -->
+  <rule ref="Generic.WhiteSpace.ScopeIndent">
+    <properties>
+      <property name="exact" value="false"/>
+      <property name="indent" value="2"/>
+      <property name="tabIndent" value="false"/>
+      <property name="ignoreIndentationTokens" type="array">
+        <element value="T_HEREDOC"/>
+        <element value="T_NOWDOC"/>
+        <element value="T_INLINE_HTML"/>
+      </property>
+    </properties>
+  </rule>
+
+  <!--
+    The soft limit on line length is 100 characters. However, do not trigger errors if the limit
+    is exceeded.
+  -->
+  <rule ref="Generic.Files.LineLength">
+    <properties>
+      <property name="lineLimit" value="100"/>
+      <property name="absoluteLineLimit" value="0"/>
+    </properties>
+  </rule>
+
+  <!-- Set 2 spaces indentation for switch terminating case statement -->
+  <rule ref="PSR2.ControlStructures.SwitchDeclaration">
+    <properties>
+      <property name="indent" value="2" />
+    </properties>
+  </rule>
+
+  <!-- Enforce that multiline arrays are indented with two spaces -->
+  <rule ref="Generic.Arrays.ArrayIndent">
+    <properties>
+      <property name="tabIndent" value="false" />
+      <property name="indent" value="2" />
+    </properties>
+  </rule>
+
+  <!-- Explicitly forbid tabs -->
+  <rule ref="Generic.WhiteSpace.DisallowTabIndent" />
+
+</ruleset>
