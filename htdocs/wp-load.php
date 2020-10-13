@@ -28,4 +28,4 @@
  *
  * Author: Onni Hakala / Seravo Oy
  */
-require_once('wordpress/wp-load.php');
+require_once 'wordpress/wp-load.php';
