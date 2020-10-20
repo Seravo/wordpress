@@ -600,4 +600,5 @@ function seravo_plugin_options_enable() {
 
   // Image optimizer
   update_option('seravo-enable-optimize-images', 'on');
+  update_option('seravo-enable-strip-image-metadata', 'on');
 }
