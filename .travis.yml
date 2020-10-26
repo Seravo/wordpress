@@ -48,6 +48,8 @@ before_script:
 script:
   # Remove one file to avoid false positive __autoload() detection by php -l later on
   - rm htdocs/wordpress/wp-includes/spl-autoload-compat.php
+  # Remove a PHP 8 -only compatible file to avoid failures on older PHP syntax check runs
+  - rm vendor/symfony/polyfill-mbstring/bootstrap80.php
   # Syntax check all php files and fail for any error text in STDERR
   - '! find . -type f -name "*.php" -exec php -d error_reporting=32767 -l {} \; 2>&1 >&- | grep "^"'
   # @TODO: Run a more extensive test using the above real WordPress installation

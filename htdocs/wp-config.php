@@ -1,10 +1,10 @@
 <?php
-######################################################################################
-##### We highly suggest not put anything sensitive in this file directly         #####
-##### Use a separate .env file instead that overwrites the defaults.             #####
-##### Read more at                                                               #####
-##### https://seravo.com/docs/development/configure-vagrant-box/#using-dotenv    #####
-######################################################################################
+###############################################################################
+##### Don't put anything sensitive (such as passwords) in this file.      #####
+##### Use a separate .env file instead that overwrites the defaults.      #####
+##### Read more at                                                        #####
+##### https://seravo.com/docs/development/environment-variables/          #####
+###############################################################################
 
 # Load composer libraries
 require_once dirname(__DIR__) . '/vendor/autoload.php';
@@ -13,14 +13,16 @@ $root_dir = dirname(__DIR__);
 $webroot_dir = $root_dir . '/htdocs';
 
 /**
- * Use Dotenv to set required environment variables and load .env file in root
- * Seravo provides all needed envs for WordPress by default.
- * If you want to have more envs put them into .env file
- * .env file is also heavily used in development
+ * Use Dotenv to load environment variables from a .env file at project root.
+ * Seravo provides all needed envs for WordPress by default. For details see
+ * https://seravo.com/docs/development/environment-variables/#using-dotenv
+ *
+ * The syntax below is written for Dotenv 5.x. For changes to previous versions
+ * see  https://github.com/vlucas/phpdotenv/blob/master/UPGRADING.md
  */
 if ( file_exists($root_dir . '/.env') ) {
-  $dotenv = new Dotenv\Dotenv($root_dir);
-  $dotenv->overload();
+  $dotenv = Dotenv\Dotenv::createUnsafeImmutable($root_dir);
+  $dotenv->load();
 }
 
 
