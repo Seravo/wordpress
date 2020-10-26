@@ -8,28 +8,31 @@
     "packages": [
         {
             "name": "composer/installers",
-            "version": "v1.8.0",
+            "version": "v1.9.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/composer/installers.git",
-                "reference": "7d610d50aae61ae7ed6675e58efeabdf279bb5e3"
+                "reference": "b93bcf0fa1fccb0b7d176b0967d969691cd74cca"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/composer/installers/zipball/7d610d50aae61ae7ed6675e58efeabdf279bb5e3",
-                "reference": "7d610d50aae61ae7ed6675e58efeabdf279bb5e3",
+                "url": "https://api.github.com/repos/composer/installers/zipball/b93bcf0fa1fccb0b7d176b0967d969691cd74cca",
+                "reference": "b93bcf0fa1fccb0b7d176b0967d969691cd74cca",
                 "shasum": ""
             },
             "require": {
-                "composer-plugin-api": "^1.0"
+                "composer-plugin-api": "^1.0 || ^2.0"
             },
             "replace": {
                 "roundcube/plugin-installer": "*",
                 "shama/baton": "*"
             },
             "require-dev": {
-                "composer/composer": "1.0.*@dev",
-                "phpunit/phpunit": "^4.8.36"
+                "composer/composer": "1.6.* || 2.0.*@dev",
+                "composer/semver": "1.0.* || 2.0.*@dev",
+                "phpunit/phpunit": "^4.8.36",
+                "sebastian/comparator": "^1.2.4",
+                "symfony/process": "^2.3"
             },
             "type": "composer-plugin",
             "extra": {
@@ -128,27 +131,79 @@
                 "zend",
                 "zikula"
             ],
-            "time": "2020-02-07T10:39:20+00:00"
+            "funding": [
+                {
+                    "url": "https://packagist.com",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/composer/composer",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2020-04-07T06:57:05+00:00"
         },
         {
-            "name": "johnpbloch/wordpress-core",
-            "version": "5.3.2",
+            "name": "enshrined/svg-sanitize",
+            "version": "0.13.3",
             "source": {
                 "type": "git",
-                "url": "https://github.com/johnpbloch/wordpress-core.git",
-                "reference": "a282ab0051fac21d4e0cdd828519e6739743ba92"
+                "url": "https://github.com/darylldoyle/svg-sanitizer.git",
+                "reference": "bc66593f255b7d2613d8f22041180036979b6403"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/johnpbloch/wordpress-core/zipball/a282ab0051fac21d4e0cdd828519e6739743ba92",
-                "reference": "a282ab0051fac21d4e0cdd828519e6739743ba92",
+                "url": "https://api.github.com/repos/darylldoyle/svg-sanitizer/zipball/bc66593f255b7d2613d8f22041180036979b6403",
+                "reference": "bc66593f255b7d2613d8f22041180036979b6403",
                 "shasum": ""
             },
             "require": {
+                "ext-dom": "*",
+                "ext-libxml": "*"
+            },
+            "require-dev": {
+                "codeclimate/php-test-reporter": "^0.1.2",
+                "phpunit/phpunit": "^6"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "enshrined\\svgSanitize\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "Daryll Doyle",
+                    "email": "daryll@enshrined.co.uk"
+                }
+            ],
+            "description": "An SVG sanitizer for PHP",
+            "time": "2020-01-20T01:34:17+00:00"
+        },
+        {
+            "name": "johnpbloch/wordpress-core",
+            "version": "5.5.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/johnpbloch/wordpress-core.git",
+                "reference": "fa5bcb1579eae33baef6c04355f8d6657e5bd349"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/johnpbloch/wordpress-core/zipball/fa5bcb1579eae33baef6c04355f8d6657e5bd349",
+                "reference": "fa5bcb1579eae33baef6c04355f8d6657e5bd349",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
                 "php": ">=5.6.20"
             },
             "provide": {
-                "wordpress/core-implementation": "5.3.2"
+                "wordpress/core-implementation": "5.5.1"
             },
             "type": "wordpress-core",
             "notification-url": "https://packagist.org/downloads/",
@@ -158,17 +213,17 @@
             "authors": [
                 {
                     "name": "WordPress Community",
-                    "homepage": "http://wordpress.org/about/"
+                    "homepage": "https://wordpress.org/about/"
                 }
             ],
             "description": "WordPress is open source software you can use to create a beautiful website, blog, or app.",
-            "homepage": "http://wordpress.org/",
+            "homepage": "https://wordpress.org/",
             "keywords": [
                 "blog",
                 "cms",
                 "wordpress"
             ],
-            "time": "2019-12-18T22:32:15+00:00"
+            "time": "2020-09-01T19:07:35+00:00"
         },
         {
             "name": "johnpbloch/wordpress-core-installer",
@@ -221,10 +276,10 @@
         },
         {
             "name": "koodimonni-language/fi",
-            "version": "5.3.2",
+            "version": "5.5.1",
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/translation/core/5.3.2/fi.zip"
+                "url": "https://downloads.wordpress.org/translation/core/5.5.1/fi.zip"
             },
             "require": {
                 "koodimonni-plugin-language/akismet-fi": "*",
@@ -252,10 +307,10 @@
         },
         {
             "name": "koodimonni-language/sv_se",
-            "version": "5.3.2",
+            "version": "5.5.1",
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/translation/core/5.3.2/sv_SE.zip"
+                "url": "https://downloads.wordpress.org/translation/core/5.5.1/sv_SE.zip"
             },
             "require": {
                 "koodimonni-plugin-language/akismet-sv_se": "*",
@@ -283,10 +338,10 @@
         },
         {
             "name": "koodimonni-plugin-language/akismet-fi",
-            "version": "3.2",
+            "version": "4.1.7",
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/translation/plugin/akismet/3.2/fi.zip"
+                "url": "https://downloads.wordpress.org/translation/plugin/akismet/4.1.7/fi.zip"
             },
             "require": {
                 "koodimonni/composer-dropin-installer": ">=0.2.3"
@@ -302,10 +357,10 @@
         },
         {
             "name": "koodimonni-plugin-language/akismet-sv_se",
-            "version": "4.1.3",
+            "version": "4.1.7",
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/translation/plugin/akismet/4.1.3/sv_SE.zip"
+                "url": "https://downloads.wordpress.org/translation/plugin/akismet/4.1.7/sv_SE.zip"
             },
             "require": {
                 "koodimonni/composer-dropin-installer": ">=0.2.3"
@@ -321,10 +376,10 @@
         },
         {
             "name": "koodimonni-plugin-language/bbpress-fi",
-            "version": "2.6.4",
+            "version": "2.6.5",
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/translation/plugin/bbpress/2.6.4/fi.zip"
+                "url": "https://downloads.wordpress.org/translation/plugin/bbpress/2.6.5/fi.zip"
             },
             "require": {
                 "koodimonni/composer-dropin-installer": ">=0.2.3"
@@ -340,10 +395,10 @@
         },
         {
             "name": "koodimonni-plugin-language/bbpress-sv_se",
-            "version": "2.6.4",
+            "version": "2.6.5",
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/translation/plugin/bbpress/2.6.4/sv_SE.zip"
+                "url": "https://downloads.wordpress.org/translation/plugin/bbpress/2.6.5/sv_SE.zip"
             },
             "require": {
                 "koodimonni/composer-dropin-installer": ">=0.2.3"
@@ -359,10 +414,10 @@
         },
         {
             "name": "koodimonni-plugin-language/woocommerce-fi",
-            "version": "3.6.5",
+            "version": "4.6.1",
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/translation/plugin/woocommerce/3.6.5/fi.zip"
+                "url": "https://downloads.wordpress.org/translation/plugin/woocommerce/4.6.1/fi.zip"
             },
             "require": {
                 "koodimonni/composer-dropin-installer": ">=0.2.3"
@@ -378,10 +433,10 @@
         },
         {
             "name": "koodimonni-plugin-language/woocommerce-sv_se",
-            "version": "3.9.2",
+            "version": "4.6.1",
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/translation/plugin/woocommerce/3.9.2/sv_SE.zip"
+                "url": "https://downloads.wordpress.org/translation/plugin/woocommerce/4.6.1/sv_SE.zip"
             },
             "require": {
                 "koodimonni/composer-dropin-installer": ">=0.2.3"
@@ -397,10 +452,10 @@
         },
         {
             "name": "koodimonni-plugin-language/wordpress-importer-fi",
-            "version": "0.6.3",
+            "version": "0.7",
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/translation/plugin/wordpress-importer/0.6.3/fi.zip"
+                "url": "https://downloads.wordpress.org/translation/plugin/wordpress-importer/0.7/fi.zip"
             },
             "require": {
                 "koodimonni/composer-dropin-installer": ">=0.2.3"
@@ -416,10 +471,10 @@
         },
         {
             "name": "koodimonni-plugin-language/wordpress-importer-sv_se",
-            "version": "0.6.4",
+            "version": "0.7",
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/translation/plugin/wordpress-importer/0.6.4/sv_SE.zip"
+                "url": "https://downloads.wordpress.org/translation/plugin/wordpress-importer/0.7/sv_SE.zip"
             },
             "require": {
                 "koodimonni/composer-dropin-installer": ">=0.2.3"
@@ -435,10 +490,10 @@
         },
         {
             "name": "koodimonni-theme-language/twentyeleven-fi",
-            "version": "3.1",
+            "version": "3.5",
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/translation/theme/twentyeleven/3.1/fi.zip"
+                "url": "https://downloads.wordpress.org/translation/theme/twentyeleven/3.5/fi.zip"
             },
             "require": {
                 "koodimonni/composer-dropin-installer": ">=0.2.3"
@@ -454,10 +509,10 @@
         },
         {
             "name": "koodimonni-theme-language/twentyeleven-sv_se",
-            "version": "3.3",
+            "version": "3.5",
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/translation/theme/twentyeleven/3.3/sv_SE.zip"
+                "url": "https://downloads.wordpress.org/translation/theme/twentyeleven/3.5/sv_SE.zip"
             },
             "require": {
                 "koodimonni/composer-dropin-installer": ">=0.2.3"
@@ -473,10 +528,10 @@
         },
         {
             "name": "koodimonni-theme-language/twentyfifteen-fi",
-            "version": "2.0",
+            "version": "2.7",
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/translation/theme/twentyfifteen/2.0/fi.zip"
+                "url": "https://downloads.wordpress.org/translation/theme/twentyfifteen/2.7/fi.zip"
             },
             "require": {
                 "koodimonni/composer-dropin-installer": ">=0.2.3"
@@ -492,10 +547,10 @@
         },
         {
             "name": "koodimonni-theme-language/twentyfifteen-sv_se",
-            "version": "2.5",
+            "version": "2.7",
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/translation/theme/twentyfifteen/2.5/sv_SE.zip"
+                "url": "https://downloads.wordpress.org/translation/theme/twentyfifteen/2.7/sv_SE.zip"
             },
             "require": {
                 "koodimonni/composer-dropin-installer": ">=0.2.3"
@@ -511,10 +566,10 @@
         },
         {
             "name": "koodimonni-theme-language/twentyfourteen-fi",
-            "version": "2.2",
+            "version": "2.9",
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/translation/theme/twentyfourteen/2.2/fi.zip"
+                "url": "https://downloads.wordpress.org/translation/theme/twentyfourteen/2.9/fi.zip"
             },
             "require": {
                 "koodimonni/composer-dropin-installer": ">=0.2.3"
@@ -530,10 +585,10 @@
         },
         {
             "name": "koodimonni-theme-language/twentyfourteen-sv_se",
-            "version": "2.7",
+            "version": "2.9",
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/translation/theme/twentyfourteen/2.7/sv_SE.zip"
+                "url": "https://downloads.wordpress.org/translation/theme/twentyfourteen/2.9/sv_SE.zip"
             },
             "require": {
                 "koodimonni/composer-dropin-installer": ">=0.2.3"
@@ -549,10 +604,10 @@
         },
         {
             "name": "koodimonni-theme-language/twentysixteen-fi",
-            "version": "1.5",
+            "version": "2.2",
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/translation/theme/twentysixteen/1.5/fi.zip"
+                "url": "https://downloads.wordpress.org/translation/theme/twentysixteen/2.2/fi.zip"
             },
             "require": {
                 "koodimonni/composer-dropin-installer": ">=0.2.3"
@@ -568,10 +623,10 @@
         },
         {
             "name": "koodimonni-theme-language/twentysixteen-sv_se",
-            "version": "2.0",
+            "version": "2.2",
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/translation/theme/twentysixteen/2.0/sv_SE.zip"
+                "url": "https://downloads.wordpress.org/translation/theme/twentysixteen/2.2/sv_SE.zip"
             },
             "require": {
                 "koodimonni/composer-dropin-installer": ">=0.2.3"
@@ -587,10 +642,10 @@
         },
         {
             "name": "koodimonni-theme-language/twentyten-fi",
-            "version": "2.5",
+            "version": "3.1",
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/translation/theme/twentyten/2.5/fi.zip"
+                "url": "https://downloads.wordpress.org/translation/theme/twentyten/3.1/fi.zip"
             },
             "require": {
                 "koodimonni/composer-dropin-installer": ">=0.2.3"
@@ -606,10 +661,10 @@
         },
         {
             "name": "koodimonni-theme-language/twentyten-sv_se",
-            "version": "2.9",
+            "version": "3.1",
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/translation/theme/twentyten/2.9/sv_SE.zip"
+                "url": "https://downloads.wordpress.org/translation/theme/twentyten/3.1/sv_SE.zip"
             },
             "require": {
                 "koodimonni/composer-dropin-installer": ">=0.2.3"
@@ -625,10 +680,10 @@
         },
         {
             "name": "koodimonni-theme-language/twentythirteen-fi",
-            "version": "2.4",
+            "version": "3.1",
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/translation/theme/twentythirteen/2.4/fi.zip"
+                "url": "https://downloads.wordpress.org/translation/theme/twentythirteen/3.1/fi.zip"
             },
             "require": {
                 "koodimonni/composer-dropin-installer": ">=0.2.3"
@@ -644,10 +699,10 @@
         },
         {
             "name": "koodimonni-theme-language/twentythirteen-sv_se",
-            "version": "2.9",
+            "version": "3.1",
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/translation/theme/twentythirteen/2.9/sv_SE.zip"
+                "url": "https://downloads.wordpress.org/translation/theme/twentythirteen/3.1/sv_SE.zip"
             },
             "require": {
                 "koodimonni/composer-dropin-installer": ">=0.2.3"
@@ -663,10 +718,10 @@
         },
         {
             "name": "koodimonni-theme-language/twentytwelve-fi",
-            "version": "2.5",
+            "version": "3.2",
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/translation/theme/twentytwelve/2.5/fi.zip"
+                "url": "https://downloads.wordpress.org/translation/theme/twentytwelve/3.2/fi.zip"
             },
             "require": {
                 "koodimonni/composer-dropin-installer": ">=0.2.3"
@@ -682,10 +737,10 @@
         },
         {
             "name": "koodimonni-theme-language/twentytwelve-sv_se",
-            "version": "3.0",
+            "version": "3.2",
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/translation/theme/twentytwelve/3.0/sv_SE.zip"
+                "url": "https://downloads.wordpress.org/translation/theme/twentytwelve/3.2/sv_SE.zip"
             },
             "require": {
                 "koodimonni/composer-dropin-installer": ">=0.2.3"
@@ -701,23 +756,24 @@
         },
         {
             "name": "koodimonni/composer-dropin-installer",
-            "version": "1.2",
+            "version": "1.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Koodimonni/Composer-Dropin-Installer.git",
-                "reference": "a749f19e3a3bc05529190961ed7529592b20138e"
+                "reference": "2ebddd0ead26f52962be385dcc85057be4c5a69e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Koodimonni/Composer-Dropin-Installer/zipball/a749f19e3a3bc05529190961ed7529592b20138e",
-                "reference": "a749f19e3a3bc05529190961ed7529592b20138e",
+                "url": "https://api.github.com/repos/Koodimonni/Composer-Dropin-Installer/zipball/2ebddd0ead26f52962be385dcc85057be4c5a69e",
+                "reference": "2ebddd0ead26f52962be385dcc85057be4c5a69e",
                 "shasum": ""
             },
             "require": {
-                "composer-plugin-api": "^1.0"
+                "composer-plugin-api": "^1.0 | ^2.0",
+                "php": ">=5.3.2"
             },
             "require-dev": {
-                "phpunit/phpunit": "3.7.*-dev"
+                "phpunit/phpunit": "^5.7"
             },
             "type": "composer-plugin",
             "extra": {
@@ -725,7 +781,7 @@
             },
             "autoload": {
                 "psr-4": {
-                    "Koodimonni\\Composer\\": "src"
+                    "Koodimonni\\Composer\\": "src/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -740,29 +796,30 @@
                 }
             ],
             "description": "Install packages or a few files from packages into custom paths without overwriting existing stuff.",
-            "time": "2018-02-04T10:52:01+00:00"
+            "time": "2020-08-17T07:41:05+00:00"
         },
         {
             "name": "seravo/seravo-plugin",
-            "version": "1.9.15",
+            "version": "1.9.24",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Seravo/seravo-plugin.git",
-                "reference": "ff7ab4b52c9bf2877d39018e76c05b22b6b2262c"
+                "reference": "9141d6c0251ebb55bb68dfb65452e6f12220d575"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Seravo/seravo-plugin/zipball/ff7ab4b52c9bf2877d39018e76c05b22b6b2262c",
-                "reference": "ff7ab4b52c9bf2877d39018e76c05b22b6b2262c",
+                "url": "https://api.github.com/repos/Seravo/seravo-plugin/zipball/9141d6c0251ebb55bb68dfb65452e6f12220d575",
+                "reference": "9141d6c0251ebb55bb68dfb65452e6f12220d575",
                 "shasum": ""
             },
             "require": {
-                "composer/installers": "^1.0"
+                "composer/installers": "^1.0",
+                "enshrined/svg-sanitize": ">=0.13.3"
             },
             "type": "wordpress-muplugin",
             "notification-url": "https://packagist.org/downloads/",
             "license": [
-                "GPL-3.0-or-later"
+                "GPL-2.0-or-later"
             ],
             "authors": [
                 {
@@ -788,24 +845,24 @@
                 "wp",
                 "wp-palvelu"
             ],
-            "time": "2020-01-23T11:35:50+00:00"
+            "time": "2020-09-14T08:39:39+00:00"
         },
         {
             "name": "symfony/polyfill-ctype",
-            "version": "v1.14.0",
+            "version": "v1.20.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-ctype.git",
-                "reference": "fbdeaec0df06cf3d51c93de80c7eb76e271f5a38"
+                "reference": "f4ba089a5b6366e453971d3aad5fe8e897b37f41"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-ctype/zipball/fbdeaec0df06cf3d51c93de80c7eb76e271f5a38",
-                "reference": "fbdeaec0df06cf3d51c93de80c7eb76e271f5a38",
+                "url": "https://api.github.com/repos/symfony/polyfill-ctype/zipball/f4ba089a5b6366e453971d3aad5fe8e897b37f41",
+                "reference": "f4ba089a5b6366e453971d3aad5fe8e897b37f41",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.3.3"
+                "php": ">=7.1"
             },
             "suggest": {
                 "ext-ctype": "For best performance"
@@ -813,7 +870,11 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.14-dev"
+                    "dev-main": "1.20-dev"
+                },
+                "thanks": {
+                    "name": "symfony/polyfill",
+                    "url": "https://github.com/symfony/polyfill"
                 }
             },
             "autoload": {
@@ -846,28 +907,48 @@
                 "polyfill",
                 "portable"
             ],
-            "time": "2020-01-13T11:15:53+00:00"
+            "funding": [
+                {
+                    "url": "https://symfony.com/sponsor",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/fabpot",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2020-10-23T14:02:19+00:00"
         },
         {
             "name": "vlucas/phpdotenv",
-            "version": "v2.6.1",
+            "version": "v2.6.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/vlucas/phpdotenv.git",
-                "reference": "2a7dcf7e3e02dc5e701004e51a6f304b713107d5"
+                "reference": "e1d57f62db3db00d9139078cbedf262280701479"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/vlucas/phpdotenv/zipball/2a7dcf7e3e02dc5e701004e51a6f304b713107d5",
-                "reference": "2a7dcf7e3e02dc5e701004e51a6f304b713107d5",
+                "url": "https://api.github.com/repos/vlucas/phpdotenv/zipball/e1d57f62db3db00d9139078cbedf262280701479",
+                "reference": "e1d57f62db3db00d9139078cbedf262280701479",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.3.9",
-                "symfony/polyfill-ctype": "^1.9"
+                "php": "^5.3.9 || ^7.0 || ^8.0",
+                "symfony/polyfill-ctype": "^1.17"
             },
             "require-dev": {
-                "phpunit/phpunit": "^4.8.35 || ^5.0"
+                "ext-filter": "*",
+                "ext-pcre": "*",
+                "phpunit/phpunit": "^4.8.35 || ^5.7.27"
+            },
+            "suggest": {
+                "ext-filter": "Required to use the boolean validator.",
+                "ext-pcre": "Required to use most of the library."
             },
             "type": "library",
             "extra": {
@@ -886,9 +967,14 @@
             ],
             "authors": [
                 {
+                    "name": "Graham Campbell",
+                    "email": "graham@alt-three.com",
+                    "homepage": "https://gjcampbell.co.uk/"
+                },
+                {
                     "name": "Vance Lucas",
                     "email": "vance@vancelucas.com",
-                    "homepage": "http://www.vancelucas.com"
+                    "homepage": "https://vancelucas.com/"
                 }
             ],
             "description": "Loads environment variables from `.env` to `getenv()`, `$_ENV` and `$_SERVER` automagically.",
@@ -897,19 +983,29 @@
                 "env",
                 "environment"
             ],
-            "time": "2019-01-29T11:11:52+00:00"
+            "funding": [
+                {
+                    "url": "https://github.com/GrahamCampbell",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/vlucas/phpdotenv",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2020-07-14T17:54:18+00:00"
         },
         {
             "name": "wpackagist-plugin/google-site-kit",
-            "version": "1.3.1",
+            "version": "1.18.0",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/google-site-kit/",
-                "reference": "tags/1.3.1"
+                "reference": "tags/1.18.0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/google-site-kit.1.3.1.zip"
+                "url": "https://downloads.wordpress.org/plugin/google-site-kit.1.18.0.zip"
             },
             "require": {
                 "composer/installers": "~1.0"
@@ -937,15 +1033,15 @@
         },
         {
             "name": "wpackagist-theme/twentynineteen",
-            "version": "1.4",
+            "version": "1.7",
             "source": {
                 "type": "svn",
                 "url": "https://themes.svn.wordpress.org/twentynineteen/",
-                "reference": "1.4"
+                "reference": "1.7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/theme/twentynineteen.1.4.zip"
+                "url": "https://downloads.wordpress.org/theme/twentynineteen.1.7.zip"
             },
             "require": {
                 "composer/installers": "~1.0"
@@ -963,5 +1059,6 @@
     "platform": {
         "php": ">=7.2"
     },
-    "platform-dev": []
+    "platform-dev": [],
+    "plugin-api-version": "1.1.0"
 }
