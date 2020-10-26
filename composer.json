@@ -50,7 +50,7 @@
   ],
   "require": {
     "php": ">=7.2",
-    "johnpbloch/wordpress-core-installer": "^1.0",
+    "johnpbloch/wordpress-core-installer": "^2.0",
     "johnpbloch/wordpress-core": "^5.0",
     "composer/installers": "^1.0",
     "koodimonni/composer-dropin-installer": "^1.0",
