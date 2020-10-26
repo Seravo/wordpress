@@ -25,6 +25,8 @@ before_install:
   - rvm install 2.2.5
 
 before_script:
+  # Downgrade Composer to latest 1.x series
+  - composer self-update 1.10.16
   # Install composer packages before trying to activate themes or plugins
   - composer install
   # Create database
