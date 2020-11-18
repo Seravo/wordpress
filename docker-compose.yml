@@ -27,19 +27,39 @@ services:
     container_name: ${SITE:-wordpress}
     hostname: ${SITE:-wordpress}
     image: seravo/wordpress:development
-    ports:
-    - 80
-    - 443
-    - 22
-    - 3306
-    - 1337
-    - 1338
-    - 8080
-    - 9000
     volumes:
     - wordpress:/data
     - .:/data/wordpress
     entrypoint: /sbin/swd_init
+    ports:
+      - 80:80
+      - 443:443
+      - 22:22
+    # networks:
+    # - traefik-net
+    # labels:
+    # - "traefik.http.routers.${SITE:-wordpress}_nginx.rule=Host(\"wordpress.docker.localhost\")"
+    environment:
+    - WP_USER_UID=1001
+
+  # traefik:
+  #   container_name: "traefik"
+  #   image: traefik:v2.0
+  #   command: --api.insecure=true --providers.docker
+  #   networks:
+  #   - traefik-net
+  #   ports:
+  #   - 80:80
+  #   - 8080:8080
+  #   - 8989:8989
+  #   volumes:
+  #   - /var/run/docker.sock:/var/run/docker.sock
+  #   labels:
+  #   - "traefik.http.routers.api.rule=Host(\"traefik.docker.localhost\")"
+
+# networks:
+#   traefik-net:
+#     external: true
 
 volumes:
   wordpress:
