@@ -34,6 +34,8 @@ services:
     environment:
       - WP_USER_UID=${WP_USER_UID}
       - DEBUG=${DEBUG}
+    networks:
+      - traefik-net
 
   traefik:
     container_name: traefik
@@ -54,6 +56,12 @@ services:
       - 8989:8989
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - traefik-net
+
+networks:
+  traefik-net:
+    external: true
 
 volumes:
   wp-data:
