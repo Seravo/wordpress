@@ -1,24 +1,11 @@
 # Docker Compose for Seravo WordPress project template
 #
-# Start:
-#   echo "SITE=wordpress" > .env
-#   docker-compose run -e WP_USER_UID=$UID --service-ports --rm wordpress
-# Or:
-#   docker-compose up
-#
-# Access:
-#   ssh vagrant@wordpress.local -o ForwardAgent=yes
+# To start, simply run:
+#   SITE=example docker-compose up
 #
 # Clean up:
 #   docker-compose down -v --remove-orphans
 #   rm -rf .vagrant
-#
-# If container is not visible on your network, expose it with port
-# bindings like:
-#   - 80:80
-#   - 443:443
-#   - 22:22
-# ...
 #
 version: '3'
 
@@ -26,40 +13,47 @@ services:
   wordpress:
     container_name: ${SITE:-wordpress}
     hostname: ${SITE:-wordpress}
+    domainname: ${SITE:-wordpress}
     image: seravo/wordpress:development
     volumes:
-    - wordpress:/data
-    - .:/data/wordpress
+      - wp-data:/data
+      - .:/data/wordpress
     entrypoint: /sbin/swd_init
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.wp.rule=Host(`wp.localhost`)
+      - traefik.http.routers.wp.entrypoints=web
+      - traefik.http.routers.wps.rule=Host(`wp.localhost`)
+      - traefik.http.routers.wps.entrypoints=websecure
+      - traefik.http.routers.wps.tls=true
+      - traefik.tcp.routers.wph.rule=HostSNI(`*`)
+      - traefik.tcp.routers.wph.entrypoints=ssh
+      - traefik.tcp.routers.wph.service=wphs
+      - traefik.tcp.services.wphs.loadbalancer.server.port=22
+      - traefik.http.services.wp.loadbalancer.server.port=80
+    environment:
+      - WP_USER_UID=${WP_USER_UID}
+      - DEBUG=${DEBUG}
+
+  traefik:
+    container_name: traefik
+    image: traefik:v2.3
+    command:
+      - --log.level=debug
+      - --api.insecure=true
+      - --providers.docker
+      - --entrypoints.ssh.address=:22
+      - --entrypoints.web.address=:80
+      - --entrypoints.websecure.address=:443
+      - --serverstransport.insecureskipverify=true
     ports:
+      - 22:22
       - 80:80
       - 443:443
-      - 22:22
-    # networks:
-    # - traefik-net
-    # labels:
-    # - "traefik.http.routers.${SITE:-wordpress}_nginx.rule=Host(\"wordpress.docker.localhost\")"
-    environment:
-    - WP_USER_UID=1001
-
-  # traefik:
-  #   container_name: "traefik"
-  #   image: traefik:v2.0
-  #   command: --api.insecure=true --providers.docker
-  #   networks:
-  #   - traefik-net
-  #   ports:
-  #   - 80:80
-  #   - 8080:8080
-  #   - 8989:8989
-  #   volumes:
-  #   - /var/run/docker.sock:/var/run/docker.sock
-  #   labels:
-  #   - "traefik.http.routers.api.rule=Host(\"traefik.docker.localhost\")"
-
-# networks:
-#   traefik-net:
-#     external: true
+      - 8080:8080
+      - 8989:8989
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
 
 volumes:
-  wordpress:
+  wp-data:
