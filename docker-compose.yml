@@ -20,13 +20,13 @@ services:
       - .:/data/wordpress
     entrypoint: /sbin/swd_init
     labels:
-      - traefik.enable=true
-      - traefik.http.routers.wp.rule=Host(`wp.localhost`)
-      - traefik.http.routers.wp.entrypoints=web
-      - traefik.http.routers.wps.rule=Host(`wp.localhost`)
-      - traefik.http.routers.wps.entrypoints=websecure
-      - traefik.http.routers.wps.tls=true
-      - traefik.tcp.routers.wph.rule=HostSNI(`*`)
+      - traefik.enable=true # Traefik is configured with these labels
+      - traefik.http.routers.wp.rule=Host(`${SITE:-wordpress}.localhost`)
+      - traefik.http.routers.wp.entrypoints=web # route http
+      - traefik.http.routers.wps.rule=Host(`${SITE:-wordpress}.localhost`)
+      - traefik.http.routers.wps.entrypoints=websecure # route https
+      - traefik.http.routers.wps.tls=true # enable https
+      - traefik.tcp.routers.wph.rule=HostSNI(`*`) # SSH does not support SNI, thus route all traffic at port 22
       - traefik.tcp.routers.wph.entrypoints=ssh
       - traefik.tcp.routers.wph.service=wphs
       - traefik.tcp.services.wphs.loadbalancer.server.port=22
@@ -41,13 +41,13 @@ services:
     container_name: traefik
     image: traefik:v2.3
     command:
-      - --log.level=debug
-      - --api.insecure=true
+      - --log.level=debug # Be verbose
+      - --api.insecure=true # Allow Traefik itself to run on http (not https)
       - --providers.docker
       - --entrypoints.ssh.address=:22
       - --entrypoints.web.address=:80
       - --entrypoints.websecure.address=:443
-      - --serverstransport.insecureskipverify=true
+      - --serverstransport.insecureskipverify=true # Allow self-signed certs in routed traffic (=Seravo Docker image)
     ports:
       - 22:22
       - 80:80
@@ -62,6 +62,10 @@ services:
 networks:
   traefik-net:
     external: true
+  # The network must be external so that other containers can run as well, that
+  # is the whole point in pursuing Docker based dev environements
+  # Users will however need to run 'docker network create traefik-net' themselves,
+  # but that is OK as Docker automatically instructs to do so
 
 volumes:
   wp-data:
