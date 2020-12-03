@@ -157,6 +157,7 @@ Vagrant.configure('2') do |config|
     # Fix for slow external network connections
     vb.customize ['modifyvm', :id, '--natdnshostresolver1', 'on']
     vb.customize ['modifyvm', :id, '--natdnsproxy1', 'on']
+    vb.customize ['modifyvm', :id, '--uartmode1', 'disconnected']
   end
 
 end
