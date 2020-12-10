@@ -2,12 +2,10 @@
 #
 # Start:
 #   echo "SITE=wordpress" > .env
-#   docker-compose run -e WP_USER_UID=$UID --service-ports --rm wordpress
-# Or:
 #   docker-compose up
 #
 # Access:
-#   ssh vagrant@wordpress.local -o ForwardAgent=yes
+#   ssh wordpress.local -F .vagrant/ssh/config
 #
 # Clean up:
 #   docker-compose down -v --remove-orphans
@@ -39,6 +37,9 @@ services:
     volumes:
     - wordpress:/data
     - .:/data/wordpress
+    environment:
+    - WP_USER_UID=${WP_USER_UID:-1000}
+    - DEBUG=${DEBUG}
     entrypoint: /sbin/swd_init
 
 volumes:
