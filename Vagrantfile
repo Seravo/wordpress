@@ -92,6 +92,8 @@ Vagrant.configure('2') do |config|
   if site_config['development']['avahi'] && has_internet? and is_osx?
     # The box uses avahi-daemon to make itself available to local network
     config.vm.network "public_network", bridge: [
+      "en0: Wi-Fi (Wireless)",
+      "en1: Wi-Fi (Wireless)",
       "en0: Wi-Fi (AirPort)",
       "en1: Wi-Fi (AirPort)",
       "wlan0"
