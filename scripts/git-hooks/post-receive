@@ -35,25 +35,37 @@ done
 # Check files which have triggers
 COMPOSER_CHANGED=false
 NGINX_CHANGED=false
+SCSS_CHANGED=false
 while read -r line; do
-    if [ "$line" = "composer.json" ] || [ "$line" = "composer.lock" ]; then
+    if [ "$line" = "composer.json" ] || [ "$line" = "composer.lock" ]
+    then
       COMPOSER_CHANGED=true
-    elif [ "$line" = "nginx/*.conf" ]; then
+    elif [ "$line" = "nginx/*.conf" ]
+    then
       NGINX_CHANGED=true
+    elif [[ "$line" =~ \.scss ]]
+    then
+      SCSS_CHANGED=true
     fi
 done <<< "$changed_files"
 
 # Do stuff with the triggers
-if $COMPOSER_CHANGED; then
+if $COMPOSER_CHANGED
+then
   echo "Seravo: composer.json was updated, installing..."
   composer install --no-dev
 fi
 
-if $NGINX_CHANGED; then
+if $NGINX_CHANGED
+then
   echo "Seravo: Nginx configs were changed, reloading nginx..."
   wp-restart-nginx
 fi
 
+if $SCSS_CHANGED; then
+  echo "Seravo: SASS files changed, running Gulp..."
+  gulp
+fi
 
 # If there is a Tideways key set, use it to trigger a release event
 if [ -f /data/wordpress/.tideways.key ] && [ ! -z "$(cat /data/wordpress/.tideways.key)" ]
