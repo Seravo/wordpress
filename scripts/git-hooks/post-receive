@@ -5,6 +5,9 @@
 # actions when doing a 'git push production'.
 #
 # $ cd .git/hooks; ln -s ../../scripts/git-hooks/post-receive .
+#
+# To also trigger on `git pull` define `post-merge` as well:
+# $ ln -s ../../scripts/git-hooks/post-receive post-merge
 ##
 
 # This file prepends output with "Seravo:" so that people running 'git push'
