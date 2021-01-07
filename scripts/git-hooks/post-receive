@@ -18,19 +18,33 @@ echo "Seravo: running post-receive git hook"
 ##
 cd "$( dirname "${BASH_SOURCE[0]}" )"/../.. || exit
 
-# Git uses GIT_DIR instead of PWD by default.
-# This is still needed in addition to previous 'cd' when pushing to remote.
+# When GIT_DIR is defined, git uses it instead of PWD.
+# The git dir needs to be defined as the 'cd' is not enough.
+# shellcheck disable=SC2034
 GIT_DIR="$(pwd)/.git"
 
-# Loop through all changed files, only take pushes to master into consideration.
-# If you use some other branch for production, change "refs/heads/master" to
-# something else like "refs/heads/yourbranch".
-changed_files=""
-while read -r oldrev newrev refname; do
-  if [ "$refname" = "refs/heads/master" ]; then
-    changed_files=$(git diff-tree --name-only -r "$oldrev" "$newrev")
-  fi
-done
+# Check if something was piped to this script, which typically happens when the
+# git hook is triggered. If not, then just run hook on HEAD.
+if [ -t 0 ]
+then
+  echo "*** Seems the stdin is empty, executing git hook as if all files changed ***"
+  changed_files=$(find -- *)
+else
+  # Loop through all changed files, only take pushes to master into consideration.
+  # If you use some other branch for production, change "refs/heads/master" to
+  # something else like "refs/heads/yourbranch".
+  changed_files=""
+  while read -r oldrev newrev refname
+  do
+    echo "Branch: $refname"
+    echo "Previous commit: $oldrev"
+    echo "New commit: $newrev"
+    if [ "$refname" = "refs/heads/master" ]
+    then
+      changed_files=$(git diff-tree --name-only -r "$oldrev" "$newrev")
+    fi
+  done
+fi
 
 # Check files which have triggers
 COMPOSER_CHANGED=false
