@@ -1,3 +1,7 @@
+# Lock files are not relevant in WordPress as there is little versioning options anyway
+composer.lock
+package-lock.json
+
 # WordPress core is installed by Composer
 htdocs/wordpress
 htdocs/.htaccess
