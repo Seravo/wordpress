@@ -45,8 +45,9 @@
 
     "seravo/seravo-plugin": "*",
 
-    "wpackagist-plugin/native-lazyload": "*",
     "wpackagist-plugin/google-site-kit": "*",
+    "wpackagist-plugin/two-factor": "*",
+    "wpackagist-plugin/wp-recaptcha-integration": "*",
 
     "wpackagist-theme/twentynineteen": "*"
   },
