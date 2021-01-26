@@ -12,6 +12,14 @@ env:
   - WP_TEST_URL=http://localhost:12000 WP_TEST_USER=test WP_TEST_USER_PASS=test DB_USER=root DB_PASSWORD='' DB_NAME=test
 
 jobs:
+  include:
+    - name: Gnitpick
+      language: python
+      services: # none
+      install:
+      - curl -O https://raw.githubusercontent.com/Seravo/gnitpick/master/gnitpick.py
+      script:
+      - python3 ./gnitpick.py
   allow_failures:
     - php: nightly
 
