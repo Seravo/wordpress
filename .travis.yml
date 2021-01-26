@@ -1,28 +1,22 @@
-# This uses newer and faster docker based build system
-sudo: false
-
+os: linux
+dist: bionic
 language: php
 
 services: mysql
 
-notifications:
-  on_success: never
-  on_failure: change
-
 php:
-  - nightly
-  - 7.2
   - 7.3
+  - 7.4
+  - 8.0
+  - nightly
 
 env:
   - WP_TEST_URL=http://localhost:12000 WP_TEST_USER=test WP_TEST_USER_PASS=test DB_USER=root DB_PASSWORD='' DB_NAME=test
 
-matrix:
+jobs:
   allow_failures:
+    - php: 8.0
     - php: nightly
-
-before_install:
-  - rvm install 2.2.5
 
 before_script:
   # Downgrade Composer to latest 1.x series
