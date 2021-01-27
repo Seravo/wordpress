@@ -2,27 +2,10 @@
   "name": "seravo/wordpress",
   "type": "project",
   "license": "MIT",
-  "description": "Seravo WordPress instance template",
+  "description": "Seravo WordPress project template",
   "homepage": "https://seravo.com/",
-  "authors": [
-    {
-      "name": "Antti Kuosmanen",
-      "email": "antti@seravo.fi",
-      "homepage": "https://github.com/anttiviljami"
-    },
-    {
-      "name": "Otto Kekäläinen",
-      "email": "otto@seravo.fi",
-      "homepage": "https://github.com/ottok"
-    },
-    {
-      "name": "Onni Hakala",
-      "email": "onni@seravo.fi",
-      "homepage": "https://github.com/onnimonni"
-    }
-  ],
   "keywords": [
-    "wordpress", "composer", "wp", "wp-palvelu", "seravo"
+    "wordpress", "composer", "wp", "vagrant", "docker", "wp-palvelu", "seravo"
   ],
   "config": {
     "preferred-install": "dist"
