@@ -70,6 +70,12 @@ define('FORCE_SSL_ADMIN', true);
 /**
  * Custom Settings
  */
+
+/**
+ * Standardize cache location to have as much as possible in wp-content/cache
+ * so that it is easier to develop tools to accelerate or purge caches.
+ */
+define('WPML_CACHE_PATH_ROOT', dirname(__DIR__) . '/htdocs/wp-content/cache/wpml/');
 define('AUTOMATIC_UPDATER_DISABLED', true); /* automatic updates are handled by wordpress-palvelu */
 define('DISALLOW_FILE_EDIT', true); /* disable the theme/plugin file editor */
 define('PLL_COOKIE', false); /* allow caching sites with polylang, disable if weird issues occur */
