@@ -152,6 +152,11 @@ Vagrant.configure('2') do |config|
       else 2
     end
 
+    # Having too many CPUs will not make the machine faster, so limit to max 2
+    if cpus > 2
+      cpus = 2
+    end
+
     # Customize memory in MB
     vb.customize ['modifyvm', :id, '--memory', 1536]
     vb.customize ['modifyvm', :id, '--cpus', cpus]
