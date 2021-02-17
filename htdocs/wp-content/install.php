@@ -430,7 +430,7 @@ function seravo_first_page() {
     <!-- /wp:image -->
 
     <!-- wp:paragraph -->
-    <p>Välkommen till din helt nya WordPress-installation hos Seravo. Vi är mycket glada att du har bestämt dig för att låta oss drifta er webbplats och att dra nytta av <a href = "https://seravo.se/egenskaper/" target ="_ blank" rel = "noreferrer noopener" aria-label=" (öppnas i en ny flik) "> alla de fördelarna</a> som vi kan erbjuda. Vi har redan rensat upp installationen med det standard-innehåll som annars skulle ingått efter en vanlig installation.</p>
+    <p>Välkommen till din helt nya WordPress-installation hos Seravo. Vi är mycket glada att du har bestämt dig för att låta oss drifta er webbplats och att dra nytta av <a href = "https://seravo.se/egenskaper/" target ="_blank" rel = "noreferrer noopener" aria-label=" (öppnas i en ny flik) "> alla de fördelarna</a> som vi kan erbjuda. Vi har redan rensat upp installationen med det standard-innehåll som annars skulle ingått efter en vanlig installation.</p>
     <!-- /wp:paragraph -->
 
     <!-- wp:heading -->
@@ -438,7 +438,7 @@ function seravo_first_page() {
     <!-- /wp:heading -->
 
     <!-- wp:paragraph -->
-    <p>Vi har mailat kontaktpersonen som angavs när la beställningen. Där hittar ni fullständiga inloggningsuppgifter för både <a href="<?php echo get_option('home'); ?>/wp-login.php" target="_ blank" rel="noreferrer noopener" aria-label=" (öppnas i en ny flik)">wp-admin</a> och <a href="https://help.seravo.com/en/knowledgebase/11/docs/76-configuring-ssh-sftp" target="_ blank" rel="noreferrer noopener" aria-label=" (öppnas i en ny flik) ">SSH / SFTP</a> till denna webbplats.</p>
+    <p>Vi har mailat kontaktpersonen som angavs när la beställningen. Där hittar ni fullständiga inloggningsuppgifter för både <a href="<?php echo get_option('home'); ?>/wp-login.php" target="_blank" rel="noreferrer noopener" aria-label=" (öppnas i en ny flik)">wp-admin</a> och <a href="https://help.seravo.com/en/knowledgebase/11/docs/76-configuring-ssh-sftp" target="_blank" rel="noreferrer noopener" aria-label=" (öppnas i en ny flik) ">SSH / SFTP</a> till denna webbplats.</p>
     <!-- /wp:paragraph -->
 
     <!-- wp:paragraph -->
@@ -507,7 +507,7 @@ function seravo_first_page() {
     <ul>
       <li>Knowledge Base at <a rel="noreferrer noopener" aria-label=" (opens in a new tab)" href="https://help.seravo.com" target="_blank">help.seravo.com</a>, when you’re looking for a quick answer to a question about your site hosted at Seravo.</li>
       <li>Developer Docs at <a rel="noreferrer noopener" aria-label=" (opens in a new tab)" href="https://seravo.com/docs/" target="_blank">seravo.com/docs</a>, when you’re looking for expert guidance in WordPress development.</li>
-      <li>Customer Support at <a rel="noreferrer noopener" aria-label" (opens in a new tab)" href="mailto:help@seravo.com">help@seravo.com</a>,  when you need an expert to take a look at a problem with your site.
+      <li>Customer Support at <a rel="noreferrer noopener" aria-label" (opens in a new tab)" href="mailto:help@seravo.com">help@seravo.com</a>,  when you need an expert to take a look at a problem with your site.</li>
     </ul>
     <!-- /wp:list -->
 
