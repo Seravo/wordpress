@@ -380,7 +380,7 @@ function seravo_first_page() {
     <!-- /wp:image -->
 
     <!-- wp:paragraph -->
-    <p>Tervetuloa uudelle WordPress-sivustollenne Seravon WP-palvelussa. Olemme erittäin iloisia siitä, että olette päättäneet luottaa sivustonne meidän hallintaamme, sekä ottamaan käyttöön ylläpitopalvelumme <a href="https://wp-palvelu.fi/ominaisuudet/" target="_blank" rel="noreferrer noopener" aria-label=" (avautuu uuteen välilehteen)">kattavat ominaisuudet</a>. Nopeuttaaksemme sivuston käyttöönottoa olemme siivonneet asennuksestanne pois koko joukon WordPressin mukana tavallisesti toimitettua esimerkkisisältöä.</p>
+    <p>Tervetuloa uudelle WordPress-sivustollenne Seravon WP-palvelussa. Olemme erittäin iloisia siitä, että olette päättäneet luottaa sivustonne hallintaamme, sekä ottamaan käyttöön ylläpitopalvelumme <a href="https://wp-palvelu.fi/ominaisuudet/" target="_blank" rel="noreferrer noopener" aria-label=" (avautuu uuteen välilehteen)">kattavat ominaisuudet</a>. Nopeuttaaksemme sivuston käyttöönottoa olemme siivonneet asennuksestanne pois koko joukon WordPressin mukana tavallisesti toimitettua esimerkkisisältöä.</p>
     <!-- /wp:paragraph -->
 
     <!-- wp:heading -->
@@ -388,11 +388,11 @@ function seravo_first_page() {
     <!-- /wp:heading -->
 
     <!-- wp:paragraph -->
-    <p>Olkaa hyvät ja tarkistakaa sen henkilön sähköpostilaatikko, jonka merkitsitte tilauksen yhteydessä yhteyshenkilöksi. Sieltä löydätte tarvittavat tunnukset sekä <a href="<?php echo get_option('home') . '/wp-login.php'; ?>" target="_blank" rel="noreferrer noopener" aria-label=" (avautuu uuteen välilehteen)">WordPressin hallitaan</a> että <a href="https://help.seravo.com/fi/knowledgebase/11/docs/76-configuring-ssh-sftp" target="_blank" rel="noreferrer noopener" aria-label=" (avautuu uuteen välilehteen)">SSH/SFTP-yhteyksien muodostamiseen</a>.</p>
+    <p>Olkaa hyvä ja tarkistakaa sen henkilön sähköpostilaatikko, jonka merkitsitte tilauksen yhteydessä yhteyshenkilöksi. Sieltä löydätte tarvittavat tunnukset sekä <a href="<?php echo get_option('home') . '/wp-login.php'; ?>" target="_blank" rel="noreferrer noopener" aria-label=" (avautuu uuteen välilehteen)">WordPressin hallintaan</a> että <a href="https://help.seravo.com/fi/knowledgebase/11/docs/76-configuring-ssh-sftp" target="_blank" rel="noreferrer noopener" aria-label=" (avautuu uuteen välilehteen)">SSH/SFTP-yhteyksien muodostamiseen</a>.</p>
     <!-- /wp:paragraph -->
 
     <!-- wp:paragraph -->
-    <p>Mikäli teillä on jo <strong>olemassa oleva sivusto</strong> jossain muualla, voitte tutustua <a href="https://help.seravo.com/fi/knowledgebase/15-site-migration" target="_blank" rel="noreferrer noopener" aria-label=" (avautuu uuteen välilehteen)">sivustojen siirtoa käsitteleviin ohjeisiimme</a> tutustuaksenne lähemmin vaihtoehtoisiin tapoihin siirtää sivustonne palveluumme.</p>
+    <p>Mikäli teillä on jo <strong>olemassa oleva sivusto</strong> jossain muualla, suosittelemme tutustumaan <a href="https://help.seravo.com/fi/knowledgebase/15-site-migration" target="_blank" rel="noreferrer noopener" aria-label=" (avautuu uuteen välilehteen)">sivustojen siirtoa käsitteleviin ohjeisiimme</a>.</p>
     <!-- /wp:paragraph -->
 
     <!-- wp:paragraph -->
@@ -409,7 +409,7 @@ function seravo_first_page() {
 
     <!-- wp:list -->
     <ul>
-      <li>Tietopankki osoitteessa <a href="https://help.seravo.com/fi" target="_blank" rel="noreferrer noopener" aria-label=" (avautuu uuteen välilehteen)">help.seravo.com</a>, Kun haluat nopean vastauksen sivustoosi liittyvään kysymykseen.</li>
+      <li>Tietopankki osoitteessa <a href="https://help.seravo.fi" target="_blank" rel="noreferrer noopener" aria-label=" (avautuu uuteen välilehteen)">help.seravo.fi</a>, kun haluat nopean vastauksen sivustoosi liittyvään kysymykseen.</li>
       <li>Kehittäjädokumentaatio osoitteessa <a rel="noreferrer noopener" aria-label=" (avautuu uuteen välilehteen)" href="https://seravo.com/docs/" target="_blank">seravo.com/docs</a>, kun etsit asiantuntija-apua WordPress-kehitykseen liittyvissä asioissa.</li>
       <li>Asiakaspalvelu sähköpostiosoitteessa <a rel="noreferrer noopener" aria-label="help@seravo.com (avautuu uuteen välilehteen)" href="mailto:help@seravo.com" target="_blank">help@seravo.com</a>, kun haluat keskustella sivustoosi liittyvästä ongelmasta.</li>
     </ul>
@@ -446,7 +446,7 @@ function seravo_first_page() {
     <!-- /wp:paragraph -->
 
     <!-- wp:paragraph -->
-    <p>Om det här däremot är början på en helt <strong>ny webbplats</strong> så kanske ni vill kolla in vår projektlayout på <a href="https://github.com/Seravo/wordpress" target="_ blank" rel="noreferrer noopener" aria-label=" (öppnas i en ny flik) ">GitHub</a> för att förenkla lokal utveckling av webbplatsen.</p>
+    <p>Om det här däremot är början på en helt <strong>ny webbplats</strong> så kanske ni vill kolla in vår projektlayout på <a href="https://github.com/Seravo/wordpress" target="_blank" rel="noreferrer noopener" aria-label=" (öppnas i en ny flik) ">GitHub</a> för att förenkla lokal utveckling av webbplatsen.</p>
     <!-- /wp:paragraph -->
 
     <!-- wp:heading -->
@@ -459,9 +459,9 @@ function seravo_first_page() {
 
     <!-- wp:list -->
     <ul>
-      <li>Kunskapsbank via <a href="https://help.seravo.com/en" target="_blank" rel="noreferrer noopener" aria-label=" (öppnas i en ny flik) ">help.seravo.com</a>, när ni vill hitta ett snabbt svar på frågor eller funderingar om er WordPress webbplats hos oss.</li>
+      <li>Kunskapsbank via <a href="https://help.seravo.com" target="_blank" rel="noreferrer noopener" aria-label=" (öppnas i en ny flik) ">help.seravo.com</a>, när ni vill hitta ett snabbt svar på frågor eller funderingar om er WordPress webbplats hos oss.</li>
       <li>Utvecklardokumentation via <a rel="noreferrer noopener" aria-label=" (öppnas i en ny flik) " href="https://seravo.com/docs/" target="_blank">seravo.com/docs</a>, när ni som utvecklare behöver lösa ett specifikt problem som gäller WordPress på vår plattform.</li>
-      <li>Kundsupport via <a rel="noreferrer noopener" aria-label="help@seravo.com (öppnas i en ny flik) " href="mailto:help@seravo.com" target="_blank ">help@seravo.com</a>, när ni behöver hjälp från en riktig människa för frågor kopplat till er webbplats hos oss.</li>
+      <li>Kundsupport via <a rel="noreferrer noopener" aria-label="help@seravo.com (öppnas i en ny flik) " href="mailto:help@seravo.com" target="_blank">help@seravo.com</a>, när ni behöver hjälp från en riktig människa för frågor kopplat till er webbplats hos oss.</li>
     </ul>
     <!-- /wp:list -->
 
@@ -480,7 +480,7 @@ function seravo_first_page() {
     <!-- /wp:image -->
 
     <!-- wp:paragraph -->
-    <p>Welcome to your brand new WordPress installation powered by the <a href="https://github.com/Seravo/wordpress">Seravo WordPress project layout</a>. Hopefully you have also decided to host your website with us and to take advantage of <a rel="noreferrer noopener" aria-label=" (opens in a new tab)" href="https://seravo.com/features/" target="_blank">all the great features</a> that we provide. We have cleaned up the installation to save you the trouble of removing sample content that you would get with a standard WordPress.</p>
+    <p>Welcome to your brand new WordPress installation powered by the <a href="https://github.com/Seravo/wordpress">Seravo WordPress project layout</a>. Hopefully you have also decided to host your website with us and to take advantage of <a rel="noreferrer noopener" aria-label=" (opens in a new tab)" href="https://seravo.com/features/" target="_blank">all the great features</a> that we provide. We have cleaned up the installation to save you the trouble of removing sample content that you would get with a standard WordPress installation.</p>
     <!-- /wp:paragraph -->
 
     <!-- wp:heading -->
@@ -505,9 +505,9 @@ function seravo_first_page() {
 
     <!-- wp:list -->
     <ul>
-      <li>Knowledge Base at <a rel="noreferrer noopener" aria-label=" (opens in a new tab)" href="https://help.seravo.com/en" target="_blank">help.seravo.com</a>, when you’re looking for a quick answer to a question about your site hosted at Seravo.</li>
+      <li>Knowledge Base at <a rel="noreferrer noopener" aria-label=" (opens in a new tab)" href="https://help.seravo.com" target="_blank">help.seravo.com</a>, when you’re looking for a quick answer to a question about your site hosted at Seravo.</li>
       <li>Developer Docs at <a rel="noreferrer noopener" aria-label=" (opens in a new tab)" href="https://seravo.com/docs/" target="_blank">seravo.com/docs</a>, when you’re looking for expert guidance in WordPress development.</li>
-      <!-- @TODO: Add customer support bullet later -->
+      <li>Customer Support at <a rel="noreferrer noopener" aria-label" (opens in a new tab)" href="mailto:help@seravo.com">help@seravo.com</a>,  when you need an expert to take a look at a problem with your site.
     </ul>
     <!-- /wp:list -->
 
