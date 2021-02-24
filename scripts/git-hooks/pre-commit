@@ -137,7 +137,7 @@ done
 #
 # Block commit if tests fail.
 ##
-if ! /usr/local/bin/wp-test-ng --debug --fail-fast
+if ! /usr/local/bin/wp-test --debug --fail-fast
 then
   echo "==> Tests failed! Git commit denied."
   exit 1
