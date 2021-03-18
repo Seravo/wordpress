@@ -343,9 +343,6 @@ function wp_install_defaults( $user_id ) {
 
   /** Activate some plugins automatically if they exists */
   seravo_install_activate_plugins();
-
-  /** Activate all mature features of Seravo Plugin on new sites */
-  seravo_plugin_options_enable();
 }
 
 /**
@@ -597,23 +594,4 @@ function seravo_install_activate_plugins() {
       do_action('activated_plugin', $plugin_path);
     }
   }
-}
-
-
-/*
- * Ensure all new sites have all mature Seravo plugin features enabled
- *
- * Note that this install.php only runs on fresh installs. If some existing site
- * is migrated to Seravo, the database and all options are overwritten and these
- * options will no longer apply.
- */
-function seravo_plugin_options_enable() {
-  // Security settings
-  update_option('seravo-disable-xml-rpc', 'on');
-  update_option('seravo-disable-json-user-enumeration', 'on');
-  update_option('seravo-disable-get-author-enumeration', 'on');
-
-  // Image optimizer
-  update_option('seravo-enable-optimize-images', 'on');
-  update_option('seravo-enable-strip-image-metadata', 'on');
 }
