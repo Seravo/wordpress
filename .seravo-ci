@@ -1,0 +1,34 @@
+#!/bin/bash
+# This is an example test script that will be run by the
+# entrypoint of Docker containers created from the seravo/wordpress:ci image.
+# The default Travis CI configuration file .travis.yml in this repository starts
+# a new container from the seravo/wordpress:ci image, and exits with the exit
+# code from this script.
+#
+# Although this example CI test script file is written as a bash script, at will,
+# it can as well be transformed to use interpreters of other scripting languages
+# that are installed inside the container, like Python, for instance.
+
+# Fail immediately on errors
+set -e
+
+## EXAMPLE: Import a default database dump to resemble the database contents
+## of the production site.
+# wp-db-load --yes "${PROJECT_DIR}"/vagrant-base.sql
+
+# Prefer to install plugins via Composer ("composer install" is automatically
+# run during container start), but here you can run e.g. WP-CLI commands to
+# install themes/plugins.
+
+## EXAMPLE: Run unit tests and static code analysis with e.g. PHPUnit and
+## PHPCS, both of which are pre-installed inside the seravo/wordpress:ci
+## image.
+# phpunit --verbose
+# phpcs --standard="${PROJECT_DIR}"/phpcs.xml -s -d memory_limit=-1 "${PROJECT_DIR}"/htdocs/wp-content
+
+# WP core might need an explicit database update if above scripts installed a
+# WP version newer than what was used for the vagrant-base.sql.
+wp core update-db
+
+# Run acceptance tests
+/data/wordpress/scripts/run-tests
