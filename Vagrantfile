@@ -78,14 +78,31 @@ Vagrant.configure('2') do |config|
   config.ssh.forward_agent = true
 
   # Minimum box version requirement for this Vagrantfile revision
-  config.vm.box_version = ">= 20200130.0.0"
+  config.vm.box_version = ">= 20210317.0.0"
 
   # Use precompiled box
-  config.vm.box = 'seravo/wordpress'
+  config.vm.box = 'seravo/wordpress-beta'
 
   # Use the name of the box as the hostname
   config.vm.hostname = site_config['name']
 
+  # Get all SSH keys for this machine
+  private_keys = []
+  vagrant_private_key = File.join(DIR, '.vagrant/machines/wordpress-box/virtualbox/private_key')
+  if File.exists?( vagrant_private_key )
+    private_keys.append(vagrant_private_key)
+  end
+  user_private_key = File.join(Dir.home, ".ssh", "id_rsa")
+  if File.exists?( user_private_key )
+    private_keys.append(user_private_key)
+  end
+  #private_keys.append(File.join(Dir.home, '.vagrant.d/insecure_private_key'))
+  
+  if private_keys.length > 0
+    # Vagrants key to use on 'vagrant ssh'
+    config.ssh.private_key_path = private_keys
+  end
+  
   # Only use avahi if config has this
   # development:
   #   avahi: true
@@ -124,7 +141,6 @@ Vagrant.configure('2') do |config|
   # Sync the folders
   # We have tried using NFS but it's super slow compared to synced_folder
   config.vm.synced_folder DIR, '/data/wordpress/', owner: 'vagrant', group: 'vagrant', mount_options: ['dmode=775', 'fmode=775']
-
 
   # For Self-signed ssl-certificate
   ssl_cert_path = File.join(DIR,'.vagrant','ssl')
@@ -178,6 +194,17 @@ def vagrant_triggers(vagrant_config, site_config)
       # machine internals have time to bootstrap
       sleep 3
 
+      # Copy private key from box directory to machine directory
+      # as private keys are machine specific. Prevents key from
+      # being removed on box update.
+      private_key_path = File.join( machine.data_dir, 'private_key')
+      unless File.exists?( private_key_path )
+        box_private_key = File.join( machine.box.directory, 'vagrant_private_key' )
+        if File.exists?( box_private_key )
+          FileUtils.cp( box_private_key, private_key_path )
+        end
+      end
+
       # Since neither communicate.sudo nor trigger.run_remote supports interactive
       # mode (on other than some special Windows admin mode), call out to system
       # to call back to Vagrant as a hacky way to get interactive mode, and thus
@@ -229,6 +256,13 @@ def vagrant_triggers(vagrant_config, site_config)
           notice "Couldn't dump database. Skipping..."
         end
       end
+    end
+  end
+
+  vagrant_config.trigger.before :destroy do |trigger|
+    trigger.ruby do |env, machine|
+      private_key_path = File.join( machine.data_dir, 'private_key')
+      File.delete(private_key_path) if File.exists?(private_key_path)
     end
   end
 end
