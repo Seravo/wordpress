@@ -263,11 +263,6 @@ def vagrant_triggers_plugin_triggers(vagrant_config, site_config)
     # Always run this when Vagrant triggers that site is up
     system "vagrant ssh -c wp-development-up"
 
-    # Don't activate git hooks, just notify them
-    if File.exists?( File.join(DIR,'.git', 'hooks', 'pre-commit') )
-      puts "If you want to use a git pre-commit hook please run 'wp-activate-git-hooks' inside the Vagrant box."
-    end
-
     case RbConfig::CONFIG['host_os']
     when /darwin/
       # Do OS X specific things
