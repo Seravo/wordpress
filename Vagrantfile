@@ -125,13 +125,6 @@ Vagrant.configure('2') do |config|
   # We have tried using NFS but it's super slow compared to synced_folder
   config.vm.synced_folder DIR, '/data/wordpress/', owner: 'vagrant', group: 'vagrant', mount_options: ['dmode=775', 'fmode=775']
 
-
-  # For Self-signed ssl-certificate
-  ssl_cert_path = File.join(DIR,'.vagrant','ssl')
-  unless File.exists? File.join(ssl_cert_path,'development.crt')
-    config.vm.provision :shell, :inline => "wp-generate-ssl"
-  end
-
   # Add SSH Public Key from developer home folder into vagrant
   if File.exists? File.join(Dir.home, ".ssh", "id_rsa.pub")
     id_rsa_ssh_key_pub = File.read(File.join(Dir.home, ".ssh", "id_rsa.pub"))
@@ -261,11 +254,6 @@ def vagrant_triggers_plugin_triggers(vagrant_config, site_config)
 
     # Always run this when Vagrant triggers that site is up
     system "vagrant ssh -c wp-development-up"
-
-    # Don't activate git hooks, just notify them
-    if File.exists?( File.join(DIR,'.git', 'hooks', 'pre-commit') )
-      puts "If you want to use a git pre-commit hook please run 'wp-activate-git-hooks' inside the Vagrant box."
-    end
 
     case RbConfig::CONFIG['host_os']
     when /darwin/
