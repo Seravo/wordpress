@@ -8,7 +8,12 @@
     "wordpress", "composer", "wp", "vagrant", "docker", "wp-palvelu", "seravo"
   ],
   "config": {
-    "preferred-install": "dist"
+    "preferred-install": "dist",
+    "allow-plugins": {
+      "johnpbloch/wordpress-core-installer": true,
+      "koodimonni/composer-dropin-installer": true,
+      "composer/installers": true
+    }
   },
   "autoload": {
     "psr-0": {"WordPress\\Installer": "scripts"}
