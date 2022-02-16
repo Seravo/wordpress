@@ -6,6 +6,21 @@ require 'mkmf'
 require 'fileutils'
 require 'socket'
 
+if Vagrant.has_plugin? 'vagrant-hostsupdater'
+  puts ''
+  puts 'Your Vagrant environment seems to be from an older version of Seravo Vagrant box.'
+  puts 'To use the latest Seravo Vagrant box, take the following steps to clean up the old one:'
+  puts ''
+  puts '- Remove plugin "vagrant-hostsupdater", it\'s no longer supported:'
+  puts '    * `vagrant plugin uninstall vagrant-hostsupdater`'
+  puts '    * `vagrant plugin --local uninstall vagrant-hostsupdater`'
+  puts ''
+  puts '- Also be sure to destroy any old machines. You can view the existing machines:'
+  puts '    * `vagrant status`'
+  puts '    * `vagrant global-status`'
+  exit 1
+end
+
 # Prevent logs from mkmf
 module MakeMakefile::Logging
   @logfile = File::NULL
@@ -33,17 +48,20 @@ site_config = YAML.load_file(config_file)
 # Create private ip address in file
 private_ip_file = File.join(DIR,'.vagrant','private.ip')
 
-unless File.exists?(private_ip_file)
-  private_ip = "192.168.56.#{rand(2..255)}"
-  File.write(private_ip_file, private_ip)
-else
+private_ip = nil
+if File.exists?(private_ip_file)
   private_ip = File.open(private_ip_file, 'rb') { |file| file.read }
 end
 
-# Multiple public_network mappings need at least 1.7.4
+if private_ip.nil? || !private_ip.start_with?('192.168.56.')
+  private_ip = "192.168.56.#{rand(2..254)}"
+  File.write(private_ip_file, private_ip)
+end
+
 Vagrant.require_version '>= 2.2.0'
 
 Vagrant.configure('2') do |config|
+  config.vagrant.plugins = ['vagrant-goodhosts']
 
   # Use host-machine ssh-key so we can log into production
   config.ssh.forward_agent = true
@@ -77,17 +95,9 @@ Vagrant.configure('2') do |config|
 
   config.vm.define "#{site_config['name']}-box"
 
-  if Vagrant.has_plugin? 'vagrant-hostsupdater'
-    # Remove hosts when suspending too
-    config.hostsupdater.remove_on_suspend = true
-
-    domains = get_domains(site_config)
-    config.hostsupdater.aliases = domains - [config.vm.hostname]
-  else
-    puts 'vagrant-hostsupdater missing, please install the plugin:'
-    puts 'vagrant plugin install vagrant-hostsupdater'
-    exit 1
-  end
+  domains = get_domains(site_config)
+  config.goodhosts.remove_on_suspend = true
+  config.goodhosts.aliases = domains - [config.vm.hostname]
 
   # Disable default vagrant share
   config.vm.synced_folder ".", "/vagrant", disabled: true
