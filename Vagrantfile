@@ -34,43 +34,14 @@ site_config = YAML.load_file(config_file)
 private_ip_file = File.join(DIR,'.vagrant','private.ip')
 
 unless File.exists?(private_ip_file)
-  private_ip = "192.168.250.#{rand(2..255)}"
+  private_ip = "192.168.56.#{rand(2..255)}"
   File.write(private_ip_file, private_ip)
 else
   private_ip = File.open(private_ip_file, 'rb') { |file| file.read }
 end
 
 # Multiple public_network mappings need at least 1.7.4
-Vagrant.require_version '>= 1.7.4'
-
-# Try to use the vagrant-triggers plugin when using a vagrant version below 2.1.0 or
-# if the user has self chosen to do so by setting the VAGRANT_USE_VAGRANT_TRIGGERS
-# environment variable.
-use_triggers_plugin = false
-triggers_plugin_installed = Vagrant.has_plugin? 'vagrant-triggers'
-if Gem::Version.new(Vagrant::VERSION) >= Gem::Version.new('2.1.0')
-  # Vagrant core triggers are available, but the user can also opt-in to
-  # use the plugin if it is installed
-  if triggers_plugin_installed
-    use_triggers_plugin = true
-    if ENV['VAGRANT_USE_VAGRANT_TRIGGERS'].nil?
-      # Exit here because starting Vagrant will not work if VAGRANT_USE_VAGRANT_TRIGGERS is
-      # not defined but at the same time the vagrant-triggers plugin is installed.
-      STDERR.puts 'ERROR: can not use the Vagrant trigger functionality'
-      STDERR.puts 'Please uninstall the vagrant-triggers plugin to fix the problem:'
-      STDERR.puts '$ vagrant plugin uninstall vagrant-triggers'
-      exit 1
-    end
-  end
-else
-  # No choice but to use the plugin, but we need to ensure that it is installed
-  use_triggers_plugin = true
-  if !triggers_plugin_installed
-    STDERR.puts 'ERROR: can not use the Vagrant trigger functionality'
-    STDERR.puts 'Please update Vagrant to version 2.1.0 or newer to fix the problem'
-    exit 1
-  end
-end
+Vagrant.require_version '>= 2.2.0'
 
 Vagrant.configure('2') do |config|
 
@@ -78,10 +49,10 @@ Vagrant.configure('2') do |config|
   config.ssh.forward_agent = true
 
   # Minimum box version requirement for this Vagrantfile revision
-  config.vm.box_version = ">= 20200130.0.0"
+  config.vm.box_version = ">= 20220221.0.0"
 
   # Use precompiled box
-  config.vm.box = 'seravo/wordpress'
+  config.vm.box = 'seravo/wordpress-beta'
 
   # Use the name of the box as the hostname
   config.vm.hostname = site_config['name']
@@ -138,11 +109,7 @@ Vagrant.configure('2') do |config|
     config.vm.provision :shell, :inline => "echo '#{id_rsa_ssh_key_pub }' >> /home/vagrant/.ssh/authorized_keys && chmod 600 /home/vagrant/.ssh/authorized_keys"
   end
 
-  if use_triggers_plugin
-    vagrant_triggers_plugin_triggers(config, site_config)
-  else
-    vagrant_triggers(config, site_config)
-  end
+  vagrant_triggers(config, site_config)
 
   config.vm.provider 'virtualbox' do |vb|
     vb.memory = 1536
@@ -244,64 +211,6 @@ def run_command(cmd, machine)
     exit exit_code
   end
   return exit_code
-end
-
-##
-# Legacy: Run vagrant-triggers plugin compatible format on older Vagrants
-##
-def vagrant_triggers_plugin_triggers(vagrant_config, site_config)
-  vagrant_config.trigger.after :up do
-
-    # Run all system commands inside project root
-    Dir.chdir(DIR)
-
-    # Always wait a couple of seconds before running triggers so that the
-    # machine internals have time to bootstrap
-    sleep 3
-
-    # Always run this when Vagrant triggers that site is up
-    system "vagrant ssh -c wp-development-up"
-
-    # Don't activate git hooks, just notify them
-    if File.exists?( File.join(DIR,'.git', 'hooks', 'pre-commit') )
-      puts "If you want to use a git pre-commit hook please run 'wp-activate-git-hooks' inside the Vagrant box."
-    end
-
-    case RbConfig::CONFIG['host_os']
-    when /darwin/
-      # Do OS X specific things
-
-      # Trust the self-signed cert in keychain
-      ssl_cert_path = File.join(DIR,'.vagrant','ssl')
-      unless File.exists?(File.join(ssl_cert_path,'trust.lock'))
-        if File.exists?(File.join(ssl_cert_path,'development.crt')) and confirm "Trust the generated ssl-certificate in OS-X keychain?"
-          system "sudo security add-trusted-cert -d -r trustRoot -k '/Library/Keychains/System.keychain' '#{ssl_cert_path}/development.crt'"
-          # Write lock file so we can remove it too
-          touch_file File.join(ssl_cert_path,'trust.lock')
-        end
-      end
-    when /linux/
-      # Do linux specific things
-    end
-
-    # Run 'vagrant up' customizer script if it exists
-    if File.exist?(File.join(DIR, 'vagrant-up-customizer.sh'))
-      notice 'Found vagrant-up-customizer.sh and running it ...'
-      Dir.chdir(DIR)
-      system 'sh ./vagrant-up-customizer.sh'
-    end
-
-  end
-
-  vagrant_config.trigger.before :halt do
-    # dump database when closing vagrant
-    dump_wordpress_database
-  end
-
-  vagrant_config.trigger.before :destroy do
-    # dump database when closing vagrant
-    dump_wordpress_database
-  end
 end
 
 ##
