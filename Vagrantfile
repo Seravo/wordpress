@@ -1,6 +1,8 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
+# VAGRANTFILE 2022-02-21
+
 require 'yaml'
 require 'mkmf'
 require 'fileutils'
