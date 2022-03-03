@@ -1,0 +1,24 @@
+name: Acceptance tests
+
+on: [push, pull_request]
+
+env:
+  CONTAINER: wordpress
+  CI_IMAGE: seravo/wordpress:ci
+
+jobs:
+  acceptance:
+    runs-on: ubuntu-18.04
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Run Codeception acceptance tests
+        run: |
+          docker run --name "${{env.CONTAINER}}" \
+            --hostname "${{env.CONTAINER}}" \
+            --volume "/tmp/data/:/data" \
+            --volume "$(pwd):/data/wordpress" \
+            --env WP_USER_UID=1001 \
+            --env DEBUG=true \
+            --rm "${{env.CI_IMAGE}}"
+
