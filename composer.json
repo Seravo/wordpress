@@ -1,53 +1,49 @@
 {
   "name": "seravo/wordpress",
   "type": "project",
-  "license": "MIT",
+  "license": "GPL-3.0-or-later",
   "description": "Seravo WordPress project template",
   "homepage": "https://seravo.com/",
   "keywords": [
     "wordpress", "composer", "wp", "vagrant", "docker", "wp-palvelu", "seravo"
   ],
-  "config": {
-    "preferred-install": "dist",
-    "allow-plugins": {
-      "johnpbloch/wordpress-core-installer": true,
-      "koodimonni/composer-dropin-installer": true,
-      "composer/installers": true
-    }
-  },
-  "autoload": {
-    "psr-0": {"WordPress\\Installer": "scripts"}
-  },
-  "scripts": {
-    "post-install-cmd": [
-      "WordPress\\Installer::symlinkWPContent"
-    ],
-    "post-update-cmd": [
-      "WordPress\\Installer::symlinkWPContent"
-    ]
+  "support": {
+    "docs": "https://seravo.com/docs/",
+    "issues": "https://github.com/Seravo/wordpress/issues"
   },
   "repositories": [
     {
       "type": "composer",
-      "url": "https://wpackagist.org"
+      "url": "https://wpackagist.org",
+      "only": [
+        "wpackagist-plugin/*",
+        "wpackagist-theme/*"
+      ]
     },
     {
       "type": "composer",
-      "url": "https://wp-languages.github.io"
+      "url": "https://wp-languages.github.io",
+      "only": [
+        "koodimonni-language/*",
+        "koodimonni-plugin-language/*",
+        "koodimonni-theme-language/*"
+      ]
     }
   ],
   "require": {
     "php": ">=7.2",
+
+    "koodimonni/composer-dropin-installer": "^1.0",
     "johnpbloch/wordpress-core-installer": "^2.0",
     "johnpbloch/wordpress-core": "^6.0",
     "composer/installers": "^1.0",
-    "koodimonni/composer-dropin-installer": "^1.0",
-    "roots/bedrock-autoloader": "^1.0",
-    "vlucas/phpdotenv": "^5.0",
+    "composer/installers": "^1.0",
 
     "koodimonni-language/fi": "*",
     "koodimonni-language/sv_se": "*",
 
+    "vlucas/phpdotenv": "^5.0",
+    "roots/bedrock-autoloader": "^1.0",
     "seravo/seravo-plugin": "*",
 
     "wpackagist-plugin/google-site-kit": "*",
@@ -55,6 +51,16 @@
     "wpackagist-plugin/wp-recaptcha-integration": "*",
 
     "wpackagist-theme/twentynineteen": "*"
+  },
+  "config": {
+    "platform-check": false,
+    "preferred-install": "dist",
+    "optimize-autoloader": true,
+    "allow-plugins": {
+      "composer/installers": true,
+      "johnpbloch/wordpress-core-installer": true,
+      "koodimonni/composer-dropin-installer": true
+    }
   },
   "extra": {
     "installer-paths": {
@@ -69,5 +75,16 @@
       ".": ["type:seravo-wordpress-dropin"]
     },
     "wordpress-install-dir": "htdocs/wordpress"
+  },
+  "autoload": {
+    "psr-0": {"WordPress\\Installer": "scripts"}
+  },
+  "scripts": {
+    "post-install-cmd": [
+      "WordPress\\Installer::symlinkWPContent"
+    ],
+    "post-update-cmd": [
+      "WordPress\\Installer::symlinkWPContent"
+    ]
   }
 }
