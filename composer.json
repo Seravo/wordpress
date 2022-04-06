@@ -36,7 +36,6 @@
       "url": "https://wp-languages.github.io"
     }
   ],
-  "minimum-stability": "dev",
   "require": {
     "php": ">=7.2",
     "johnpbloch/wordpress-core-installer": "^2.0",
