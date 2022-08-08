@@ -1,7 +1,7 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
-# VAGRANTFILE 2022-02-21
+# VAGRANTFILE 2022-08-08
 
 require 'yaml'
 require 'mkmf'
@@ -69,10 +69,10 @@ Vagrant.configure('2') do |config|
   config.ssh.forward_agent = true
 
   # Minimum box version requirement for this Vagrantfile revision
-  config.vm.box_version = ">= 20220221.0.0"
+  config.vm.box_version = ">= 20220800.0.0"
 
   # Use precompiled box
-  config.vm.box = 'seravo/wordpress-beta'
+  config.vm.box = 'seravo/wordpress'
 
   # Use the name of the box as the hostname
   config.vm.hostname = site_config['name']
