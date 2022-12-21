@@ -2,10 +2,10 @@
  * This is default barebone for gulp, add your own modifications here
  * It also serves as an example of how to use browser-sync in this environment
  */
-var gulp = require('gulp');
-var browserSync = require('browser-sync');
-var sass = require('gulp-sass');
-var reload = browserSync.reload;
+const gulp = require('gulp');
+const browserSync = require('browser-sync');
+const sass = require('gulp-sass')(require('node-sass'));
+const reload = browserSync.reload;
 
 /*
  * src array contains the files which the gulp will be watching
