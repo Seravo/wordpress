@@ -24,7 +24,7 @@ services:
   wordpress:
     container_name: ${SITE:-wordpress}
     hostname: ${SITE:-wordpress}
-    image: seravo/wordpress:development
+    image: docker.io/seravo/wordpress:nightly
     ports:
     - 80
     - 443

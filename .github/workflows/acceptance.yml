@@ -4,7 +4,7 @@ on: [push]
 
 env:
   CONTAINER: wordpress
-  CI_IMAGE: seravo/wordpress:ci
+  CI_IMAGE: docker.io/seravo/wordpress:ci
 
 jobs:
   acceptance:
