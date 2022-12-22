@@ -5,19 +5,9 @@
   "homepage": "https://github.com/seravo/wordpress/",
   "contributors": [
     {
-      "name": "Antti Kuosmanen",
-      "email": "antti@seravo.fi",
-      "url": "https://github.com/anttiviljami"
-    },
-    {
-      "name": "Otto Kekäläinen",
-      "email": "otto@seravo.fi",
-      "url": "https://github.com/ottok"
-    },
-    {
-      "name": "Onni Hakala",
-      "email": "onni@seravo.fi",
-      "url": "https://github.com/onnimonni"
+      "name": "Seravo Oy",
+      "email": "help@seravo.com",
+      "url": "https://seravo.com"
     }
   ],
   "private": false,
