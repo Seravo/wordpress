@@ -4,7 +4,7 @@
  */
 const gulp = require('gulp');
 const browserSync = require('browser-sync');
-const sass = require('gulp-sass')(require('node-sass'));
+const sass = require('gulp-sass')(require('sass'));
 const reload = browserSync.reload;
 
 /*
