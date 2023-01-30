@@ -50,7 +50,7 @@
     "wpackagist-plugin/two-factor": "*",
     "wpackagist-plugin/wp-recaptcha-integration": "*",
 
-    "wpackagist-theme/twentynineteen": "*"
+    "wpackagist-theme/twentytwentythree": "*"
   },
   "config": {
     "platform-check": false,
