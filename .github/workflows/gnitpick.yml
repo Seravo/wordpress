@@ -1,11 +1,11 @@
 ---
-name: 'Nitpick git commits'
+name: "Nitpick git commits"
 
 on: [push, pull_request]
 
 env:
   DOMAINS: seravo.com
-  PYTHON_VERSION: 3.6
+  PYTHON_VERSION: "3.10"
 
 jobs:
   nitpick:
@@ -14,8 +14,8 @@ jobs:
       - name: Setup repository
         uses: actions/checkout@v2
         with:
-          ref: ${{ github.head_ref }}           
-      
+          ref: ${{ github.head_ref }}
+
       - name: Install Gnitpick
         run: curl -O https://raw.githubusercontent.com/Seravo/gnitpick/master/gnitpick.py
 
@@ -26,4 +26,3 @@ jobs:
 
       - name: Run gnitpick
         run: python3 gnitpick.py --verbose --email-domains "${DOMAINS}"
-
