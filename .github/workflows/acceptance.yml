@@ -1,6 +1,6 @@
 name: Acceptance tests
 
-on: [push, pull_request]
+on: [push]
 
 env:
   CONTAINER: wordpress
@@ -8,7 +8,7 @@ env:
 
 jobs:
   acceptance:
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v2
@@ -21,4 +21,3 @@ jobs:
             --env WP_USER_UID=1001 \
             --env DEBUG=true \
             --rm "${{env.CI_IMAGE}}"
-
