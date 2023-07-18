@@ -31,7 +31,7 @@
     }
   ],
   "require": {
-    "php": ">=7.2",
+    "php": ">=8.0",
 
     "koodimonni/composer-dropin-installer": "^1.0",
     "johnpbloch/wordpress-core-installer": "^2.0",
