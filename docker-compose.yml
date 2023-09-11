@@ -38,9 +38,8 @@ services:
     - wordpress:/data
     - .:/data/wordpress
     environment:
-    - WP_USER_UID=${WP_USER_UID:-1000}
-    - DEBUG=${DEBUG}
-    entrypoint: /sbin/swd_init
+    #- WP_USER_UID=${WP_USER_UID:-1000}
+    - DEBUG="true"
 
 volumes:
   wordpress:
