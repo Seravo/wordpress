@@ -77,7 +77,7 @@
     <exclude name="Generic.WhiteSpace.DisallowSpaceIndent.SpacesUsed" />
 
     <!-- Don't use precision alignment -->
-    <exclude name="WordPress.WhiteSpace.PrecisionAlignment" />
+    <exclude name="Universal.WhiteSpace.PrecisionAlignment" />
 
     <!--
       The generic exact whitespace sniff does not work very well with inline HTML, so ignore it.
