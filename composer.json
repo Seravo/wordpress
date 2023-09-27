@@ -47,7 +47,6 @@
 
     "wpackagist-plugin/google-site-kit": "*",
     "wpackagist-plugin/two-factor": "*",
-    "wpackagist-plugin/wp-recaptcha-integration": "*",
 
     "wpackagist-theme/twentytwentythree": "*"
   },
