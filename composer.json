@@ -46,6 +46,7 @@
     "seravo/seravo-plugin": "*",
 
     "wpackagist-plugin/google-site-kit": "*",
+    "wpackagist-plugin/redis-cache": "*",
     "wpackagist-plugin/two-factor": "*",
     "wpackagist-plugin/wp-recaptcha-integration": "*",
 
@@ -69,6 +70,7 @@
     },
     "dropin-paths": {
       "htdocs/wp-content/": [
+        "package:wpackagist-plugin/redis-cache:includes/object-cache.php",
         "type:wordpress-dropin"
       ],
       "htdocs/wp-content/languages/": ["vendor:koodimonni-language"],
