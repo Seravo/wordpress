@@ -118,6 +118,7 @@ if ( 'production' === getenv('WP_ENV') ) {
   define('WP_DEBUG_DISPLAY', true);
   define('WP_DEBUG_LOG', '/data/log/php-error.log');
   define('SCRIPT_DEBUG', true);
+  define('WP_DEVELOPMENT_MODE', 'all');
 }
 
 /**
