@@ -20,4 +20,5 @@ jobs:
             --volume "$(pwd):/data/wordpress" \
             --env WP_USER_UID=1001 \
             --env DEBUG=true \
+            --env WP_USER_PASS="${{github.sha}}" \
             --rm "${{env.CI_IMAGE}}"
