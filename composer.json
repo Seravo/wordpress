@@ -39,7 +39,7 @@
     "composer/installers": "^1.0",
 
     "koodimonni-language/fi": "*",
-    "koodimonni-language/sv_se": "*",
+    "koodimonni-language/sv_se": "*@beta",
 
     "vlucas/phpdotenv": "^5.0",
     "roots/bedrock-autoloader": "^1.0",
