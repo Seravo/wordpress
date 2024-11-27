@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Setup repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         with:
           ref: ${{ github.head_ref }}
 
@@ -20,7 +20,7 @@ jobs:
         run: curl -O https://raw.githubusercontent.com/Seravo/gnitpick/master/gnitpick.py
 
       - name: Set up python ${{ env.PYTHON_VERSION }}
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v5
         with:
           python-version: ${{ env.PYTHON_VERSION }}
 
