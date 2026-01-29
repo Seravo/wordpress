@@ -37,7 +37,9 @@ services:
     volumes:
     - wordpress:/data
     - .:/data/wordpress
-    environment:
+    labels:
+      - "dev.orbstack.domains=wordpress.local"
+    environment:   
     #- WP_USER_UID=${WP_USER_UID:-1000}
     - DEBUG="true"
 
