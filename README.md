@@ -53,8 +53,8 @@ about git workflow with this project template.
 WordPress:
 
 ```
-user:     vagrant
-password: vagrant
+user:     user
+password: randomly generated. See help.seravo.com
 ```
 
 MariaDB (MySQL):
