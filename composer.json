@@ -43,6 +43,7 @@
     "seravo/seravo-plugin": "*",
 
     "wpackagist-plugin/google-site-kit": "*",
+    "wpackagist-plugin/redis-cache": "*",
     "wpackagist-plugin/two-factor": "*",
 
     "wpackagist-theme/twentytwentythree": "*"
@@ -64,6 +65,10 @@
       "htdocs/wp-content/themes/{$name}": ["type:wordpress-theme"]
     },
     "dropin-paths": {
+      "htdocs/wp-content/": [
+        "package:wpackagist-plugin/redis-cache:includes/object-cache.php",
+        "type:wordpress-dropin"
+      ],
       "htdocs/wp-content/languages/": ["vendor:koodimonni-language"],
       "htdocs/wp-content/languages/plugins/": ["vendor:koodimonni-plugin-language"],
       "htdocs/wp-content/languages/themes/": ["vendor:koodimonni-theme-language"],
