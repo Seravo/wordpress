@@ -42,7 +42,6 @@
     "roots/bedrock-autoloader": "^1.0",
     "seravo/seravo-plugin": "*",
 
-    "wpackagist-plugin/google-site-kit": "*",
     "wpackagist-plugin/two-factor": "*",
 
     "wpackagist-theme/twentytwentythree": "*"
