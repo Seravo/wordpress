@@ -5,25 +5,14 @@
 Brought to you by [Seravo.com](https://seravo.com).
 
 A WordPress project layout for use with Git, Composer and Nginx. It also
-includes a config a Vagrant box and Docker image for local development.
+includes a config for Docker image for local development.
 
 This same project layout is used by default on all
 [Seravo.com](https://seravo.com) instances for easy deployment workflow.
 Contents of this repository equals to what you would have on the server in the
 directory `/data/wordpress/`.
 
-
-## Documentation
-
-Please see our documentation at https://seravo.com/docs/ on general information
-about git workflow with this project template.
-
-
-## Installation
-
-> Please see our documentation at
-> https://seravo.com/docs/development/how-to-install/ on how to install Vagrant
-> and its dependencies.
+Please see our documentation at <https://help.seravo.com>.
 
 
 ## Features
@@ -48,7 +37,7 @@ about git workflow with this project template.
   WordPress
 
 
-### Credentials for vagrant
+### Credentials for development
 
 WordPress:
 
@@ -99,19 +88,6 @@ like:
 ```
 
 
-## Updates
-
-Vagrant will let you know as soon as a new version of the Vagrant box is
-available. However, site environment will not be updated automatically to newer
-one.
-
-To download and update your Vagrant box to use the newest image run:
-
-    vagrant box update
-    vagrant destroy
-    vagrant up
-
-
 ## Configuration
 
 ### config.yml
@@ -122,8 +98,7 @@ some places in development environment.
 Add `production => domain` and `production => ssh_port` to sync with your
 production instance.
 
-Add new domains under `development => domains` before first vagrant up to have
-extra domains.
+Add new domains under `development => domains` to have extra domains.
 
 See `config-sample.yml` for more.
 
@@ -138,7 +113,6 @@ The root of this repository equals the contents of the directory
 ├── composer.json # Composer definition, used to pull in WordPress and plugins
 ├── composer.lock # Composer lock file. This is safe to delete and ignore as detailed dependency control is not relevant in WordPress.
 ├── gulpfile.js # Gulp example with correct paths
-├── Vagrantfile # Vagrantfile for Seravo/WordPress Vagrant box
 │
 ├── nginx # Custom modifications to Nginx which are also used in production
 │   └── examples.conf # Some examples to get started
@@ -174,8 +148,6 @@ The root of this repository equals the contents of the directory
 
 * Directory layout heavily inspired by
   [roots/bedrock](https://github.com/roots/bedrock)
-* Development stack inspired by
-  [VVV](https://github.com/Varying-Vagrant-Vagrants/VVV)
 
-Copyright Seravo Oy, 2015–2023 and contributors. Available under the GPLv3
+Copyright Seravo Oy, 2015–2025 and contributors. Available under the GPLv3
 license.
