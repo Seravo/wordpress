@@ -33,7 +33,7 @@ about git workflow with this project template.
 * Git hooks to test your code to make sure that only high quality code is
   committed into git
 * Advanced WordPress acceptance tests with Codeception and headless Chrome
-* [PHP Codesniffer](https://github.com/squizlabs/PHP_CodeSniffer) code style
+* [PHP Codesniffer](https://github.com/PHPCSStandards/PHP_CodeSniffer) code style
   and quality analyzer
 * Includes self-signed certs (and trust them automatically in OS X) to test
   https:// locally
